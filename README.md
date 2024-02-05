@@ -6,7 +6,7 @@ Apply Dark Mode to all Controls in a Form [WinForms]
 - This will detect if Dark Mode Color is enabled in Windows Settings.
 - Then iterate on all controls in your Form and attemp to turn them into DarkMode (if enabled).
 - [Optional] If you have Icons in your Menus or Tool Bars, they will be re-colored into a Clear more visible in the dark version of your icons. (Works the best with monochromatic icons)
-- You can acces Windows Dark Colors and use them for whatever you nedd.
+- You can acces Windows Dark Colors and use them for whatever you need.
   
 # Implementation
 - No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](DarkModeCS.cs)
