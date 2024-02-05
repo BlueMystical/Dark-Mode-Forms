@@ -10,11 +10,11 @@ Apply Dark Mode to all Controls in a Form [WinForms]
 - Just 2 Lines to implement it:
 
 ```csharp
-DarkModeCS DM = null;
+DarkModeCS DM = null; //<- Line 1
 ....
 public Form1()
 {
 	InitializeComponent();
-	DM = new DarkModeCS(this);
+	DM = new DarkModeCS(this); //<- Line 2
 }
 ```
