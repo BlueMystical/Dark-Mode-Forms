@@ -9,7 +9,7 @@ Apply Dark Mode to all Controls in a Form [WinForms]
 - You can acces Windows Dark Colors and use them for whatever you need.
   
 # Implementation
-- No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](DarkModeCS.cs)
+- No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](DarkModeCS.cs) Copy/Paste or Download it and import it into your project.
 - 2 Lines to implement it:
 
 ```csharp
