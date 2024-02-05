@@ -18,3 +18,7 @@ public Form1()
 	DM = new DarkModeCS(this); //<- Line 2
 }
 ```
+# Framework Compatibility
+- .NET 4.8
+- .NET 6.0+
+- Core ?? 
