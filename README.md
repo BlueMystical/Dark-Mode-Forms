@@ -25,3 +25,7 @@ public Form1()
 - .NET 4.8
 - .NET 6.0+
 - Core ?? 
+- Some stuff may only work on Windows 11+
+
+# Dark Mode Colors
+![Preview](Screenshots/WindowsColors.png)
