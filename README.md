@@ -2,14 +2,13 @@
 Apply Dark Mode to all Controls in a Form [WinForms]
 
 ![Preview](Screenshots/DarkModeForms_01.png)
-
-- This will detect if Dark Mode Color is enabled in Windows Settings.
-- Then iterate on all controls in your Form and attemp to turn them into DarkMode (if enabled).
-- [Optional] If you have Icons in your Menus or Tool Bars, they will be re-colored into a Clear more visible in the dark version of your icons. (Works the best with monochromatic icons)
-- You can acces Windows Dark Colors and use them for whatever you need.
+- This will detect if dark mode color is enabled in Windows settings.
+- Then iterate all the controls on your form and try to convert them to DarkMode (if enabled).
+- [Optional] If you have icons on your menus or toolbars, they will be recolored to give you a lighter, more visible-in-the-dark version of your icons. (Works best with monochrome icons)
+- You can access Windows Dark Colors and use them for whatever you need.
   
 # Implementation
-- No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](DarkModeCS.cs) Copy/Paste or Download it and import it into your project.
+- No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](DarkModeCS.cs) Copy/Paste or Download and import it into your project.
 - 2 Lines to implement it:
 
 ```csharp
@@ -22,7 +21,7 @@ public Form1()
 }
 ```
 # Framework Compatibility
-- .NET 4.8
+- .NET 4.8+
 - .NET 6.0+
 - Core ?? 
 - Some stuff may only work on Windows 11+
