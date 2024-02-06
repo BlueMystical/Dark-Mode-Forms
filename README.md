@@ -20,11 +20,18 @@ public Form1()
 	DM = new DarkModeCS(this); //<- Line 2
 }
 ```
+# Dark Mode Colors
+![Preview](Screenshots/WindowsColors.png)
+
 # Framework Compatibility
 - .NET 4.8+
 - .NET 6.0+
 - Core ?? 
 - Some stuff may only work on Windows 11+
 
-# Dark Mode Colors
-![Preview](Screenshots/WindowsColors.png)
+# Limitations
+There are still a few Controls that are hard to theme:
+- ComboBox:   Borders & Dropdown Button are not themed.
+- DateTimePicker: Un-themed.
+- MonthCalendar:  Un-themed.
+- ProgressBar:    Un-themed.
