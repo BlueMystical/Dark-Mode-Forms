@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
@@ -334,7 +335,7 @@ namespace DarkModeForms
 				if (Window != null)
 				{
 					//SetWin32ApiTheme(Window);
-					ThemeAllControls(Window);
+					ApplySystemDarkTheme(Window);
 
 					//Window.
 					//protected override void CreateHandle()
@@ -353,7 +354,7 @@ namespace DarkModeForms
 
 		/// <summary>Attemps to apply Window's Dark Style to the Control and all its childs.</summary>
 		/// <param name="control"></param>
-		public static void ThemeAllControls(Control control = null)
+		public static void ApplySystemDarkTheme(Control control = null)
 		{
 			/* 			    
 				DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
@@ -377,7 +378,7 @@ namespace DarkModeForms
 			foreach (Control child in control.Controls)
 			{
 				if (child.Controls.Count != 0)
-					ThemeAllControls(child);
+					ApplySystemDarkTheme(child);
 			}
 		}
 
@@ -466,7 +467,7 @@ namespace DarkModeForms
 			control.HandleCreated += (object sender, EventArgs e) =>
 			{
 				//SetWin32ApiTheme(control);
-				ThemeAllControls(control);
+				ApplySystemDarkTheme(control);
 			};
 
 			if (control is Panel panel)
@@ -498,7 +499,6 @@ namespace DarkModeForms
 			}
 			if (control is ComboBox combo)
 			{
-				//combo = new FlatCombo() { BorderColor = OScolors.ControlDark };
 				combo.FlatStyle = FStyle;
 				combo.BackColor = OScolors.Control;
 				combo.Invalidate();
@@ -510,11 +510,6 @@ namespace DarkModeForms
 				{
 					MyColors = OScolors
 				};
-
-				foreach (ToolStripMenuItem subMenu in menu.Items)
-				{
-					subMenu.ForeColor = OScolors.TextActive;
-				}
 			}
 			if (control is ToolStrip toolBar)
 			{
@@ -544,13 +539,16 @@ namespace DarkModeForms
 				grid.RowHeadersDefaultCellStyle.SelectionBackColor = OScolors.Accent;
 				grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 			}
+			if (control is ProgressBar pBar)
+			{
+				pBar.BackColor = OScolors.Control;
+			}
 
 			foreach (Control childControl in control.Controls)
 			{
 				// Recursively process its children
 				ProcessControlsRecursively(childControl);
 			}
-
 		}
 
 		// For Rounded Corners:
@@ -625,7 +623,7 @@ namespace DarkModeForms
 	public class MyRenderer : ToolStripProfessionalRenderer
 	{
 		public bool ColorizeIcons { get; set; } = true;
-		public OSThemeColors MyColors { get; set; } //<- Your Custom Colors Colection
+		public OSThemeColors? MyColors { get; set; } //<- Your Custom Colors Colection
 
 		public MyRenderer(ProfessionalColorTable table, bool pColorizeIcons = true) : base(table)
 		{
@@ -684,20 +682,20 @@ namespace DarkModeForms
 			Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
 
 			Color gradientBegin = MyColors.Background; // Color.FromArgb(203, 225, 252);
-			Color gradientEnd = MyColors.Background; // Color.FromArgb(125, 165, 224);
+			Color gradientEnd = MyColors.Background; 
 
 			Pen BordersPencil = new Pen(MyColors.Background);
 
-			ToolStripButton button = e.Item as ToolStripButton;
+			ToolStripButton? button = e.Item as ToolStripButton;
 			if (button.Pressed || button.Checked)
 			{
-				gradientBegin = MyColors.Control; // Color.FromArgb(254, 128, 62);
-				gradientEnd = MyColors.Control; // Color.FromArgb(255, 223, 154);
+				gradientBegin = MyColors.Control;
+				gradientEnd = MyColors.Control; 
 			}
 			else if (button.Selected)
 			{
-				gradientBegin = MyColors.Accent;// Color.FromArgb(255, 255, 222);
-				gradientEnd = MyColors.Accent; // Color.FromArgb(255, 203, 136);
+				gradientBegin = MyColors.Accent;
+				gradientEnd = MyColors.Accent; 
 			}
 
 			using (Brush b = new LinearGradientBrush(
@@ -710,32 +708,31 @@ namespace DarkModeForms
 			}
 
 			e.Graphics.DrawRectangle(
-				BordersPencil, //SystemPens.ControlDarkDark,
+				BordersPencil, 
 				bounds);
 
 			g.DrawLine(
-				BordersPencil, //SystemPens.ControlDarkDark,
+				BordersPencil, 
 				bounds.X,
 				bounds.Y,
 				bounds.Width - 1,
 				bounds.Y);
 
 			g.DrawLine(
-				BordersPencil, //SystemPens.ControlDarkDark,
+				BordersPencil, 
 				bounds.X,
 				bounds.Y,
 				bounds.X,
 				bounds.Height - 1);
 
 			ToolStrip toolStrip = button.Owner;
-			ToolStripButton nextItem = button.Owner.GetItemAt(
-				button.Bounds.X,
-				button.Bounds.Bottom + 1) as ToolStripButton;
 
-			if (nextItem == null)
+			if (button.Owner.GetItemAt(
+				button.Bounds.X,
+				button.Bounds.Bottom + 1) is not ToolStripButton nextItem)
 			{
 				g.DrawLine(
-					BordersPencil, //SystemPens.ControlDarkDark,
+					BordersPencil,
 					bounds.X,
 					bounds.Height - 1,
 					bounds.X + bounds.Width - 1,
@@ -748,84 +745,21 @@ namespace DarkModeForms
 		{
 			Graphics g = e.Graphics;
 			Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
-
 			Color gradientBegin = MyColors.Background; // Color.FromArgb(203, 225, 252);
-			Color gradientEnd = MyColors.Background; // Color.FromArgb(125, 165, 224);
+			Color gradientEnd = MyColors.Background; 
 
 			Pen BordersPencil = new Pen(MyColors.Background);
 
-			ToolStripDropDownButton button = e.Item as ToolStripDropDownButton;
-			if (button.Pressed) // || button.Checked)
-			{
-				gradientBegin = MyColors.Control; //Color.FromArgb(254, 128, 62);
-				gradientEnd = MyColors.Control; //Color.FromArgb(255, 223, 154);
-			}
-			else if (button.Selected)
-			{
-				gradientBegin = MyColors.Accent;// Color.FromArgb(255, 255, 222);
-				gradientEnd = MyColors.Accent; // Color.FromArgb(255, 203, 136);
-			}
-
-			using (Brush b = new LinearGradientBrush(
-				bounds,
-				gradientBegin,
-				gradientEnd,
-				LinearGradientMode.Vertical))
-			{
-				g.FillRectangle(b, bounds);
-			}
-
-			e.Graphics.DrawRectangle(
-				BordersPencil, //SystemPens.ControlDarkDark,
-				bounds);
-
-			g.DrawLine(
-				BordersPencil, //SystemPens.ControlDarkDark,
-				bounds.X,
-				bounds.Y,
-				bounds.Width - 1,
-				bounds.Y);
-
-			g.DrawLine(
-				BordersPencil, //SystemPens.ControlDarkDark,
-				bounds.X,
-				bounds.Y,
-				bounds.X,
-				bounds.Height - 1);
-
-			ToolStrip toolStrip = button.Owner;
-			ToolStripButton nextItem = button.Owner.GetItemAt(
-				button.Bounds.X,
-				button.Bounds.Bottom + 1) as ToolStripButton;
-
-			if (nextItem == null)
-			{
-				g.DrawLine(
-					BordersPencil, //SystemPens.ControlDarkDark,
-					bounds.X,
-					bounds.Height - 1,
-					bounds.X + bounds.Width - 1,
-					bounds.Height - 1);
-			}
-		}
-
-		// For SplitButtons on a ToolBar:
-		protected override void OnRenderSplitButtonBackground(ToolStripItemRenderEventArgs e)
-		{
-			Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
-			Color gradientBegin = MyColors.Background; // Color.FromArgb(203, 225, 252);
-			Color gradientEnd = MyColors.Background; // Color.FromArgb(125, 165, 224);
-
 			//1. Determine the colors to use:
-			if (e.Item.Pressed) //|| e.Item.Checked)
+			if (e.Item.Pressed)
 			{
-				gradientBegin = MyColors.Control; //Color.FromArgb(254, 128, 62);
-				gradientEnd = MyColors.Control; //Color.FromArgb(255, 223, 154);
+				gradientBegin = MyColors.Control;
+				gradientEnd = MyColors.Control;
 			}
 			else if (e.Item.Selected)
 			{
-				gradientBegin = MyColors.Accent;// Color.FromArgb(255, 255, 222);
-				gradientEnd = MyColors.Accent; // Color.FromArgb(255, 203, 136);
+				gradientBegin = MyColors.Accent;
+				gradientEnd = MyColors.Accent;
 			}
 
 			//2. Draw the Box around the Control
@@ -838,15 +772,66 @@ namespace DarkModeForms
 				e.Graphics.FillRectangle(b, bounds);
 			}
 
-			//3. Draw an OpenBox Chevron
-			Pen ChevronPen = new Pen(MyColors.BackgroundLight, 2);
-			Point P1 = new Point(bounds.Width - 10, (bounds.Height / 2) - 2);
-			Point P2 = new Point(bounds.Width - 1, (bounds.Height / 2) - 2);
-			Point P3 = new Point(bounds.Width - 5, (bounds.Height / 2) + 2);
+			
+			//3. Draws the Chevron:
+			#region Chevron
+
+			//int Padding = 2; //<- From the right side
+			//Size cSize = new Size(8, 4); //<- Size of the Chevron: 8x4 px
+			//Pen ChevronPen = new Pen(MyColors.TextInactive, 2); //<- Color and Border Width
+			//Point P1 = new Point(bounds.Width - (cSize.Width + Padding), (bounds.Height / 2) - (cSize.Height / 2));
+			//Point P2 = new Point(bounds.Width - Padding, (bounds.Height / 2) - (cSize.Height / 2));
+			//Point P3 = new Point(bounds.Width - (cSize.Width / 2 + Padding), (bounds.Height / 2) + (cSize.Height / 2));
+
+			//e.Graphics.DrawLine(ChevronPen, P1, P3);
+			//e.Graphics.DrawLine(ChevronPen, P2, P3);
+
+			#endregion
+		}
+
+		// For SplitButtons on a ToolBar:
+		protected override void OnRenderSplitButtonBackground(ToolStripItemRenderEventArgs e)
+		{
+			Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
+			Color gradientBegin = MyColors.Background; // Color.FromArgb(203, 225, 252);
+			Color gradientEnd = MyColors.Background; 
+
+			//1. Determine the colors to use:
+			if (e.Item.Pressed) 
+			{
+				gradientBegin = MyColors.Control; 
+				gradientEnd = MyColors.Control;
+			}
+			else if (e.Item.Selected)
+			{
+				gradientBegin = MyColors.Accent;
+				gradientEnd = MyColors.Accent; 
+			}
+
+			//2. Draw the Box around the Control
+			using (Brush b = new LinearGradientBrush(
+				bounds,
+				gradientBegin,
+				gradientEnd,
+				LinearGradientMode.Vertical))
+			{
+				e.Graphics.FillRectangle(b, bounds);
+			}
+
+			//3. Draws the Chevron:
+			#region Chevron
+
+			int Padding = 2; //<- From the right side
+			Size cSize = new Size(8, 4); //<- Size of the Chevron: 8x4 px
+			Pen ChevronPen = new Pen(MyColors.TextInactive, 2); //<- Color and Border Width
+			Point P1 = new Point(bounds.Width - (cSize.Width + Padding),	(bounds.Height / 2) - (cSize.Height / 2));
+			Point P2 = new Point(bounds.Width - Padding,					(bounds.Height / 2) - (cSize.Height / 2));
+			Point P3 = new Point(bounds.Width - (cSize.Width / 2 + Padding),(bounds.Height / 2) + (cSize.Height / 2));
 
 			e.Graphics.DrawLine(ChevronPen, P1, P3);
 			e.Graphics.DrawLine(ChevronPen, P2, P3);
 
+			#endregion
 		}
 
 		// For the Text Color of all Items:
@@ -995,7 +980,7 @@ namespace DarkModeForms
 	}
 
 	public class FlatCombo : ComboBox
-	{
+    {
 		private const int WM_PAINT = 0xF;
 		private const int WM_CTLCOLORSTATIC = 0x13;
 
@@ -1042,6 +1027,13 @@ namespace DarkModeForms
 						g.DrawLine(p, Width - buttonWidth - adjustMent,
 							0, Width - buttonWidth - adjustMent, Height);
 					}
+					//custom DropDown Button
+					//var X = new Point(Width - buttonWidth - 1);
+					//Rectangle bounds = new Rectangle(X, new Size(30, 30));
+					//using (Brush b = new SolidBrush(Color.Azure))
+					//{
+					//	g.FillRectangle(b, bounds);
+					//}
 				}
 			}
 			if (m.Msg == WM_CTLCOLORSTATIC)
@@ -1063,5 +1055,120 @@ namespace DarkModeForms
 		}
 
 
+	}
+
+	[DesignerCategory("code")]
+	public partial class ComboBoxExt : ComboBox
+	{
+
+		private ListNativeWindow listControl = null;
+		private Color m_ListBorderColor = Color.Transparent;
+
+		public ComboBoxExt() { }
+
+		[DefaultValue(typeof(Color), "Transparent")]
+		public Color ListBorderColor
+		{
+			get
+			{
+				return m_ListBorderColor;
+			}
+			set
+			{
+				m_ListBorderColor = value;
+				if (listControl is not null)
+				{
+					listControl.BorderColor = m_ListBorderColor;
+				}
+			}
+		}
+
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			listControl = new ListNativeWindow(GetComboBoxListInternal(Handle));
+			listControl.BorderColor = ListBorderColor;
+		}
+
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			listControl.ReleaseHandle();
+			base.OnHandleDestroyed(e);
+		}
+
+		public partial class ListNativeWindow : NativeWindow
+		{
+			public ListNativeWindow() : this(IntPtr.Zero) { }
+
+			public ListNativeWindow(IntPtr hWnd)
+			{
+				if (hWnd != IntPtr.Zero) AssignHandle(hWnd);
+			}
+
+			public Color BorderColor { get; set; } = Color.Transparent;
+
+			protected override void WndProc(ref Message m)
+			{
+				base.WndProc(ref m);
+				switch (m.Msg)
+				{
+					case WM_NCPAINT:
+						{
+							var hDC = GetWindowDC(Handle);
+							try
+							{
+								using (var g = Graphics.FromHdc(hDC))
+								using (var pen = new Pen(BorderColor))
+								{
+									var rect = g.VisibleClipBounds;
+									g.DrawRectangle(pen, 0f, 0f, rect.Width - 1f, rect.Height - 1f);
+								}
+							}
+							finally
+							{
+								ReleaseDC(Handle, hDC);
+							}
+							m.Result = IntPtr.Zero;
+							break;
+						}
+				}
+			}
+		}
+
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		internal static extern bool GetComboBoxInfo(IntPtr hWnd, ref COMBOBOXINFO pcbi);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern IntPtr GetWindowDC(IntPtr hWnd);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDc);
+
+		internal const int WM_NCPAINT = 0x85;
+
+		[StructLayout(LayoutKind.Sequential)]
+		internal partial struct COMBOBOXINFO
+		{
+			public int cbSize;
+			public Rectangle rcItem;
+			public Rectangle rcButton;
+			public int buttonState;
+			public IntPtr hwndCombo;
+			public IntPtr hwndEdit;
+			public IntPtr hwndList;
+			public void Init()
+			{
+				cbSize = Marshal.SizeOf<COMBOBOXINFO>();
+			}
+		}
+
+		internal IntPtr GetComboBoxListInternal(IntPtr cboHandle)
+		{
+			var cbInfo = new COMBOBOXINFO();
+			cbInfo.Init();
+			GetComboBoxInfo(cboHandle, ref cbInfo);
+			return cbInfo.hwndList;
+		}
 	}
 }
