@@ -2,10 +2,11 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace DarkModeForms
+namespace BlueMystic
 {
 	/// <summary>This tries to automatically apply Windows Dark Mode (if enabled) to a Form.
 	/// <para>Author: Blue Mystic - 2024</para></summary>
@@ -207,7 +208,7 @@ namespace DarkModeForms
 
 		public bool IsDarkMode { get; set; } = false;
 		public bool ColorizeIcons { get; set; } = true;
-		public Form1 TheForm { get; set; }
+		public Form TheForm { get; set; }
 
 		/// <summary>Windows Colors.</summary>
 		public OSThemeColors OScolors { get; set; }
@@ -218,11 +219,12 @@ namespace DarkModeForms
 
 		/// <summary>This tries to automatically apply Windows Dark Mode (if enabled) to a Form.</summary>
 		/// <param name="_Form">The Form to become Dark</param>
-		public DarkModeCS(Form1 _Form)
+		public DarkModeCS(Form _Form)
 		{
 			TheForm = _Form;
 			IsDarkMode = GetWindowsColorMode() <= 0 ? true : false;
 			OScolors = GetSystemColors(TheForm);
+
 			if (IsDarkMode && OScolors != null)
 			{
 				if (TheForm != null && TheForm.Controls != null)
@@ -231,6 +233,10 @@ namespace DarkModeForms
 					{
 						ProcessControlsRecursively(_control);
 					}
+					TheForm.ControlAdded += (object? sender, ControlEventArgs e) =>
+					{
+						ProcessControlsRecursively(e.Control);
+					};
 				}
 			}
 		}
@@ -464,10 +470,13 @@ namespace DarkModeForms
 			control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
 			control.GetType().GetProperty("BorderStyle")?.SetValue(control, BStyle);
 
-			control.HandleCreated += (object sender, EventArgs e) =>
+			control.HandleCreated += (object? sender, EventArgs e) =>
 			{
-				//SetWin32ApiTheme(control);
 				ApplySystemDarkTheme(control);
+			};
+			control.ControlAdded += (object? sender, ControlEventArgs e) =>
+			{
+				ProcessControlsRecursively(e.Control);
 			};
 
 			if (control is Panel panel)
@@ -475,12 +484,88 @@ namespace DarkModeForms
 				// Process the panel within the container
 				panel.BackColor = OScolors.Surface;
 				panel.BorderStyle = BorderStyle.None;
-				SetRoundBorders(panel, 6, OScolors.SurfaceDark, 1);
+
+				//TODO: Make RoundBorders Optional
+				//SetRoundBorders(panel, 6, OScolors.SurfaceDark, 1);
+			}
+			if (control is GroupBox group)
+			{
+				group.BackColor = group.Parent.BackColor; 
+				group.ForeColor = OScolors.TextInactive;
+			}
+			if (control is TabControl tab)
+			{
+				//tab.ItemSize = new Size(0, 0);
+				//tab.SizeMode = TabSizeMode.Fixed;
+				//tab.SetStyle(ControlStyles.UserPaint, true);
+
+				tab.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+				tab.DrawItem += (object? sender, DrawItemEventArgs e) =>
+				{
+					TabPage CurrentPage = ((TabControl)sender).TabPages[e.Index];
+					
+
+					Rectangle rec = tab.ClientRectangle;
+					//Create a StringFormat object to set the layout of the label text
+					StringFormat StrFormat = new StringFormat();
+					StrFormat.LineAlignment = StringAlignment.Center;// Set the text to be centered vertically
+					StrFormat.Alignment = StringAlignment.Center;// Set the text to be centered horizontally
+
+					// The background fill color of the label, it can also be a picture (e.Graphics.DrawImage)
+					SolidBrush backColor = new SolidBrush(tab.Parent.BackColor);
+					SolidBrush fontColor;// Label font color
+					//Draw the background of the main control
+					e.Graphics.FillRectangle(backColor, rec);
+
+					//Draw label style
+					Font fntTab = e.Font;
+					Brush bshBack = new SolidBrush(OScolors.Surface);
+
+					for (int i = 0; i < tab.TabPages.Count; i++)
+					{
+						var tabPage = tab.TabPages[i];
+						//tabPage.
+						tabPage.BorderStyle = BorderStyle.None;
+						tabPage.BackColor = OScolors.Surface;
+						tabPage.ControlAdded += (object? sender, ControlEventArgs e) =>
+						{
+							ProcessControlsRecursively(e.Control);
+						};
+
+						bool IsSelected = (tab.SelectedIndex == i);
+
+						Rectangle recBounds = tab.GetTabRect(i);
+						recBounds.Height = recBounds.Height + 4;
+						recBounds.Width = recBounds.Width + 4;
+						
+
+						RectangleF tabTextArea = (RectangleF)tab.GetTabRect(i);
+						if (IsSelected)
+						{
+							 e.Graphics.FillRectangle(bshBack, recBounds);
+							
+							fontColor = new SolidBrush(OScolors.TextActive);
+							e.Graphics.DrawString(tab.TabPages[i].Text, fntTab, fontColor, tabTextArea, StrFormat);
+						}
+						else
+						{
+							fontColor = new SolidBrush(OScolors.TextInactive);
+							e.Graphics.DrawString(tab.TabPages[i].Text, fntTab, fontColor, tabTextArea, StrFormat);
+						}
+					}
+					
+				};
+				
+			}
+			if (control is PictureBox pic)
+			{
+				pic.BorderStyle = BorderStyle.None;
+				pic.BackColor = pic.Parent.BackColor;
 			}
 			if (control is Button button)
 			{
 				button.FlatStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
-				button.FlatAppearance.BorderColor = OScolors.ControlLight;
+				button.FlatAppearance.BorderColor = OScolors.SurfaceDark;
 				button.BackColor = OScolors.Control;
 
 				if (TheForm.AcceptButton == button)
@@ -493,9 +578,13 @@ namespace DarkModeForms
 				label.BackColor = Color.Transparent;
 				label.BorderStyle = BorderStyle.None;
 			}
-			if (control is TextBox textBox)
+			if (control is CheckBox chk)
 			{
-				//textBox.BorderStyle = BorderStyle.Fixed3D;
+				chk.BackColor = chk.Parent.BackColor;
+			}
+			if (control is RadioButton opt)
+			{
+				opt.BackColor = opt.Parent.BackColor;
 			}
 			if (control is ComboBox combo)
 			{
@@ -517,6 +606,11 @@ namespace DarkModeForms
 				toolBar.GripStyle = ToolStripGripStyle.Hidden;
 				toolBar.RenderMode = ToolStripRenderMode.Professional;
 				toolBar.Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
+			}
+			if (control is ContextMenuStrip cMenu)
+			{
+				cMenu.RenderMode = ToolStripRenderMode.Professional;
+				cMenu.Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
 			}
 			if (control is DataGridView grid)
 			{
@@ -540,10 +634,9 @@ namespace DarkModeForms
 				grid.RowHeadersDefaultCellStyle.SelectionBackColor = OScolors.Accent;
 				grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 			}
-			if (control is ProgressBar pBar)
-			{
-				pBar.BackColor = OScolors.Control;
-			}
+
+			if (control.ContextMenuStrip != null)
+				ProcessControlsRecursively(control.ContextMenuStrip);
 
 			foreach (Control childControl in control.Controls)
 			{
@@ -551,6 +644,7 @@ namespace DarkModeForms
 				ProcessControlsRecursively(childControl);
 			}
 		}
+
 
 		// For Rounded Corners:
 		private static GraphicsPath GetFigurePath(Rectangle rect, int radius)
@@ -980,9 +1074,11 @@ namespace DarkModeForms
 		}
 	}
 
-	// https://github.com/r-aghaei/FlatComboExample/tree/master
+
 	public class FlatComboBox : ComboBox
 	{
+		// https://github.com/r-aghaei/FlatComboExample/tree/master
+
 		private Color borderColor = Color.Gray;
 		[DefaultValue(typeof(Color), "Gray")]
 		public Color BorderColor
@@ -997,6 +1093,7 @@ namespace DarkModeForms
 				}
 			}
 		}
+		
 		private Color buttonColor = Color.LightGray;
 		[DefaultValue(typeof(Color), "LightGray")]
 		public Color ButtonColor
@@ -1024,8 +1121,8 @@ namespace DarkModeForms
 					outerBorder.Width - dropDownButtonWidth - 2, outerBorder.Height - 2);
 				var innerInnerBorder = new Rectangle(innerBorder.X + 1, innerBorder.Y + 1,
 					innerBorder.Width - 2, innerBorder.Height - 2);
-				var dropDownRect = new Rectangle(innerBorder.Right + 1, innerBorder.Y,
-					dropDownButtonWidth, innerBorder.Height + 1);
+				var dropDownRect = new Rectangle(innerBorder.Right+1, innerBorder.Y-1,
+					dropDownButtonWidth, innerBorder.Height + 2);
 				if (RightToLeft == RightToLeft.Yes)
 				{
 					innerBorder.X = clientRect.Width - innerBorder.Right;
@@ -1065,6 +1162,7 @@ namespace DarkModeForms
 				rgn = CreateRectRgn(clientRect.Left, clientRect.Top,
 					clientRect.Right, clientRect.Bottom);
 				SelectClipRgn(dc, rgn);
+
 				using (var g = Graphics.FromHdc(dc))
 				{
 					g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
@@ -1082,6 +1180,12 @@ namespace DarkModeForms
 
 					#region Chevron
 
+					//Replaced 'arrow' triangle with a Windows 11's Chevron:
+					//using (var b = new SolidBrush(outerBorderColor))
+					//{
+					//	g.FillPolygon(b, arrow);
+					//}
+
 					Size cSize = new Size(8, 4); //<- Size of the Chevron: 8x4 px
 					var chevron = new Point[]
 					{
@@ -1094,12 +1198,6 @@ namespace DarkModeForms
 						g.DrawLine(chevronPen, chevron[0], chevron[2]);
 						g.DrawLine(chevronPen, chevron[1], chevron[2]);
 					}
-
-					//Replaced 'arrow' triangle with a Chevron
-					//using (var b = new SolidBrush(outerBorderColor))
-					//{
-					//	g.FillPolygon(b, arrow);
-					//}
 
 					#endregion
 
@@ -1116,7 +1214,6 @@ namespace DarkModeForms
 					}
 
 					#endregion
-
 				}
 				if (shoulEndPaint)
 					EndPaint(Handle, ref ps);
@@ -1179,5 +1276,184 @@ namespace DarkModeForms
 	}
 
 
-	
+	public class FlatTabControl : TabControl
+	{
+		private Color _selectTabColor = Color.FromArgb(30, 70, 130);
+		private Color _selectTabLineColor = Color.FromArgb(0, 0, 0);
+		private Color _tabColor = Color.WhiteSmoke;
+
+		public FlatTabControl()
+		{
+			try
+			{
+				Appearance = TabAppearance.Buttons;
+				DrawMode = TabDrawMode.Normal;
+				ItemSize = new Size(0, 0);
+				SizeMode = TabSizeMode.Fixed;
+			}
+			catch
+			{
+				// ignored
+			}
+		}
+
+		public Color SelectTabColor
+		{
+			get { return _selectTabColor; }
+			set { _selectTabColor = value; }
+		}
+
+		public Color SelectTabLineColor
+		{
+			get { return _selectTabLineColor; }
+			set { _selectTabLineColor = value; }
+		}
+
+		public Color TabColor
+		{
+			get { return _tabColor; }
+			set { _tabColor = value; }
+		}
+
+        public override Color BackColor { get; set; } = SystemColors.Control;
+		public override Color ForeColor { get; set; } = SystemColors.ControlText;
+		public Color BorderColor { get; set; } = SystemColors.ControlDark;
+
+		protected override void InitLayout()
+		{
+			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			SetStyle(ControlStyles.DoubleBuffer, true);
+			SetStyle(ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+			SetStyle(ControlStyles.UserPaint, true);
+			base.InitLayout();
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			DrawControl(e.Graphics);
+		}
+
+		internal void DrawControl(Graphics g)
+		{
+			try
+			{
+				if (!Visible)
+				{
+					return;
+				}
+
+				Rectangle clientRectangle = ClientRectangle;
+				clientRectangle.Inflate(2, 2);
+
+				Pen border = new Pen(BorderColor);
+				g.DrawRectangle(border, clientRectangle);
+
+				Brush solidBrush = new SolidBrush(BackColor);
+				g.FillRectangle(solidBrush, ClientRectangle);
+
+				solidBrush = new SolidBrush(_selectTabLineColor);
+				Rectangle rectangle = ClientRectangle;
+				rectangle.Height = 1;
+				rectangle.Y = 25;
+				g.FillRectangle(solidBrush, rectangle);
+
+				solidBrush = new SolidBrush(_selectTabLineColor);
+				rectangle = ClientRectangle;
+				rectangle.Height = 1;
+				rectangle.Y = 26;
+				g.FillRectangle(solidBrush, rectangle);
+
+
+				Region region = g.Clip;
+
+				for (int i = 0; i < TabCount; i++)
+				{
+					DrawTab(g, TabPages[i], i);
+					TabPages[i].BackColor = Color.White;
+				}
+
+				g.Clip = region;
+
+				if (SelectedTab != null)
+				{
+					border = new Pen(BorderColor);
+					clientRectangle.Offset(1, 1);
+					clientRectangle.Width -= 2;
+					clientRectangle.Height -= 2;
+					g.DrawRectangle(border, clientRectangle);
+					clientRectangle.Width -= 1;
+					clientRectangle.Height -= 1;
+					g.DrawRectangle(border, clientRectangle);
+				}
+			}
+			catch
+			{
+				// ignored
+			}
+		}
+
+		internal void DrawTab(Graphics g, TabPage customTabPage, int nIndex)
+		{
+			Rectangle tabRect = GetTabRect(nIndex);
+			RectangleF tabTextRect = GetTabRect(nIndex);
+			bool isSelected = (SelectedIndex == nIndex);
+			Point[] points;
+
+			if (Alignment == TabAlignment.Top)
+			{
+				points = new[]
+				{
+					new Point(tabRect.Left, tabRect.Bottom),
+					new Point(tabRect.Left, tabRect.Top + 0),
+					new Point(tabRect.Left + 0, tabRect.Top),
+					new Point(tabRect.Right - 0, tabRect.Top),
+					new Point(tabRect.Right, tabRect.Top + 0),
+					new Point(tabRect.Right, tabRect.Bottom),
+					new Point(tabRect.Left, tabRect.Bottom)
+				};
+			}
+			else
+			{
+				points = new[]
+				{
+					new Point(tabRect.Left, tabRect.Top),
+					new Point(tabRect.Right, tabRect.Top),
+					new Point(tabRect.Right, tabRect.Bottom - 0),
+					new Point(tabRect.Right - 0, tabRect.Bottom),
+					new Point(tabRect.Left + 0, tabRect.Bottom),
+					new Point(tabRect.Left, tabRect.Bottom - 0),
+					new Point(tabRect.Left, tabRect.Top)
+				};
+			}
+
+			Brush brush;
+			if (isSelected)
+			{
+				brush = new SolidBrush(_selectTabColor);
+				g.FillPolygon(brush, points);
+				brush.Dispose();
+				g.DrawPolygon(new Pen(_selectTabColor), points);
+			}
+			else
+			{
+				brush = new SolidBrush(_tabColor);
+				g.FillPolygon(brush, points);
+				brush.Dispose();
+				g.DrawPolygon(new Pen(_tabColor), points);
+			}
+
+			StringFormat stringFormat = new StringFormat
+			{
+				Alignment = StringAlignment.Center,
+				LineAlignment = StringAlignment.Center
+			};
+
+			RectangleF rectangleF = tabTextRect;
+			rectangleF.Y += 2;
+			brush = isSelected ? new SolidBrush(Color.White) : new SolidBrush(Color.Black);
+			g.DrawString(customTabPage.Text, Font, brush, rectangleF, stringFormat);
+		}
+	}
 }
