@@ -10,7 +10,7 @@ Apply Dark Mode to all Controls in a Form [WinForms]
 # Now with Dark Messenger
 Added a [Messenger.cs](Messenger.cs) class that allowes the user to popup Messages and InputBoxes:
 -  ```Messenger.MesageBox``` is a Direct replacement for the old ```MessageBox.Show```, the new one applies Windows's Dark Mode automaticaly.
--  ```Messenger.InputBox``` is a replacement for VisualBasic's InputBox, but with extended functionalities:
+-  ```Messenger.InputBox``` is a replacement for VisualBasic's InputBox, implemented for C# and with extended functionalities:
 	-  In its simplies form, you ask the user for a Text Input, then you use that for whatever you need
  	-  But Messenger.InputBox allowes you to promt the user with many more 'Fields' of different types:
 ![Preview](Screenshots/DarkMessenger.png)
