@@ -23,6 +23,15 @@ if (Messenger.MesageBox("Hello World!", "You got a Message:",
 {
 	//Do Something here.
 }
+...
+try
+{
+	throw new NotImplementedException();
+}
+catch (Exception ex)
+{
+	Messenger.MesageBox(ex.Message, "Unexpected Error", icon: MessageBoxIcon.Error );
+}
 ```
 InputBox:
 ```csharp
