@@ -15,7 +15,7 @@ Added a [Messenger.cs](Messenger.cs) class that allowes the user to popup Messag
  	-  But Messenger.InputBox allowes you to promt the user with many more 'Fields' of different types:
 ![Preview](Screenshots/DarkMessenger.png)
 - DarkMode doesnt require the Messenger but Messenger does require DarkMode.
-- Button Texts are automatically translated to 5 Languages: en, es, fr, de, ru.
+- Button Texts are automatically translated to 5 Languages: ```en, es, fr, de, ru```.
 
 MesageBox:
 ```csharp
