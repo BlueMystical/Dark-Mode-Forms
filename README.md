@@ -63,7 +63,7 @@ List<KeyValue> _Fields = new List<KeyValue>
 if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
 	Base64Icons.MsgIcon.Edit, MessageBoxButtons.OKCancel) == DialogResult.OK)
 {
-
+	Debug.WriteLine(string.Format("The New Password is: '{0}'", _Fields[0].Value));
 }
 ```
 # Implementation
