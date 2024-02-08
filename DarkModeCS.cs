@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace BlueMystic
 {
@@ -479,81 +481,62 @@ namespace BlueMystic
 				ProcessControlsRecursively(e.Control);
 			};
 
+
 			if (control is Panel panel)
 			{
 				// Process the panel within the container
 				panel.BackColor = OScolors.Surface;
 				panel.BorderStyle = BorderStyle.None;
 
-				//TODO: Make RoundBorders Optional
-				//SetRoundBorders(panel, 6, OScolors.SurfaceDark, 1);
+				if (panel.Parent is not TabControl)
+				{
+					SetRoundBorders(panel, 6, OScolors.SurfaceDark, 1);
+				}
 			}
 			if (control is GroupBox group)
 			{
-				group.BackColor = group.Parent.BackColor; 
+				group.BackColor = group.Parent.BackColor;
 				group.ForeColor = OScolors.TextInactive;
 			}
 			if (control is TabControl tab)
 			{
-				//tab.ItemSize = new Size(0, 0);
-				//tab.SizeMode = TabSizeMode.Fixed;
-				//tab.SetStyle(ControlStyles.UserPaint, true);
-
+				tab.Appearance = TabAppearance.Normal;
 				tab.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
 				tab.DrawItem += (object? sender, DrawItemEventArgs e) =>
 				{
-					TabPage CurrentPage = ((TabControl)sender).TabPages[e.Index];
-					
-
-					Rectangle rec = tab.ClientRectangle;
-					//Create a StringFormat object to set the layout of the label text
-					StringFormat StrFormat = new StringFormat();
-					StrFormat.LineAlignment = StringAlignment.Center;// Set the text to be centered vertically
-					StrFormat.Alignment = StringAlignment.Center;// Set the text to be centered horizontally
-
-					// The background fill color of the label, it can also be a picture (e.Graphics.DrawImage)
-					SolidBrush backColor = new SolidBrush(tab.Parent.BackColor);
-					SolidBrush fontColor;// Label font color
 					//Draw the background of the main control
-					e.Graphics.FillRectangle(backColor, rec);
-
-					//Draw label style
-					Font fntTab = e.Font;
-					Brush bshBack = new SolidBrush(OScolors.Surface);
-
-					for (int i = 0; i < tab.TabPages.Count; i++)
+					using (SolidBrush backColor = new SolidBrush(tab.Parent.BackColor))
 					{
-						var tabPage = tab.TabPages[i];
-						//tabPage.
-						tabPage.BorderStyle = BorderStyle.None;
-						tabPage.BackColor = OScolors.Surface;
-						tabPage.ControlAdded += (object? sender, ControlEventArgs e) =>
-						{
-							ProcessControlsRecursively(e.Control);
-						};
+						e.Graphics.FillRectangle(backColor, tab.ClientRectangle);
+					}
 
-						bool IsSelected = (tab.SelectedIndex == i);
-
-						Rectangle recBounds = tab.GetTabRect(i);
-						recBounds.Height = recBounds.Height + 4;
-						recBounds.Width = recBounds.Width + 4;
-						
-
-						RectangleF tabTextArea = (RectangleF)tab.GetTabRect(i);
-						if (IsSelected)
+					using (Brush tabBack = new SolidBrush(OScolors.Surface))
+					{
+						for (int i = 0; i < tab.TabPages.Count; i++)
 						{
-							 e.Graphics.FillRectangle(bshBack, recBounds);
-							
-							fontColor = new SolidBrush(OScolors.TextActive);
-							e.Graphics.DrawString(tab.TabPages[i].Text, fntTab, fontColor, tabTextArea, StrFormat);
-						}
-						else
-						{
-							fontColor = new SolidBrush(OScolors.TextInactive);
-							e.Graphics.DrawString(tab.TabPages[i].Text, fntTab, fontColor, tabTextArea, StrFormat);
+							TabPage tabPage = tab.TabPages[i];
+							tabPage.BackColor = OScolors.Surface;
+							tabPage.BorderStyle = BorderStyle.FixedSingle;							
+							tabPage.ControlAdded += (object? sender, ControlEventArgs e) =>
+							{
+								ProcessControlsRecursively(e.Control);
+							};
+
+							var tBounds = e.Bounds;
+							//tBounds.Inflate(100, 100);
+
+							bool IsSelected = (tab.SelectedIndex == i);
+							if (IsSelected)
+							{								
+								e.Graphics.FillRectangle(tabBack, tBounds);
+								TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, e.Bounds, OScolors.TextActive);
+							}
+							else
+							{
+								TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, tab.GetTabRect(i), OScolors.TextInactive);
+							}
 						}
 					}
-					
 				};
 				
 			}
@@ -564,14 +547,12 @@ namespace BlueMystic
 			}
 			if (control is Button button)
 			{
-				button.FlatStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
-				button.FlatAppearance.BorderColor = OScolors.SurfaceDark;
+				button.FlatStyle = FStyle;
+				//button.FlatAppearance.BorderColor = OScolors.SurfaceDark;
+				button.FlatAppearance.CheckedBackColor = OScolors.Accent;
 				button.BackColor = OScolors.Control;
 
-				if (TheForm.AcceptButton == button)
-				{
-					button.FlatAppearance.BorderColor = OScolors.Accent;
-				}
+				button.FlatAppearance.BorderColor = (TheForm.AcceptButton == button) ? OScolors.Accent : OScolors.Control;
 			}
 			if (control is Label label)
 			{
@@ -590,7 +571,7 @@ namespace BlueMystic
 			{
 				combo.FlatStyle = FStyle;
 				combo.BackColor = OScolors.Control;
-				control.GetType().GetProperty("ButtonColor")?.SetValue(control, OScolors.Surface);				
+				control.GetType().GetProperty("ButtonColor")?.SetValue(control, OScolors.Surface);
 				combo.Invalidate();
 			}
 			if (control is MenuStrip menu)
@@ -643,6 +624,11 @@ namespace BlueMystic
 				// Recursively process its children
 				ProcessControlsRecursively(childControl);
 			}
+		}
+
+		private void _tabPage_Paint(object? sender, PaintEventArgs e)
+		{
+			throw new NotImplementedException();
 		}
 
 
@@ -1093,7 +1079,7 @@ namespace BlueMystic
 				}
 			}
 		}
-		
+
 		private Color buttonColor = Color.LightGray;
 		[DefaultValue(typeof(Color), "LightGray")]
 		public Color ButtonColor
@@ -1108,7 +1094,7 @@ namespace BlueMystic
 				}
 			}
 		}
-		
+
 		protected override void WndProc(ref Message m)
 		{
 			if (m.Msg == WM_PAINT && DropDownStyle != ComboBoxStyle.Simple)
@@ -1121,7 +1107,7 @@ namespace BlueMystic
 					outerBorder.Width - dropDownButtonWidth - 2, outerBorder.Height - 2);
 				var innerInnerBorder = new Rectangle(innerBorder.X + 1, innerBorder.Y + 1,
 					innerBorder.Width - 2, innerBorder.Height - 2);
-				var dropDownRect = new Rectangle(innerBorder.Right+1, innerBorder.Y-1,
+				var dropDownRect = new Rectangle(innerBorder.Right + 1, innerBorder.Y - 1,
 					dropDownButtonWidth, innerBorder.Height + 2);
 				if (RightToLeft == RightToLeft.Yes)
 				{
@@ -1315,7 +1301,7 @@ namespace BlueMystic
 			set { _tabColor = value; }
 		}
 
-        public override Color BackColor { get; set; } = SystemColors.Control;
+		public override Color BackColor { get; set; } = SystemColors.Control;
 		public override Color ForeColor { get; set; } = SystemColors.ControlText;
 		public Color BorderColor { get; set; } = SystemColors.ControlDark;
 
