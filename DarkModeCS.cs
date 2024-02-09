@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DarkModeForms;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -330,7 +331,7 @@ namespace BlueMystic
 
 				_ret.TextActive = Color.White;
 				_ret.TextInactive = Color.FromArgb(176, 176, 176);  //<- Blanco Palido
-				_ret.TextInAccent = _ret.Accent;
+				_ret.TextInAccent = GetReadableColor(_ret.Accent);
 
 				_ret.Control = Color.FromArgb(55, 55, 55);       //<- Gris Oscuro
 				_ret.ControlDark = ControlPaint.Dark(_ret.Control);
@@ -344,13 +345,6 @@ namespace BlueMystic
 				{
 					//SetWin32ApiTheme(Window);
 					ApplySystemDarkTheme(Window);
-
-					//Window.
-					//protected override void CreateHandle()
-					//{
-					//	base.CreateHandle();
-					//	SetWindowTheme(this.Handle, "explorer", null);
-					//}
 
 					Window.BackColor = _ret.Background;
 					Window.ForeColor = _ret.TextInactive;
@@ -468,8 +462,15 @@ namespace BlueMystic
 			BorderStyle BStyle = (IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D);
 			FlatStyle FStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
 
-			control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Control);
-			control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
+			//Change the Colors only if its the default ones, this allows the user to set own colors:
+			if (control.BackColor == SystemColors.Control || control.BackColor == SystemColors.Window)
+			{
+				control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Control);
+			}
+			if (control.ForeColor == SystemColors.ControlText || control.ForeColor == SystemColors.WindowText)
+			{
+				control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
+			}			
 			control.GetType().GetProperty("BorderStyle")?.SetValue(control, BStyle);
 
 			control.HandleCreated += (object? sender, EventArgs e) =>
@@ -540,6 +541,16 @@ namespace BlueMystic
 				};
 				
 			}
+			if (control is FlatTabControl fTab)
+			{
+				fTab.BackColor = OScolors.Background;
+				fTab.TabColor = OScolors.Surface;
+				fTab.SelectTabColor = OScolors.Control;
+				fTab.SelectedForeColor = OScolors.TextActive;
+				fTab.BorderColor = OScolors.Background;
+				fTab.ForeColor = OScolors.TextInactive;
+				fTab.LineColor = OScolors.Background;
+			}
 			if (control is PictureBox pic)
 			{
 				pic.BorderStyle = BorderStyle.None;
@@ -548,16 +559,19 @@ namespace BlueMystic
 			if (control is Button button)
 			{
 				button.FlatStyle = FStyle;
-				//button.FlatAppearance.BorderColor = OScolors.SurfaceDark;
 				button.FlatAppearance.CheckedBackColor = OScolors.Accent;
 				button.BackColor = OScolors.Control;
-
-				button.FlatAppearance.BorderColor = (TheForm.AcceptButton == button) ? OScolors.Accent : OScolors.Control;
+				button.FlatAppearance.BorderColor = (TheForm.AcceptButton == button) ? 
+					OScolors.Accent : OScolors.Control;
 			}
 			if (control is Label label)
 			{
-				label.BackColor = Color.Transparent;
 				label.BorderStyle = BorderStyle.None;
+			}
+			if (control is LinkLabel link)
+			{
+				link.LinkColor = OScolors.AccentLight;
+				link.VisitedLinkColor = OScolors.Primary;
 			}
 			if (control is CheckBox chk)
 			{
@@ -631,6 +645,20 @@ namespace BlueMystic
 			throw new NotImplementedException();
 		}
 
+		public static Color GetReadableColor(Color backgroundColor)
+		{
+			// Calculate the relative luminance of the background color.
+			// Normalize values to 0-1 range first.
+			double normalizedR = backgroundColor.R / 255.0;
+			double normalizedG = backgroundColor.G / 255.0;
+			double normalizedB = backgroundColor.B / 255.0;
+			double luminance = 0.299 * normalizedR + 0.587 * normalizedG + 0.114 * normalizedB;
+
+			// Choose a contrasting foreground color based on the luminance,
+			// with a slight bias towards lighter colors for better readability.
+			return luminance < 0.5 ? Color.FromArgb(182, 180, 215) : Color.FromArgb(34, 34, 34); // Dark gray for light backgrounds
+		}
+
 
 		// For Rounded Corners:
 		private static GraphicsPath GetFigurePath(Rectangle rect, int radius)
@@ -675,7 +703,7 @@ namespace BlueMystic
 		/// <summary>For Inactive Texts</summary>
 		public System.Drawing.Color TextInactive { get; set; } = SystemColors.GrayText;
 		/// <summary>For Hightligh Texts</summary>
-		public System.Drawing.Color TextInAccent { get; set; } = SystemColors.HotTrack;
+		public System.Drawing.Color TextInAccent { get; set; } = SystemColors.HighlightText;
 
 		/// <summary>For the background of any Control</summary>
 		public System.Drawing.Color Control { get; set; } = SystemColors.ButtonFace;
@@ -1035,7 +1063,6 @@ namespace BlueMystic
 			}
 		}
 	}
-
 	public class CustomColorTable : ProfessionalColorTable
 	{
 		public OSThemeColors Colors { get; set; }
@@ -1061,385 +1088,8 @@ namespace BlueMystic
 	}
 
 
-	public class FlatComboBox : ComboBox
-	{
-		// https://github.com/r-aghaei/FlatComboExample/tree/master
-
-		private Color borderColor = Color.Gray;
-		[DefaultValue(typeof(Color), "Gray")]
-		public Color BorderColor
-		{
-			get { return borderColor; }
-			set
-			{
-				if (borderColor != value)
-				{
-					borderColor = value;
-					Invalidate();
-				}
-			}
-		}
-
-		private Color buttonColor = Color.LightGray;
-		[DefaultValue(typeof(Color), "LightGray")]
-		public Color ButtonColor
-		{
-			get { return buttonColor; }
-			set
-			{
-				if (buttonColor != value)
-				{
-					buttonColor = value;
-					Invalidate();
-				}
-			}
-		}
-
-		protected override void WndProc(ref Message m)
-		{
-			if (m.Msg == WM_PAINT && DropDownStyle != ComboBoxStyle.Simple)
-			{
-				var clientRect = ClientRectangle;
-				var dropDownButtonWidth = SystemInformation.HorizontalScrollBarArrowWidth;
-				var outerBorder = new Rectangle(clientRect.Location,
-					new Size(clientRect.Width - 1, clientRect.Height - 1));
-				var innerBorder = new Rectangle(outerBorder.X + 1, outerBorder.Y + 1,
-					outerBorder.Width - dropDownButtonWidth - 2, outerBorder.Height - 2);
-				var innerInnerBorder = new Rectangle(innerBorder.X + 1, innerBorder.Y + 1,
-					innerBorder.Width - 2, innerBorder.Height - 2);
-				var dropDownRect = new Rectangle(innerBorder.Right + 1, innerBorder.Y - 1,
-					dropDownButtonWidth, innerBorder.Height + 2);
-				if (RightToLeft == RightToLeft.Yes)
-				{
-					innerBorder.X = clientRect.Width - innerBorder.Right;
-					innerInnerBorder.X = clientRect.Width - innerInnerBorder.Right;
-					dropDownRect.X = clientRect.Width - dropDownRect.Right;
-					dropDownRect.Width += 1;
-				}
-				var innerBorderColor = Enabled ? BackColor : SystemColors.Control;
-				var outerBorderColor = Enabled ? BorderColor : SystemColors.ControlDark;
-				var buttonColor = Enabled ? ButtonColor : SystemColors.Control;
-				var middle = new Point(dropDownRect.Left + dropDownRect.Width / 2,
-					dropDownRect.Top + dropDownRect.Height / 2);
-				var arrow = new Point[]
-				{
-					new Point(middle.X - 3, middle.Y - 2),
-					new Point(middle.X + 4, middle.Y - 2),
-					new Point(middle.X, middle.Y + 2)
-				};
-				var ps = new PAINTSTRUCT();
-				bool shoulEndPaint = false;
-				IntPtr dc;
-				if (m.WParam == IntPtr.Zero)
-				{
-					dc = BeginPaint(Handle, ref ps);
-					m.WParam = dc;
-					shoulEndPaint = true;
-				}
-				else
-				{
-					dc = m.WParam;
-				}
-				var rgn = CreateRectRgn(innerInnerBorder.Left, innerInnerBorder.Top,
-					innerInnerBorder.Right, innerInnerBorder.Bottom);
-				SelectClipRgn(dc, rgn);
-				DefWndProc(ref m);
-				DeleteObject(rgn);
-				rgn = CreateRectRgn(clientRect.Left, clientRect.Top,
-					clientRect.Right, clientRect.Bottom);
-				SelectClipRgn(dc, rgn);
-
-				using (var g = Graphics.FromHdc(dc))
-				{
-					g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
-					g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-					g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-					#region DropDown Button
-
-					using (var b = new SolidBrush(buttonColor))
-					{
-						g.FillRectangle(b, dropDownRect);
-					}
-
-					#endregion
-
-					#region Chevron
-
-					//Replaced 'arrow' triangle with a Windows 11's Chevron:
-					//using (var b = new SolidBrush(outerBorderColor))
-					//{
-					//	g.FillPolygon(b, arrow);
-					//}
-
-					Size cSize = new Size(8, 4); //<- Size of the Chevron: 8x4 px
-					var chevron = new Point[]
-					{
-						new Point(middle.X - (cSize.Width / 2), middle.Y - (cSize.Height / 2)),
-						new Point(middle.X + (cSize.Width / 2), middle.Y - (cSize.Height / 2)),
-						new Point(middle.X, middle.Y + (cSize.Height / 2))
-					};
-					using (var chevronPen = new Pen(BorderColor, 2.5f)) //<- Color and Border Width
-					{
-						g.DrawLine(chevronPen, chevron[0], chevron[2]);
-						g.DrawLine(chevronPen, chevron[1], chevron[2]);
-					}
-
-					#endregion
-
-					#region Borders
-
-					using (var p = new Pen(innerBorderColor))
-					{
-						g.DrawRectangle(p, innerBorder);
-						g.DrawRectangle(p, innerInnerBorder);
-					}
-					using (var p = new Pen(outerBorderColor))
-					{
-						g.DrawRectangle(p, outerBorder);
-					}
-
-					#endregion
-				}
-				if (shoulEndPaint)
-					EndPaint(Handle, ref ps);
-				DeleteObject(rgn);
-			}
-			else
-				base.WndProc(ref m);
-		}
-
-		private const int WM_PAINT = 0xF;
-		[StructLayout(LayoutKind.Sequential)]
-		public struct RECT
-		{
-			public int L, T, R, B;
-		}
-		[StructLayout(LayoutKind.Sequential)]
-		public struct PAINTSTRUCT
-		{
-			public IntPtr hdc;
-			public bool fErase;
-			public int rcPaint_left;
-			public int rcPaint_top;
-			public int rcPaint_right;
-			public int rcPaint_bottom;
-			public bool fRestore;
-			public bool fIncUpdate;
-			public int reserved1;
-			public int reserved2;
-			public int reserved3;
-			public int reserved4;
-			public int reserved5;
-			public int reserved6;
-			public int reserved7;
-			public int reserved8;
-		}
-		[DllImport("user32.dll")]
-		private static extern IntPtr BeginPaint(IntPtr hWnd,
-			[In, Out] ref PAINTSTRUCT lpPaint);
-
-		[DllImport("user32.dll")]
-		private static extern bool EndPaint(IntPtr hWnd, ref PAINTSTRUCT lpPaint);
-
-		[DllImport("gdi32.dll")]
-		public static extern int SelectClipRgn(IntPtr hDC, IntPtr hRgn);
-
-		[DllImport("user32.dll")]
-		public static extern int GetUpdateRgn(IntPtr hwnd, IntPtr hrgn, bool fErase);
-		public enum RegionFlags
-		{
-			ERROR = 0,
-			NULLREGION = 1,
-			SIMPLEREGION = 2,
-			COMPLEXREGION = 3,
-		}
-		[DllImport("gdi32.dll")]
-		internal static extern bool DeleteObject(IntPtr hObject);
-
-		[DllImport("gdi32.dll")]
-		private static extern IntPtr CreateRectRgn(int x1, int y1, int x2, int y2);
-	}
+	
 
 
-	public class FlatTabControl : TabControl
-	{
-		private Color _selectTabColor = Color.FromArgb(30, 70, 130);
-		private Color _selectTabLineColor = Color.FromArgb(0, 0, 0);
-		private Color _tabColor = Color.WhiteSmoke;
-
-		public FlatTabControl()
-		{
-			try
-			{
-				Appearance = TabAppearance.Buttons;
-				DrawMode = TabDrawMode.Normal;
-				ItemSize = new Size(0, 0);
-				SizeMode = TabSizeMode.Fixed;
-			}
-			catch
-			{
-				// ignored
-			}
-		}
-
-		public Color SelectTabColor
-		{
-			get { return _selectTabColor; }
-			set { _selectTabColor = value; }
-		}
-
-		public Color SelectTabLineColor
-		{
-			get { return _selectTabLineColor; }
-			set { _selectTabLineColor = value; }
-		}
-
-		public Color TabColor
-		{
-			get { return _tabColor; }
-			set { _tabColor = value; }
-		}
-
-		public override Color BackColor { get; set; } = SystemColors.Control;
-		public override Color ForeColor { get; set; } = SystemColors.ControlText;
-		public Color BorderColor { get; set; } = SystemColors.ControlDark;
-
-		protected override void InitLayout()
-		{
-			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-			SetStyle(ControlStyles.DoubleBuffer, true);
-			SetStyle(ControlStyles.ResizeRedraw, true);
-			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-			SetStyle(ControlStyles.UserPaint, true);
-			base.InitLayout();
-		}
-
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);
-			DrawControl(e.Graphics);
-		}
-
-		internal void DrawControl(Graphics g)
-		{
-			try
-			{
-				if (!Visible)
-				{
-					return;
-				}
-
-				Rectangle clientRectangle = ClientRectangle;
-				clientRectangle.Inflate(2, 2);
-
-				Pen border = new Pen(BorderColor);
-				g.DrawRectangle(border, clientRectangle);
-
-				Brush solidBrush = new SolidBrush(BackColor);
-				g.FillRectangle(solidBrush, ClientRectangle);
-
-				solidBrush = new SolidBrush(_selectTabLineColor);
-				Rectangle rectangle = ClientRectangle;
-				rectangle.Height = 1;
-				rectangle.Y = 25;
-				g.FillRectangle(solidBrush, rectangle);
-
-				solidBrush = new SolidBrush(_selectTabLineColor);
-				rectangle = ClientRectangle;
-				rectangle.Height = 1;
-				rectangle.Y = 26;
-				g.FillRectangle(solidBrush, rectangle);
-
-
-				Region region = g.Clip;
-
-				for (int i = 0; i < TabCount; i++)
-				{
-					DrawTab(g, TabPages[i], i);
-					TabPages[i].BackColor = Color.White;
-				}
-
-				g.Clip = region;
-
-				if (SelectedTab != null)
-				{
-					border = new Pen(BorderColor);
-					clientRectangle.Offset(1, 1);
-					clientRectangle.Width -= 2;
-					clientRectangle.Height -= 2;
-					g.DrawRectangle(border, clientRectangle);
-					clientRectangle.Width -= 1;
-					clientRectangle.Height -= 1;
-					g.DrawRectangle(border, clientRectangle);
-				}
-			}
-			catch
-			{
-				// ignored
-			}
-		}
-
-		internal void DrawTab(Graphics g, TabPage customTabPage, int nIndex)
-		{
-			Rectangle tabRect = GetTabRect(nIndex);
-			RectangleF tabTextRect = GetTabRect(nIndex);
-			bool isSelected = (SelectedIndex == nIndex);
-			Point[] points;
-
-			if (Alignment == TabAlignment.Top)
-			{
-				points = new[]
-				{
-					new Point(tabRect.Left, tabRect.Bottom),
-					new Point(tabRect.Left, tabRect.Top + 0),
-					new Point(tabRect.Left + 0, tabRect.Top),
-					new Point(tabRect.Right - 0, tabRect.Top),
-					new Point(tabRect.Right, tabRect.Top + 0),
-					new Point(tabRect.Right, tabRect.Bottom),
-					new Point(tabRect.Left, tabRect.Bottom)
-				};
-			}
-			else
-			{
-				points = new[]
-				{
-					new Point(tabRect.Left, tabRect.Top),
-					new Point(tabRect.Right, tabRect.Top),
-					new Point(tabRect.Right, tabRect.Bottom - 0),
-					new Point(tabRect.Right - 0, tabRect.Bottom),
-					new Point(tabRect.Left + 0, tabRect.Bottom),
-					new Point(tabRect.Left, tabRect.Bottom - 0),
-					new Point(tabRect.Left, tabRect.Top)
-				};
-			}
-
-			Brush brush;
-			if (isSelected)
-			{
-				brush = new SolidBrush(_selectTabColor);
-				g.FillPolygon(brush, points);
-				brush.Dispose();
-				g.DrawPolygon(new Pen(_selectTabColor), points);
-			}
-			else
-			{
-				brush = new SolidBrush(_tabColor);
-				g.FillPolygon(brush, points);
-				brush.Dispose();
-				g.DrawPolygon(new Pen(_tabColor), points);
-			}
-
-			StringFormat stringFormat = new StringFormat
-			{
-				Alignment = StringAlignment.Center,
-				LineAlignment = StringAlignment.Center
-			};
-
-			RectangleF rectangleF = tabTextRect;
-			rectangleF.Y += 2;
-			brush = isSelected ? new SolidBrush(Color.White) : new SolidBrush(Color.Black);
-			g.DrawString(customTabPage.Text, Font, brush, rectangleF, stringFormat);
-		}
-	}
+	
 }

@@ -14,6 +14,12 @@ namespace BlueMystic
 
 	public static class Messenger
 	{
+		/// <summary>Shows an Error Message.</summary>
+		/// <param name="ex">an Exception error to show</param>
+		/// <returns></returns>
+		public static DialogResult MesageBox(Exception ex, bool ShowTrace = true) => 
+			MesageBox(ex.Message + (ShowTrace ? "\r\n" + ex.StackTrace : ""), "Error!", icon: MessageBoxIcon.Error);
+
 		/// <summary>Displays a message window, also known as a dialog box, which presents a message to the user.</summary>
 		/// <param name="Message">The text to display in the message box.</param>
 		/// <param name="title">The text to display in the title bar of the message box.</param>
@@ -226,8 +232,7 @@ namespace BlueMystic
 				picIcon.Image = _Icons.GetIcon(Icon);
 				form.Controls.Add(picIcon);
 
-				picBox.Width = 64;
-				picBox.Height = 64;
+				picBox.Size = new Size(64, 64);
 				picIcon.SetBounds(picBox.X, picBox.Y, picBox.Width, picBox.Height);
 				picIcon.BringToFront();
 			}
@@ -235,17 +240,19 @@ namespace BlueMystic
 			#endregion
 
 			#region Prompt Text
-
+			
 			Label lblPrompt = new Label()
 			{
 				Text = Message,
-				//Font = new Font(form.Font, FontStyle.Bold),
-				AutoSize = false,
-				Height = 64,
-				Location = new Point(picBox.X + 4, picBox.Y),
-				TextAlign = ContentAlignment.MiddleCenter
+				AutoSize = true,		
+				//BackColor = Color.Fuchsia,
+				ForeColor = DMode.OScolors.TextActive,
+				TextAlign = ContentAlignment.MiddleCenter,
+				Location = new Point(picBox.X + picBox.Width + 4, picBox.Y),
+				MaximumSize = new Size(form.ClientSize.Width - (picBox.X + picBox.Width) + 8, 0),	
+				MinimumSize = new Size(form.ClientSize.Width - (picBox.X + picBox.Width) + 8, 64),
 			};
-			lblPrompt.Width = form.ClientSize.Width - lblPrompt.Left;
+			lblPrompt.BringToFront();
 			form.Controls.Add(lblPrompt);
 
 			#endregion
@@ -709,10 +716,23 @@ namespace BlueMystic
 		}
 
 
+		/// <summary>Returns the Current Language ID of the PC.</summary>
+		/// <param name="pDefault">Default to return if Current lang is not supported.</param>
+		public static string GetCurrentLanguage(string pDefault = "en")
+		{
+			string _ret = pDefault;
+			string CurrentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+			if (IsCurrentLanguageSupported(new List<string>() { "en", "es", "fr", "de", "ru" }, CurrentLanguage))
+			{
+				_ret = CurrentLanguage;
+			}
+			return _ret;
+		}
+
 		/// <summary>Return the Translations for the desired language (if supported).</summary>
 		/// <param name="pLanguage">Supported Languages: [en, es, fr, de, ru]</param>
 		/// <returns>Keys: OK, Cancel, Yes, No, Continue, Retry, Abort</returns>
-		public static Dictionary<string, string> GetButtonTranslations(string pLanguage)
+		private static Dictionary<string, string> GetButtonTranslations(string pLanguage)
 		{
 			Dictionary<string, string> _ret = null;
 
@@ -739,19 +759,6 @@ namespace BlueMystic
 				_ret.Add("Abort", rawSplitted[6]);
 			}		
 
-			return _ret;
-		}
-
-		/// <summary>Returns the Current Language ID of the PC.</summary>
-		/// <param name="pDefault">Default to return if Current lang is not supported.</param>
-		public static string GetCurrentLanguage(string pDefault = "en")
-		{
-			string _ret = pDefault;
-			string CurrentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-			if (IsCurrentLanguageSupported(new List<string>() { "en", "es", "fr", "de", "ru"}, CurrentLanguage))
-			{
-				_ret = CurrentLanguage;
-			}
 			return _ret;
 		}
 
@@ -782,7 +789,7 @@ namespace BlueMystic
 		}
 	}
 
-
+	/// <summary>Stores Data for Dynamic Fields on the InputBox Dialog.</summary>
 	public class KeyValue
 	{
 		#region Pirvate Members
@@ -903,6 +910,7 @@ namespace BlueMystic
 		#endregion
 	}
 
+	/// <summary>For Images in Base64 format</summary>
 	public class Base64Image
 	{
 		public Base64Image() { }
