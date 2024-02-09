@@ -43,6 +43,7 @@ namespace DarkModeForms
 			ListViewItem listViewItem3 = new ListViewItem("CC", 1);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			panel1 = new Panel();
+			button5 = new Button();
 			button3 = new Button();
 			button1 = new Button();
 			button2 = new Button();
@@ -92,12 +93,15 @@ namespace DarkModeForms
 			label5 = new Label();
 			tabControl1 = new TabControl();
 			tabPage1 = new TabPage();
-			button4 = new Button();
 			tabPage2 = new TabPage();
+			textBox3 = new TextBox();
+			linkLabel1 = new LinkLabel();
+			label6 = new Label();
 			checkBox1 = new CheckBox();
 			radioButton1 = new RadioButton();
-			pictureBox1 = new PictureBox();
-			button5 = new Button();
+			flatTabControl1 = new FlatTabControl();
+			tabPage3 = new TabPage();
+			tabPage4 = new TabPage();
 			panel1.SuspendLayout();
 			toolStrip1.SuspendLayout();
 			menuStrip1.SuspendLayout();
@@ -107,8 +111,9 @@ namespace DarkModeForms
 			statusStrip1.SuspendLayout();
 			groupBox1.SuspendLayout();
 			tabControl1.SuspendLayout();
-			tabPage1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+			tabPage2.SuspendLayout();
+			flatTabControl1.SuspendLayout();
+			tabPage3.SuspendLayout();
 			SuspendLayout();
 			// 
 			// panel1
@@ -123,6 +128,16 @@ namespace DarkModeForms
 			panel1.Name = "panel1";
 			panel1.Size = new Size(680, 54);
 			panel1.TabIndex = 0;
+			// 
+			// button5
+			// 
+			button5.Location = new Point(514, 3);
+			button5.Name = "button5";
+			button5.Size = new Size(75, 48);
+			button5.TabIndex = 4;
+			button5.Text = "Custom MsgBox";
+			button5.UseVisualStyleBackColor = true;
+			button5.Click += button5_Click;
 			// 
 			// button3
 			// 
@@ -296,7 +311,7 @@ namespace DarkModeForms
 			// label1
 			// 
 			label1.AutoSize = true;
-			label1.Location = new Point(229, 56);
+			label1.Location = new Point(240, 72);
 			label1.Margin = new Padding(4, 0, 4, 0);
 			label1.Name = "label1";
 			label1.Size = new Size(100, 15);
@@ -445,6 +460,7 @@ namespace DarkModeForms
 			// label4
 			// 
 			label4.AutoSize = true;
+			label4.ForeColor = Color.FromArgb(255, 128, 0);
 			label4.Location = new Point(229, 168);
 			label4.Margin = new Padding(4, 0, 4, 0);
 			label4.Name = "label4";
@@ -544,24 +560,18 @@ namespace DarkModeForms
 			// 
 			// tabPage1
 			// 
-			tabPage1.Controls.Add(button4);
+			tabPage1.BackColor = Color.Transparent;
 			tabPage1.Location = new Point(4, 24);
 			tabPage1.Name = "tabPage1";
 			tabPage1.Size = new Size(258, 118);
 			tabPage1.TabIndex = 0;
 			tabPage1.Text = "tabPage1";
 			// 
-			// button4
-			// 
-			button4.Location = new Point(85, 44);
-			button4.Name = "button4";
-			button4.Size = new Size(75, 23);
-			button4.TabIndex = 0;
-			button4.Text = "button4";
-			button4.UseVisualStyleBackColor = true;
-			// 
 			// tabPage2
 			// 
+			tabPage2.Controls.Add(textBox3);
+			tabPage2.Controls.Add(linkLabel1);
+			tabPage2.Controls.Add(label6);
 			tabPage2.Location = new Point(4, 24);
 			tabPage2.Name = "tabPage2";
 			tabPage2.Padding = new Padding(3);
@@ -570,10 +580,38 @@ namespace DarkModeForms
 			tabPage2.Text = "tabPage2";
 			tabPage2.UseVisualStyleBackColor = true;
 			// 
+			// textBox3
+			// 
+			textBox3.Location = new Point(74, 22);
+			textBox3.Name = "textBox3";
+			textBox3.Size = new Size(100, 23);
+			textBox3.TabIndex = 6;
+			// 
+			// linkLabel1
+			// 
+			linkLabel1.AutoSize = true;
+			linkLabel1.Location = new Point(125, 82);
+			linkLabel1.Name = "linkLabel1";
+			linkLabel1.Size = new Size(60, 15);
+			linkLabel1.TabIndex = 5;
+			linkLabel1.TabStop = true;
+			linkLabel1.Text = "linkLabel1";
+			// 
+			// label6
+			// 
+			label6.AutoSize = true;
+			label6.Location = new Point(74, 79);
+			label6.Name = "label6";
+			label6.Size = new Size(38, 15);
+			label6.TabIndex = 4;
+			label6.Text = "label6";
+			// 
 			// checkBox1
 			// 
 			checkBox1.AutoSize = true;
-			checkBox1.Location = new Point(364, 475);
+			checkBox1.Checked = true;
+			checkBox1.CheckState = CheckState.Checked;
+			checkBox1.Location = new Point(73, 61);
 			checkBox1.Name = "checkBox1";
 			checkBox1.Size = new Size(83, 19);
 			checkBox1.TabIndex = 22;
@@ -583,7 +621,8 @@ namespace DarkModeForms
 			// radioButton1
 			// 
 			radioButton1.AutoSize = true;
-			radioButton1.Location = new Point(365, 502);
+			radioButton1.Checked = true;
+			radioButton1.Location = new Point(73, 36);
 			radioButton1.Name = "radioButton1";
 			radioButton1.Size = new Size(94, 19);
 			radioButton1.TabIndex = 23;
@@ -591,35 +630,52 @@ namespace DarkModeForms
 			radioButton1.Text = "radioButton1";
 			radioButton1.UseVisualStyleBackColor = true;
 			// 
-			// pictureBox1
+			// flatTabControl1
 			// 
-			pictureBox1.Image = Properties.Resources.forward_16x16;
-			pictureBox1.Location = new Point(355, 537);
-			pictureBox1.Name = "pictureBox1";
-			pictureBox1.Size = new Size(100, 50);
-			pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-			pictureBox1.TabIndex = 24;
-			pictureBox1.TabStop = false;
-			pictureBox1.Paint += pictureBox1_Paint;
+			flatTabControl1.Appearance = TabAppearance.Buttons;
+			flatTabControl1.BorderColor = SystemColors.ControlDark;
+			flatTabControl1.Controls.Add(tabPage3);
+			flatTabControl1.Controls.Add(tabPage4);
+			flatTabControl1.LineColor = SystemColors.ControlLight;
+			flatTabControl1.Location = new Point(288, 459);
+			flatTabControl1.Name = "flatTabControl1";
+			flatTabControl1.SelectedForeColor = SystemColors.ControlText;
+			flatTabControl1.SelectedIndex = 0;
+			flatTabControl1.SelectTabColor = SystemColors.Control;
+			flatTabControl1.Size = new Size(278, 153);
+			flatTabControl1.SizeMode = TabSizeMode.Fixed;
+			flatTabControl1.TabColor = SystemColors.ControlLight;
+			flatTabControl1.TabIndex = 24;
 			// 
-			// button5
+			// tabPage3
 			// 
-			button5.Location = new Point(514, 3);
-			button5.Name = "button5";
-			button5.Size = new Size(75, 48);
-			button5.TabIndex = 4;
-			button5.Text = "Custom MsgBox";
-			button5.UseVisualStyleBackColor = true;
-			button5.Click += button5_Click;
+			tabPage3.BackColor = SystemColors.ControlLight;
+			tabPage3.Controls.Add(radioButton1);
+			tabPage3.Controls.Add(checkBox1);
+			tabPage3.Location = new Point(4, 27);
+			tabPage3.Name = "tabPage3";
+			tabPage3.Padding = new Padding(3);
+			tabPage3.Size = new Size(270, 122);
+			tabPage3.TabIndex = 0;
+			tabPage3.Text = "tabPage3";
+			// 
+			// tabPage4
+			// 
+			tabPage4.BackColor = SystemColors.ControlLight;
+			tabPage4.Location = new Point(4, 27);
+			tabPage4.Name = "tabPage4";
+			tabPage4.Padding = new Padding(3);
+			tabPage4.Size = new Size(270, 122);
+			tabPage4.TabIndex = 1;
+			tabPage4.Text = "tabPage4";
 			// 
 			// Form1
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
+			BackColor = SystemColors.Control;
 			ClientSize = new Size(680, 694);
-			Controls.Add(pictureBox1);
-			Controls.Add(radioButton1);
-			Controls.Add(checkBox1);
+			Controls.Add(flatTabControl1);
 			Controls.Add(tabControl1);
 			Controls.Add(label5);
 			Controls.Add(groupBox1);
@@ -654,8 +710,11 @@ namespace DarkModeForms
 			groupBox1.ResumeLayout(false);
 			groupBox1.PerformLayout();
 			tabControl1.ResumeLayout(false);
-			tabPage1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+			tabPage2.ResumeLayout(false);
+			tabPage2.PerformLayout();
+			flatTabControl1.ResumeLayout(false);
+			tabPage3.ResumeLayout(false);
+			tabPage3.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -712,11 +771,15 @@ namespace DarkModeForms
 		private Button button3;
 		private TabControl tabControl1;
 		private TabPage tabPage1;
-		private Button button4;
 		private TabPage tabPage2;
 		private CheckBox checkBox1;
 		private RadioButton radioButton1;
-		private PictureBox pictureBox1;
 		private Button button5;
+		private FlatTabControl flatTabControl1;
+		private TabPage tabPage3;
+		private TabPage tabPage4;
+		private TextBox textBox3;
+		private LinkLabel linkLabel1;
+		private Label label6;
 	}
 }

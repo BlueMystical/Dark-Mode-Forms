@@ -59,6 +59,7 @@ namespace DarkModeForms
 			};
 			dataGridView1.DataSource = DS;
 			treeView1.Nodes[0].Expand();
+			tabControl1.SelectTab(1);
 		}
 
 		public void DrawVisualStyleElementMenuChevron1(PaintEventArgs e)
@@ -102,16 +103,10 @@ namespace DarkModeForms
 		{
 			/**** USE EXAMPLE FOR THE INPUTBOX  ****/
 
-			
-			List<KeyValue> Dtypes = new List<KeyValue>
-			{
-				new KeyValue("RichText Format", "0"),
-				new KeyValue("Plain Text",      "1"),
-				new KeyValue("AccountManager",  "2")
-			};
+			// Definition of a Single Field:
 			var DarkMode = new KeyValue("Boolean", "true", KeyValue.ValueTypes.Boolean);
 
-			// Can Validate User Inputs:
+			// Can Validate User Inputs on the Field:
 			DarkMode.Validate += (object? _control, KeyValue.ValidateEventArgs _e) =>
 			{
 				string OldValue = _e.OldValue;
@@ -122,7 +117,15 @@ namespace DarkModeForms
 				}
 			};
 
-			// Definition of the Fields:
+			// Custom Types for 'Dynamic' Fields:
+			List<KeyValue> Dtypes = new List<KeyValue>
+			{
+				new KeyValue("RichText Format", "0"),
+				new KeyValue("Plain Text",      "1"),
+				new KeyValue("AccountManager",  "2")
+			};
+
+			// Definition of Multiple Fields:
 			List<KeyValue> _Fields = new List<KeyValue>
 			{
 				new KeyValue("String",  "String",   KeyValue.ValueTypes.String),
@@ -131,18 +134,29 @@ namespace DarkModeForms
 				new KeyValue("Decimal", "3,141638", KeyValue.ValueTypes.Decimal),
 				DarkMode,
 				new KeyValue("Dynamic", "1",        KeyValue.ValueTypes.Dynamic, Dtypes),
-				//new KeyValue("Time", DateTime.Now.ToShortTimeString(), KeyValue.ValueTypes.Time),
 			};
 
-			if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:",
-				ref _Fields, Base64Icons.MsgIcon.Edit, MessageBoxButtons.OKCancel) == DialogResult.OK)
+			// Dialog Show:
+			if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
+				Base64Icons.MsgIcon.Edit, MessageBoxButtons.OKCancel) == DialogResult.OK)
 			{
-
+				Debug.WriteLine(string.Format("The New Password is: '{0}'", _Fields[0].Value));
 			}
 		}
 		private void button5_Click(object sender, EventArgs e)
 		{
-			if (Messenger.MesageBox("Hello World!", "You got a Message:", 
+
+			try
+			{
+				throw new NotImplementedException();
+			}
+			catch (Exception ex)
+			{
+				Messenger.MesageBox(ex);
+			}
+
+
+			if (Messenger.MesageBox("Hello World!", "You got a Message:",
 				MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
 			{
 				//Do Something here.
@@ -154,7 +168,7 @@ namespace DarkModeForms
 
 		}
 
-		
+
 	}
 
 	class ExampleDataSource
