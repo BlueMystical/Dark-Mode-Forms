@@ -31,7 +31,7 @@ try
 }
 catch (Exception ex)
 {
-	Messenger.MesageBox(ex.Message, "Unexpected Error", icon: MessageBoxIcon.Error );
+	Messenger.MesageBox(ex);
 }
 ```
 InputBox:
