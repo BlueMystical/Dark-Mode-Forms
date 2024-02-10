@@ -74,6 +74,8 @@ if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
 	Debug.WriteLine(string.Format("The New Password is: '{0}'", _Fields[0].Value));
 }
 ```
+![image](https://github.com/BlueMystical/Dark-Mode-Forms/assets/10116951/f3350908-9a54-4ce2-8d8f-2e9b4ce2cb94)
+
 # Implementation
 - No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](DarkModeCS.cs) Copy/Paste or Download and import it into your project.
 - 2 Lines to implement it:
