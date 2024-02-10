@@ -14,20 +14,18 @@ Added a [Messenger.cs](Messenger.cs) class that allowes the user to popup Messag
 	-  In its simplies form, you ask the user for a Text Input, then you use that for whatever you need
  	-  But Messenger.InputBox allowes you to promt the user with many more 'Fields' of different types:
 ![Preview](Screenshots/DarkMessenger.png)
+- Button Texts are automatically translated to 5 Languages: ```en, es, de, fr, ru```.
 - DarkMode doesnt require the Messenger but Messenger does require DarkMode.
-- Button Texts are automatically translated to 5 Languages: ```en, es, fr, de, ru```.
 
 MesageBox:
 ```csharp
-if (Messenger.MesageBox("Hello World!", "You got a Message:", 
-	MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
-{
-	//Do Something here.
-}
-...
 try
 {
-	throw new NotImplementedException();
+	if (Messenger.MesageBox("Hello World!", "You got a Message:", 
+		MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
+	{
+		//Do Something here.
+	}
 }
 catch (Exception ex)
 {
@@ -81,7 +79,7 @@ if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
 - 2 Lines to implement it:
 
 ```csharp
-DarkModeCS DM = null; //<- Line 1
+private DarkModeCS DM = null; //<- Line 1
 ....
 public Form1()
 {
@@ -95,12 +93,14 @@ public Form1()
 # Framework Compatibility
 - .NET 4.8+
 - .NET 6.0+
-- Core ?? 
+- Core (untested)
 - Some stuff may only work on Windows 11+
 
 # Limitations
-There are still a few Controls that are hard to theme:
-- ComboBox:   Borders & Dropdown Button are not themed.
+There are a few Winforms Controls that are, by design, extremely hard to theme:
+- ComboBox:   Borders & Dropdown Button look too white.  You could use [FlatComboBox](Example/DarkModeForms/FlatComboBox.cs) instead, check in the Example.
+- TabControl: 90% themed, a white border around the selected tab still remains.  You could use [FlatTabControl](Example/DarkModeForms/FlatTabControl.cs) instead, check in the Example.
+- MessageBox:  Can't be themed. You can use [Messenger](Messenger.cs) instead.
 - DateTimePicker: Un-themed.
 - MonthCalendar:  Un-themed.
 - ProgressBar:    Un-themed.
