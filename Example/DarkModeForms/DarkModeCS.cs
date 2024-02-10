@@ -482,14 +482,17 @@ namespace BlueMystic
 				ProcessControlsRecursively(e.Control);
 			};
 
-
+			if (control is TextBox tb)
+			{
+				//SetRoundBorders(tb, 4, OScolors.SurfaceDark, 1);
+			}
 			if (control is Panel panel)
 			{
 				// Process the panel within the container
 				panel.BackColor = OScolors.Surface;
 				panel.BorderStyle = BorderStyle.None;
 
-				if (panel.Parent is not TabControl)
+				if (panel.Parent is not TabControl || panel.Parent is not TableLayoutPanel)
 				{
 					SetRoundBorders(panel, 6, OScolors.SurfaceDark, 1);
 				}
@@ -498,6 +501,12 @@ namespace BlueMystic
 			{
 				group.BackColor = group.Parent.BackColor;
 				group.ForeColor = OScolors.TextInactive;
+			}
+			if (control is TableLayoutPanel table)
+			{
+				// Process the panel within the container
+				table.BackColor = table.Parent.BackColor;
+				table.BorderStyle = BorderStyle.None;
 			}
 			if (control is TabControl tab)
 			{
@@ -563,6 +572,7 @@ namespace BlueMystic
 				button.BackColor = OScolors.Control;
 				button.FlatAppearance.BorderColor = (TheForm.AcceptButton == button) ? 
 					OScolors.Accent : OScolors.Control;
+				//SetRoundBorders(button, 4, OScolors.SurfaceDark, 1);
 			}
 			if (control is Label label)
 			{

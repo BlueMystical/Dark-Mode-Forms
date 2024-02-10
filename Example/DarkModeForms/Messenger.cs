@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -492,6 +493,7 @@ namespace BlueMystic
 			{
 				Size = new Size(form.ClientSize.Width - 20, 50),
 				AutoSizeMode = AutoSizeMode.GrowAndShrink,
+				BackColor = DMode.OScolors.Background,
 				AutoSize = true,
 				ColumnCount = 2,
 				Location = new Point(10, lblPrompt.Location.Y + lblPrompt.Height + 4),
@@ -504,7 +506,7 @@ namespace BlueMystic
 			Contenedor.RowStyles.Clear();
 
 			Control FirstBox = null;
-
+			int ChangeDelayMS = 1000; //<- Delay for Change event in Miliseconds
 			int currentRow = 0;
 			foreach (KeyValue field in Fields)
 			{
@@ -527,14 +529,18 @@ namespace BlueMystic
 						Text = field.Value,
 						Dock = DockStyle.Fill,
 						TextAlign = HorizontalAlignment.Center,
+						
 					};
 					((TextBox)field_Control).TextChanged += (sender, args) =>
 					{
-						field.Value = ((TextBox)sender).Text;
+						AddTextChangedDelay((TextBox)field_Control, ChangeDelayMS, text =>
+						{
+							field.Value = ((TextBox)sender).Text;
 
-						//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
-						((TextBox)sender).Text = Convert.ToString(field.Value);
-						Err.SetError(field_Control, field.ErrorText);
+							//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
+							((TextBox)sender).Text = Convert.ToString(field.Value);
+							Err.SetError(field_Control, field.ErrorText);
+						});						
 					};
 				}
 				if (field.ValueType == KeyValue.ValueTypes.Password)
@@ -548,11 +554,14 @@ namespace BlueMystic
 					};
 					((TextBox)field_Control).TextChanged += (sender, args) =>
 					{
-						field.Value = ((TextBox)sender).Text;
+						AddTextChangedDelay((TextBox)field_Control, ChangeDelayMS, text =>
+						{
+							field.Value = ((TextBox)sender).Text;
 
-						//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
-						((TextBox)sender).Text = Convert.ToString(field.Value);
-						Err.SetError(field_Control, field.ErrorText);
+							//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
+							((TextBox)sender).Text = Convert.ToString(field.Value);
+							Err.SetError(field_Control, field.ErrorText);
+						});
 					};
 				}
 				if (field.ValueType == KeyValue.ValueTypes.Integer)
@@ -569,11 +578,14 @@ namespace BlueMystic
 					};
 					((NumericUpDown)field_Control).ValueChanged += (sender, args) =>
 					{
-						field.Value = ((NumericUpDown)sender).Value.ToString();
+						AddTextChangedDelay((NumericUpDown)field_Control, ChangeDelayMS, text =>
+						{
+							field.Value = ((NumericUpDown)sender).Value.ToString();
 
-						//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
-						((NumericUpDown)sender).Value = Convert.ToInt32(field.Value);
-						Err.SetError(field_Control, field.ErrorText);
+							//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
+							((NumericUpDown)sender).Value = Convert.ToInt32(field.Value);
+							Err.SetError(field_Control, field.ErrorText);
+						});						
 					};
 				}
 				if (field.ValueType == KeyValue.ValueTypes.Decimal)
@@ -590,11 +602,14 @@ namespace BlueMystic
 					};
 					((NumericUpDown)field_Control).ValueChanged += (sender, args) =>
 					{
-						field.Value = ((NumericUpDown)sender).Value.ToString();
+						AddTextChangedDelay((NumericUpDown)field_Control, ChangeDelayMS, text =>
+						{
+							field.Value = ((NumericUpDown)sender).Value.ToString();
 
-						//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
-						((NumericUpDown)sender).Value = Convert.ToDecimal(field.Value);
-						Err.SetError(field_Control, field.ErrorText);
+							//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
+							((NumericUpDown)sender).Value = Convert.ToDecimal(field.Value);
+							Err.SetError(field_Control, field.ErrorText);
+						});						
 					};
 				}
 				if (field.ValueType == KeyValue.ValueTypes.Date)
@@ -715,6 +730,31 @@ namespace BlueMystic
 			return form.ShowDialog();
 		}
 
+		private static Dictionary<Control, System.Windows.Forms.Timer> timers;
+		private static void AddTextChangedDelay<TControl>(TControl control, int milliseconds, Action<TControl> action) where TControl : Control
+		{
+			if (timers == null)
+			{
+				timers = new Dictionary<Control, System.Windows.Forms.Timer>();
+			}
+
+			if (timers.ContainsKey(control))
+			{
+				timers[control].Stop();
+				timers.Remove(control);
+			}
+
+			var timer = new System.Windows.Forms.Timer();
+			timer.Interval = milliseconds;
+			timer.Tick += (sender, e) =>
+			{
+				timer.Stop();
+				timers.Remove(control);
+				action(control);
+			};
+			timer.Start();
+			timers.Add(control, timer);
+		}
 
 		/// <summary>Returns the Current Language ID of the PC.</summary>
 		/// <param name="pDefault">Default to return if Current lang is not supported.</param>
@@ -1021,4 +1061,7 @@ namespace BlueMystic
 			return _ret;
 		}
 	}
+
+	
+
 }

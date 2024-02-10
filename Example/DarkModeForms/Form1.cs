@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 
@@ -62,23 +64,6 @@ namespace DarkModeForms
 			tabControl1.SelectTab(1);
 		}
 
-		public void DrawVisualStyleElementMenuChevron1(PaintEventArgs e)
-		{
-			if (System.Windows.Forms.VisualStyles.VisualStyleRenderer.IsElementDefined(
-				System.Windows.Forms.VisualStyles.VisualStyleElement.Menu.Chevron.Normal))
-			{
-				System.Windows.Forms.VisualStyles.VisualStyleRenderer renderer =
-					 new System.Windows.Forms.VisualStyles.VisualStyleRenderer(System.Windows.Forms.VisualStyles.VisualStyleElement.Menu.Chevron.Normal);
-				Rectangle rectangle1 = new Rectangle(10, 50, 50, 50);
-				renderer.DrawBackground(e.Graphics, rectangle1);
-				e.Graphics.DrawString("VisualStyleElement.Menu.Chevron.Normal",
-					 this.Font, Brushes.Black, new Point(10, 10));
-			}
-			else
-				e.Graphics.DrawString("This element is not defined in the current visual style.",
-					 this.Font, Brushes.Black, new Point(10, 10));
-		}
-
 		int CtrlCounter = 0;
 		private void button1_Click(object sender, EventArgs e)
 		{
@@ -93,12 +78,10 @@ namespace DarkModeForms
 			newT.Focus();
 			CtrlCounter = CtrlCounter + 10;
 		}
-
 		private void button2_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Sadly its not possible to change\r\nthe default MessageBoxes :(", "Hello World!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
-
 		private void button3_Click(object sender, EventArgs e)
 		{
 			/**** USE EXAMPLE FOR THE INPUTBOX  ****/
@@ -168,7 +151,47 @@ namespace DarkModeForms
 
 		}
 
+		private void button4_Click(object sender, EventArgs e)
+		{
+			// Example of a Login Form with Password Validation:
+			List<KeyValue> _Fields = new List<KeyValue>
+			{
+				new KeyValue("User Name", "user", KeyValue.ValueTypes.String),
+				new KeyValue("Password",  string.Empty, KeyValue.ValueTypes.Password)
+			};
+			_Fields[0].Validate += (object? _control, KeyValue.ValidateEventArgs _e) =>
+			{
+				if (_e.NewValue.ToLower() != "user")
+				{
+					_e.ErrorText = "Incorrect User!";
+				}
+			};
+			_Fields[1].Validate += (object? _control, KeyValue.ValidateEventArgs _e) =>
+			{
+				if (_e.NewValue.ToLower() != "password")
+				{
+					_e.ErrorText = "Incorrect Password!";
+				}
+			};
 
+			// Dialog Show:
+			if (Messenger.InputBox("Login", "Please Input your Credentials:", ref _Fields,
+				Base64Icons.MsgIcon.Lock, MessageBoxButtons.OKCancel) == DialogResult.OK)
+			{
+				string _userName = _Fields[0].Value;
+				string _password = _Fields[1].Value;
+
+				//TODO: you can either Validate user and password individually as before or Send them to your Backend for validation
+
+				Messenger.MesageBox(string.Format("The User '{0}' is Logged!", _userName), "Login Correct!",
+					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+		}
+
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 
 	class ExampleDataSource

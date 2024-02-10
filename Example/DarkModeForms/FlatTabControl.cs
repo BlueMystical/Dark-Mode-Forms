@@ -161,7 +161,7 @@ namespace BlueMystic
 			}
 
 			// Draws the Tab Header:
-			Color HeaderColor = isSelected ? SelectTabColor : TabColor;
+			Color HeaderColor = isSelected ? SelectTabColor : BackColor;
 			using (Brush brush = new SolidBrush(HeaderColor))
 			{
 				g.FillPolygon(brush, points);

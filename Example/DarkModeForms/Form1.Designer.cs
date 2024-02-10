@@ -43,6 +43,7 @@ namespace DarkModeForms
 			ListViewItem listViewItem3 = new ListViewItem("CC", 1);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			panel1 = new Panel();
+			button4 = new Button();
 			button5 = new Button();
 			button3 = new Button();
 			button1 = new Button();
@@ -118,6 +119,7 @@ namespace DarkModeForms
 			// 
 			// panel1
 			// 
+			panel1.Controls.Add(button4);
 			panel1.Controls.Add(button5);
 			panel1.Controls.Add(button3);
 			panel1.Controls.Add(button1);
@@ -129,9 +131,19 @@ namespace DarkModeForms
 			panel1.Size = new Size(680, 54);
 			panel1.TabIndex = 0;
 			// 
+			// button4
+			// 
+			button4.Location = new Point(591, 3);
+			button4.Name = "button4";
+			button4.Size = new Size(75, 48);
+			button4.TabIndex = 5;
+			button4.Text = "Password Input";
+			button4.UseVisualStyleBackColor = true;
+			button4.Click += button4_Click;
+			// 
 			// button5
 			// 
-			button5.Location = new Point(514, 3);
+			button5.Location = new Point(434, 3);
 			button5.Name = "button5";
 			button5.Size = new Size(75, 48);
 			button5.TabIndex = 4;
@@ -141,7 +153,7 @@ namespace DarkModeForms
 			// 
 			// button3
 			// 
-			button3.Location = new Point(593, 3);
+			button3.Location = new Point(514, 3);
 			button3.Name = "button3";
 			button3.Size = new Size(75, 48);
 			button3.TabIndex = 3;
@@ -151,7 +163,7 @@ namespace DarkModeForms
 			// 
 			// button1
 			// 
-			button1.Location = new Point(311, 14);
+			button1.Location = new Point(229, 14);
 			button1.Margin = new Padding(4, 3, 4, 3);
 			button1.Name = "button1";
 			button1.Size = new Size(100, 27);
@@ -162,7 +174,7 @@ namespace DarkModeForms
 			// 
 			// button2
 			// 
-			button2.Location = new Point(419, 14);
+			button2.Location = new Point(337, 14);
 			button2.Margin = new Padding(4, 3, 4, 3);
 			button2.Name = "button2";
 			button2.Size = new Size(88, 27);
@@ -325,7 +337,8 @@ namespace DarkModeForms
 			textBox1.Name = "textBox1";
 			textBox1.Size = new Size(177, 23);
 			textBox1.TabIndex = 3;
-			textBox1.Text = "Ass";
+			textBox1.Text = "ASDFG";
+			textBox1.TextChanged += textBox1_TextChanged;
 			// 
 			// comboBox1
 			// 
@@ -781,5 +794,6 @@ namespace DarkModeForms
 		private TextBox textBox3;
 		private LinkLabel linkLabel1;
 		private Label label6;
+		private Button button4;
 	}
 }
