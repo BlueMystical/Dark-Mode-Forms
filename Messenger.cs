@@ -2,17 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Windows.Forms;
 
 namespace BlueMystic
 {
-
+	/* Author: BlueMystic (bluemystic.play@gmail.com)  2024 */
 	public static class Messenger
 	{
 		/// <summary>Shows an Error Message.</summary>
@@ -190,6 +188,7 @@ namespace BlueMystic
 					form.AcceptButton = CmdButtons[0];
 					form.CancelButton = CmdButtons[1];
 					break;
+				/*
 				case MessageBoxButtons.CancelTryContinue:
 					CmdButtons.Add(new Button()
 					{
@@ -206,6 +205,7 @@ namespace BlueMystic
 					form.AcceptButton = CmdButtons[0];
 					form.CancelButton = CmdButtons[1];
 					break;
+					*/
 				default:
 					break;
 			}
@@ -438,6 +438,7 @@ namespace BlueMystic
 					form.AcceptButton = CmdButtons[0];
 					form.CancelButton = CmdButtons[1];
 					break;
+				/*
 				case MessageBoxButtons.CancelTryContinue:
 					CmdButtons.Add(new Button()
 					{
@@ -454,6 +455,7 @@ namespace BlueMystic
 					form.AcceptButton = CmdButtons[0];
 					form.CancelButton = CmdButtons[1];
 					break;
+					*/
 				default:
 					break;
 			}
@@ -505,7 +507,6 @@ namespace BlueMystic
 			Contenedor.ColumnStyles[1].Width = form.ClientSize.Width - 120;
 			Contenedor.RowStyles.Clear();
 
-			Control FirstBox = null;
 			int ChangeDelayMS = 1000; //<- Delay for Change event in Miliseconds
 			int currentRow = 0;
 			foreach (KeyValue field in Fields)
@@ -708,9 +709,6 @@ namespace BlueMystic
 				}
 
 				field_Control.TabIndex = currentRow;
-				if (currentRow == 0) FirstBox = field_Control;
-				FirstBox.CreateControl();
-				FirstBox.Focus();
 
 				// Increment row index for the next pair
 				currentRow++;
@@ -778,25 +776,30 @@ namespace BlueMystic
 
 			Dictionary<string, string> ButtonTranslations = new Dictionary<string, string>
 			{
-				{ "en", "OK|Cancel|Yes|No|Continue|Retry|Abort" },
-				{ "es", "Aceptar|Cancelar|Sí|No|Continuar|Reintentar|Abortar" },
-				{ "fr", "Accepter|Annuler|Oui|Non|Continuer|Réessayer|Abandonner" },
-				{ "de", "Akzeptieren|Abbrechen|Ja|Nein|Weiter|Wiederholen|Abbrechen"},
-				{ "ru", "Принять|Отменить|Да|Нет|Продолжить|Повторить|Прервать" }
+				{ "en", "OK|Cancel|Yes|No|Continue|Retry|Abort|Ignore" },
+				{ "es", "Aceptar|Cancelar|Sí|No|Continuar|Reintentar|Abortar|Ignorar" },
+				{ "fr", "Accepter|Annuler|Oui|Non|Continuer|Réessayer|Abandonner|Ignorer" },
+				{ "de", "Akzeptieren|Abbrechen|Ja|Nein|Weiter|Wiederholen|Abbrechen|Ignorieren"},
+				{ "ru", "Принять|Отменить|Да|Нет|Продолжить|Повторить|Прервать|Игнорировать" },
+				/* Add here you own language button translations */
 			};
 
 			string raw = ButtonTranslations[pLanguage];
 			if (!string.IsNullOrEmpty(raw))
 			{
-				var rawSplitted = raw.Split('|').ToList();
-				_ret = new Dictionary<string, string>();
-				_ret.Add("OK", rawSplitted[0]);
-				_ret.Add("Cancel", rawSplitted[1]);
-				_ret.Add("Yes", rawSplitted[2]);
-				_ret.Add("No", rawSplitted[3]);
-				_ret.Add("Continue", rawSplitted[4]);
-				_ret.Add("Retry", rawSplitted[5]);
-				_ret.Add("Abort", rawSplitted[6]);
+				var Words = raw.Split('|').ToList();
+
+				_ret = new Dictionary<string, string>
+				{
+					{ "OK", Words[0] },
+					{ "Cancel", Words[1] },
+					{ "Yes", Words[2] },
+					{ "No", Words[3] },
+					{ "Continue", Words[4] },
+					{ "Retry", Words[5] },
+					{ "Abort", Words[6] },
+					{ "Ignore", Words[7] }
+				};
 			}		
 
 			return _ret;
