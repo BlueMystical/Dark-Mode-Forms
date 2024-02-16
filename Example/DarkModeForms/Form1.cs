@@ -123,7 +123,7 @@ namespace DarkModeForms
 			if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
 				Base64Icons.MsgIcon.Edit, MessageBoxButtons.OKCancel) == DialogResult.OK)
 			{
-				Debug.WriteLine(string.Format("The New Password is: '{0}'", _Fields[0].Value));
+				Debug.WriteLine(string.Format("The New Password is: '{0}'", _Fields[1].Value));
 			}
 		}
 		private void button5_Click(object sender, EventArgs e)
@@ -159,13 +159,7 @@ namespace DarkModeForms
 				new KeyValue("User Name", "user", KeyValue.ValueTypes.String),
 				new KeyValue("Password",  string.Empty, KeyValue.ValueTypes.Password)
 			};
-			_Fields[0].Validate += (object? _control, KeyValue.ValidateEventArgs _e) =>
-			{
-				if (_e.NewValue.ToLower() != "user")
-				{
-					_e.ErrorText = "Incorrect User!";
-				}
-			};
+
 			_Fields[1].Validate += (object? _control, KeyValue.ValidateEventArgs _e) =>
 			{
 				if (_e.NewValue.ToLower() != "password")
@@ -181,7 +175,13 @@ namespace DarkModeForms
 				string _userName = _Fields[0].Value;
 				string _password = _Fields[1].Value;
 
-				//TODO: you can either Validate user and password individually as before or Send them to your Backend for validation
+				if (!string.IsNullOrEmpty(_userName))
+				{
+
+				}
+
+
+				//TODO: you can either Validate user and password individually as before or Send them to your Backend for validation here
 
 				Messenger.MesageBox(string.Format("The User '{0}' is Logged!", _userName), "Login Correct!",
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

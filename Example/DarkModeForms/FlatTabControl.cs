@@ -13,25 +13,25 @@ namespace BlueMystic
 	{
 		#region Public Properties
 
-		[Description(""), Category("Appearance")]
+		[Description("Color for a decorative line"), Category("Appearance")]
 		public Color LineColor { get; set; } = SystemColors.Highlight;
 
-		[Description(""), Category("Appearance")]
+		[Description("Color for all Borders"), Category("Appearance")]
 		public Color BorderColor { get; set; } = SystemColors.ControlDark;
 
-		[Description(""), Category("Appearance")]
+		[Description("Back color for selected Tab"), Category("Appearance")]
 		public Color SelectTabColor { get; set; } = SystemColors.ControlLight;
 
-		[Description(""), Category("Appearance")]
+		[Description("Fore Color for Selected Tab"), Category("Appearance")]
 		public Color SelectedForeColor { get; set; } = SystemColors.HighlightText;
 
-		[Description(""), Category("Appearance")]
+		[Description("Back Color for un-selected tabs"), Category("Appearance")]
 		public Color TabColor { get; set; } = SystemColors.ControlLight;
 
-		[Description(""), Category("Appearance"), Browsable(true)]
+		[Description("Background color for the whole control"), Category("Appearance"), Browsable(true)]
 		public override Color BackColor { get; set; } = SystemColors.Control;
 
-		[Description(""), Category("Appearance")]
+		[Description("Fore Color for all Texts"), Category("Appearance")]
 		public override Color ForeColor { get; set; } = SystemColors.ControlText;
 
 		#endregion
