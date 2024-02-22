@@ -76,6 +76,39 @@ if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
 ```
 ![image](https://github.com/BlueMystical/Dark-Mode-Forms/assets/10116951/f3350908-9a54-4ce2-8d8f-2e9b4ce2cb94)
 
+
+Example of a LoginForm with Password Validation
+```csharp
+List<KeyValue> _Fields = new List<KeyValue>
+{
+	new KeyValue("User Name", "user", KeyValue.ValueTypes.String),
+	new KeyValue("Password",  string.Empty, KeyValue.ValueTypes.Password)
+};
+			
+// Can Validate All the Controls before Closing the Dialog:
+Messenger.ValidateControls += (object? sender, CancelEventArgs e) =>
+{
+	string _userName = _Fields[0].Value;
+	string _password = _Fields[1].Value;
+
+	//TODO: Here you should send the User/Password to your BackEnd for Validation
+	if (_password != "password")
+	{
+		_Fields[1].ErrorText = "Incorrect Password!";
+		e.Cancel = true; //<- Prevents the Dialog to be closed until is valid
+	}
+};
+
+// Dialog Show:
+if (Messenger.InputBox("Login", "Please Input your Credentials:", ref _Fields,
+	Base64Icons.MsgIcon.Lock, MessageBoxButtons.OKCancel) == DialogResult.OK)
+{
+
+	Messenger.MesageBox(string.Format("The User '{0}' is Logged!", _Fields[0].Value), "Login Correct!",
+		MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+}
+```
+
 # Implementation
 - No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](DarkModeCS.cs) Copy/Paste or [Download](https://github.com/BlueMystical/Dark-Mode-Forms/releases/latest) and import it into your project.
 - 2 Lines to implement it:
