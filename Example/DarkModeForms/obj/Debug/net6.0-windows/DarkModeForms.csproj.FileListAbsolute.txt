@@ -1,0 +1,17 @@
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.Form1.resources
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.Properties.Resources.resources
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.csproj.GenerateResource.cache
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.GeneratedMSBuildEditorConfig.editorconfig
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.AssemblyInfoInputs.cache
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.AssemblyInfo.cs
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.csproj.CoreCompileInputs.cache
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.dll
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\refint\DarkModeForms.dll
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.pdb
+G:\@Proyectos\VS2022\DarkModeForms\bin\Debug\net6.0-windows\DarkModeForms.exe
+G:\@Proyectos\VS2022\DarkModeForms\bin\Debug\net6.0-windows\DarkModeForms.deps.json
+G:\@Proyectos\VS2022\DarkModeForms\bin\Debug\net6.0-windows\DarkModeForms.runtimeconfig.json
+G:\@Proyectos\VS2022\DarkModeForms\bin\Debug\net6.0-windows\DarkModeForms.dll
+G:\@Proyectos\VS2022\DarkModeForms\bin\Debug\net6.0-windows\DarkModeForms.pdb
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\DarkModeForms.genruntimeconfig.cache
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\net6.0-windows\ref\DarkModeForms.dll
