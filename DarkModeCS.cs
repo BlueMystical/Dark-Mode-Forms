@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace BlueMystic
 {
 	/// <summary>This tries to automatically apply Windows Dark Mode (if enabled) to a Form.
-	/// <para>Author: Blue Mystic - 2024</para></summary>
+	/// <para>Author: BlueMystic (bluemystic.play@gmail.com)  2024</para></summary>
 	public class DarkModeCS
 	{
 		#region Win32 API Declarations
@@ -223,30 +223,6 @@ namespace BlueMystic
 		#endregion
 
 		#region Constructors
-
-		/// <summary>This tries to automatically apply Windows Dark Mode (if enabled) to a Form.</summary>
-		/// <param name="_Form">The Form to become Dark</param>
-		public DarkModeCS(Form _Form)
-		{
-			OwnerForm = _Form;
-			IsDarkMode = GetWindowsColorMode() <= 0 ? true : false;
-			OScolors = GetSystemColors(OwnerForm);
-
-			if (IsDarkMode && OScolors != null)
-			{
-				if (OwnerForm != null && OwnerForm.Controls != null)
-				{
-					foreach (Control _control in OwnerForm.Controls)
-					{
-						ThemeControl(_control);
-					}
-					OwnerForm.ControlAdded += (object sender, ControlEventArgs e) =>
-					{
-						ThemeControl(e.Control);
-					};
-				}
-			}
-		}
 
 		/// <summary>This tries to automatically apply Windows Dark Mode (if enabled) to a Form.</summary>
 		/// <param name="_Form">The Form to become Dark</param>
@@ -482,6 +458,10 @@ namespace BlueMystic
 			{
 				tree.BorderStyle = BorderStyle.None;
 				tree.BackColor = OScolors.Surface;
+			}
+			if (control is TrackBar slider)
+			{
+				slider.BackColor = control.Parent.BackColor;
 			}
 
 			if (control.ContextMenuStrip != null)
@@ -744,7 +724,6 @@ namespace BlueMystic
 		public System.Drawing.Color Background { get; set; } = SystemColors.Control;
 		/// <summary>For Borders around the Background</summary>
 		public System.Drawing.Color BackgroundDark { get; set; } = SystemColors.ControlDark;
-
 		/// <summary>For hightlights over the Background</summary>
 		public System.Drawing.Color BackgroundLight { get; set; } = SystemColors.ControlLight;
 
