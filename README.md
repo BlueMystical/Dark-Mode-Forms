@@ -128,8 +128,8 @@ public Form1()
 # Framework Compatibility
 - .NET 4.8+
 - .NET 6.0+
-- Core (untested)
 - Some stuff may only work on Windows 11+
+- VS 2022+
 
 # Limitations
 There are a few Winforms Controls that are, by design, extremely hard to theme:
