@@ -69,7 +69,7 @@ List<KeyValue> _Fields = new List<KeyValue>
 
 // Dialog Show:
 if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
-	Base64Icons.MsgIcon.Edit, MessageBoxButtons.OKCancel) == DialogResult.OK)
+	MsgIcon.Edit, MessageBoxButtons.OKCancel) == DialogResult.OK)
 {
 	Debug.WriteLine(string.Format("The New Password is: '{0}'", _Fields[0].Value));
 }
@@ -101,7 +101,7 @@ Messenger.ValidateControls += (object? sender, CancelEventArgs e) =>
 
 // Dialog Show:
 if (Messenger.InputBox("Login", "Please Input your Credentials:", ref _Fields,
-	Base64Icons.MsgIcon.Lock, MessageBoxButtons.OKCancel) == DialogResult.OK)
+	MsgIcon.Lock, MessageBoxButtons.OKCancel) == DialogResult.OK)
 {
 
 	Messenger.MesageBox(string.Format("The User '{0}' is Logged!", _Fields[0].Value), "Login Correct!",
