@@ -74,10 +74,10 @@ if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
 	Debug.WriteLine(string.Format("The New Password is: '{0}'", _Fields[0].Value));
 }
 ```
+
+Example of a LoginForm with Password Validation:
 ![image](https://github.com/BlueMystical/Dark-Mode-Forms/assets/10116951/f3350908-9a54-4ce2-8d8f-2e9b4ce2cb94)
 
-
-Example of a LoginForm with Password Validation
 ```csharp
 List<KeyValue> _Fields = new List<KeyValue>
 {
