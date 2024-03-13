@@ -76,6 +76,7 @@ if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
 ```
 
 Example of a LoginForm with Password Validation:
+
 ![image](https://github.com/BlueMystical/Dark-Mode-Forms/assets/10116951/f3350908-9a54-4ce2-8d8f-2e9b4ce2cb94)
 
 ```csharp
