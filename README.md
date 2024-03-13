@@ -48,7 +48,7 @@ DarkMode.Validate += (object? _control, KeyValue.ValidateEventArgs _e) =>
 	}
 };
 			
-// Custom Types for 'Dynamic' Fields:
+// Custom Values for 'Dynamic' Fields:
 List<KeyValue> Dtypes = new List<KeyValue>
 {
 	new KeyValue("RichText Format", "0"),
