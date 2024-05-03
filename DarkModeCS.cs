@@ -3,6 +3,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+
 
 namespace BlueMystic
 {
@@ -201,6 +204,18 @@ namespace BlueMystic
 			int nHeightEllipse // width of ellipse
 		);
 
+		[DllImport("user32")]
+		private static extern IntPtr GetDC(IntPtr hwnd);
+
+		[DllImport("user32")]
+		private static extern IntPtr ReleaseDC(IntPtr hwnd, IntPtr hdc);
+
+		public static IntPtr GetHeaderControl(ListView list)
+		{
+			const int LVM_GETHEADER = 0x1000 + 31;
+			return SendMessage(list.Handle, LVM_GETHEADER, IntPtr.Zero, "");
+		}
+
 		#endregion
 
 		#region Public Members
@@ -370,6 +385,56 @@ namespace BlueMystic
 				pic.BorderStyle = BorderStyle.None;
 				pic.BackColor = pic.Parent.BackColor;
 			}
+			if (control is ListView lView)
+			{
+				if (lView.View == View.Details)
+				{
+					lView.OwnerDraw = true;
+					lView.DrawColumnHeader += (object? sender, DrawListViewColumnHeaderEventArgs e) =>
+					{
+						//e.DrawDefault = true;
+						//e.DrawBackground();
+						//e.DrawText();
+						
+						using (SolidBrush backBrush = new SolidBrush(OScolors.ControlLight))
+						{
+							using (SolidBrush foreBrush = new SolidBrush(OScolors.TextActive))
+							{
+								using (var sf = new StringFormat())
+								{
+									sf.Alignment = StringAlignment.Center;
+									e.Graphics.FillRectangle(backBrush, e.Bounds);
+									e.Graphics.DrawString(e.Header.Text, lView.Font, foreBrush, e.Bounds, sf);
+								}
+							}
+						}
+						
+					};
+					lView.DrawItem += (sender, e) => { e.DrawDefault = true; };
+					lView.DrawSubItem += (sender, e) => { 
+						
+						e.DrawDefault = true;
+						/*
+						IntPtr headerControl = GetHeaderControl(lView);
+						IntPtr hdc = GetDC(headerControl);
+						Rectangle rc = new Rectangle(
+							e.Bounds.Right, //<- Right instead of Left - offsets the rectangle
+							e.Bounds.Top,
+							e.Bounds.Width,
+							e.Bounds.Height
+						);
+						rc.Width += 200;
+
+						using (SolidBrush backBrush = new SolidBrush(OScolors.ControlLight))
+						{
+							e.Graphics.FillRectangle(backBrush, rc);
+						}
+
+						ReleaseDC(headerControl, hdc);
+						*/
+					};					
+				}
+			}
 			if (control is Button button)
 			{
 				button.FlatStyle = FStyle;
@@ -458,6 +523,26 @@ namespace BlueMystic
 			{
 				tree.BorderStyle = BorderStyle.None;
 				tree.BackColor = OScolors.Surface;
+				/*
+				tree.DrawNode += (object? sender, DrawTreeNodeEventArgs e) =>
+				{
+					
+					if (e.Node.ImageIndex != -1)
+					{
+						Image image = tree.ImageList.Images[e.Node.ImageIndex];
+						using (Graphics g = Graphics.FromImage(image))
+						{
+							g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+							g.CompositingQuality = CompositingQuality.HighQuality;
+							g.SmoothingMode = SmoothingMode.HighQuality;
+
+							g.DrawImage(DarkModeCS.ChangeToColor(image, OScolors.TextInactive), new Point(0,0));
+						}
+						tree.ImageList.Images[e.Node.ImageIndex] = image;
+					}
+					tree.Invalidate();
+				};
+				*/
 			}
 			if (control is TrackBar slider)
 			{
@@ -473,6 +558,12 @@ namespace BlueMystic
 				ThemeControl(childControl);
 			}
 		}
+
+		private void Tree_DrawNode(object? sender, DrawTreeNodeEventArgs e)
+		{
+			throw new NotImplementedException();
+		}
+
 
 		/// <summary>Returns Windows Color Mode for Applications.
 		/// <para>0=dark theme, 1=light theme</para>
@@ -630,6 +721,42 @@ namespace BlueMystic
 			}
 			catch { throw; }
 		}
+
+
+		/// <summary>Colorea una imagen usando una Matrix de Color.</summary>
+		/// <param name="bmp">Imagen a Colorear</param>
+		/// <param name="c">Color a Utilizar</param>
+		public static Bitmap ChangeToColor(Bitmap bmp, Color c)
+		{
+			Bitmap bmp2 = new Bitmap(bmp.Width, bmp.Height);
+			using (Graphics g = Graphics.FromImage(bmp2))
+			{
+				g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+				g.CompositingQuality = CompositingQuality.HighQuality;
+				g.SmoothingMode = SmoothingMode.HighQuality;
+
+				float tR = c.R / 255f;
+				float tG = c.G / 255f;
+				float tB = c.B / 255f;
+
+				System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
+				{
+					new float[] { 0,    0,  0,  0,  0 },
+					new float[] { 0,    0,  0,  0,  0 },
+					new float[] { 0,    0,  0,  0,  0 },
+					new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
+					new float[] { tR,   tG, tB, 0,  1 }
+				});
+
+				System.Drawing.Imaging.ImageAttributes attributes = new System.Drawing.Imaging.ImageAttributes();
+				attributes.SetColorMatrix(colorMatrix);
+
+				g.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height),
+					0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, attributes);
+			}
+			return bmp2;
+		}
+		public static Image ChangeToColor(Image bmp, Color c) => (Image)ChangeToColor((Bitmap)bmp, c);
 
 		#endregion
 
@@ -1053,7 +1180,7 @@ namespace BlueMystic
 				Color _ClearColor = e.Item.Enabled ? MyColors.TextInactive : MyColors.SurfaceDark;
 
 				// Create a new image with the desired color adjustments
-				using (Image adjustedImage = ChangeToColor(image, _ClearColor))
+				using (Image adjustedImage = DarkModeCS.ChangeToColor(image, _ClearColor))
 				{
 					e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
 					e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
@@ -1064,41 +1191,7 @@ namespace BlueMystic
 			}
 		}
 
-		/// <summary>Colorea una imagen usando una Matrix de Color.</summary>
-		/// <param name="bmp">Imagen a Colorear</param>
-		/// <param name="c">Color a Utilizar</param>
-		private Bitmap ChangeToColor(Bitmap bmp, Color c)
-		{
-			Bitmap bmp2 = new Bitmap(bmp.Width, bmp.Height);
-			using (Graphics g = Graphics.FromImage(bmp2))
-			{
-				g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-				g.CompositingQuality = CompositingQuality.HighQuality;
-				g.SmoothingMode = SmoothingMode.HighQuality;
-				
-
-				float tR = c.R / 255f;
-				float tG = c.G / 255f;
-				float tB = c.B / 255f;
-
-				System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
-				{
-					new float[] { 0,    0,  0,  0,  0 },
-					new float[] { 0,    0,  0,  0,  0 },
-					new float[] { 0,    0,  0,  0,  0 },
-					new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
-					new float[] { tR,   tG, tB, 0,  1 }
-				});
-
-				System.Drawing.Imaging.ImageAttributes attributes = new System.Drawing.Imaging.ImageAttributes();
-				attributes.SetColorMatrix(colorMatrix);
-
-				g.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height),
-					0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, attributes);
-			}
-			return bmp2;
-		}
-		private Image ChangeToColor(Image bmp, Color c) => (Image)ChangeToColor((Bitmap)bmp, c);
+		
 
 	}
 	public class CustomColorTable : ProfessionalColorTable
