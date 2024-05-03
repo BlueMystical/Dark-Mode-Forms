@@ -103,6 +103,8 @@ namespace DarkModeForms
 			flatTabControl1 = new FlatTabControl();
 			tabPage3 = new TabPage();
 			tabPage4 = new TabPage();
+			propertyGrid1 = new PropertyGrid();
+			imageList2 = new ImageList(components);
 			panel1.SuspendLayout();
 			toolStrip1.SuspendLayout();
 			menuStrip1.SuspendLayout();
@@ -374,15 +376,19 @@ namespace DarkModeForms
 			// 
 			treeView1.ContextMenuStrip = contextMenuStrip1;
 			treeView1.HideSelection = false;
+			treeView1.ImageIndex = 0;
+			treeView1.ImageList = imageList2;
 			treeView1.Location = new Point(229, 186);
 			treeView1.Margin = new Padding(4, 3, 4, 3);
 			treeView1.Name = "treeView1";
+			treeNode1.ImageKey = "forward_16x16.png";
 			treeNode1.Name = "Nodo1";
 			treeNode1.Text = "Nodo1";
 			treeNode2.Name = "Nodo5";
 			treeNode2.Text = "Nodo5";
 			treeNode3.Name = "Nodo2";
 			treeNode3.Text = "Nodo2";
+			treeNode4.ImageKey = "font_16x16.png";
 			treeNode4.Name = "Nodo3";
 			treeNode4.Text = "Nodo3";
 			treeNode5.Name = "Nodo0";
@@ -390,6 +396,7 @@ namespace DarkModeForms
 			treeNode6.Name = "Nodo4";
 			treeNode6.Text = "Nodo4";
 			treeView1.Nodes.AddRange(new TreeNode[] { treeNode5, treeNode6 });
+			treeView1.SelectedImageIndex = 0;
 			treeView1.Size = new Size(140, 108);
 			treeView1.TabIndex = 9;
 			// 
@@ -420,15 +427,17 @@ namespace DarkModeForms
 			// 
 			// listView1
 			// 
+			listView1.BackColor = SystemColors.Window;
 			listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
 			listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3 });
 			listView1.LargeImageList = imageList1;
-			listView1.Location = new Point(390, 90);
+			listView1.Location = new Point(397, 72);
 			listView1.Margin = new Padding(4, 3, 4, 3);
 			listView1.Name = "listView1";
-			listView1.Size = new Size(276, 205);
+			listView1.Size = new Size(269, 145);
 			listView1.TabIndex = 10;
 			listView1.UseCompatibleStateImageBehavior = false;
+			listView1.View = View.Details;
 			// 
 			// imageList1
 			// 
@@ -453,7 +462,7 @@ namespace DarkModeForms
 			// label2
 			// 
 			label2.AutoSize = true;
-			label2.Location = new Point(434, 72);
+			label2.Location = new Point(434, 49);
 			label2.Margin = new Padding(4, 0, 4, 0);
 			label2.Name = "label2";
 			label2.Size = new Size(155, 15);
@@ -487,7 +496,7 @@ namespace DarkModeForms
 			dataGridView1.Location = new Point(31, 336);
 			dataGridView1.Name = "dataGridView1";
 			dataGridView1.RowTemplate.Height = 25;
-			dataGridView1.Size = new Size(635, 117);
+			dataGridView1.Size = new Size(360, 117);
 			dataGridView1.TabIndex = 16;
 			// 
 			// flatComboBox1
@@ -682,12 +691,30 @@ namespace DarkModeForms
 			tabPage4.TabIndex = 1;
 			tabPage4.Text = "tabPage4";
 			// 
+			// propertyGrid1
+			// 
+			propertyGrid1.Location = new Point(397, 223);
+			propertyGrid1.Name = "propertyGrid1";
+			propertyGrid1.SelectedObject = dataGridView1;
+			propertyGrid1.Size = new Size(269, 230);
+			propertyGrid1.TabIndex = 25;
+			// 
+			// imageList2
+			// 
+			imageList2.ColorDepth = ColorDepth.Depth8Bit;
+			imageList2.ImageStream = (ImageListStreamer)resources.GetObject("imageList2.ImageStream");
+			imageList2.TransparentColor = Color.Transparent;
+			imageList2.Images.SetKeyName(0, "customization_16x16.png");
+			imageList2.Images.SetKeyName(1, "font_16x16.png");
+			imageList2.Images.SetKeyName(2, "forward_16x16.png");
+			// 
 			// Form1
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = SystemColors.Control;
 			ClientSize = new Size(680, 694);
+			Controls.Add(propertyGrid1);
 			Controls.Add(flatTabControl1);
 			Controls.Add(tabControl1);
 			Controls.Add(label5);
@@ -795,5 +822,7 @@ namespace DarkModeForms
 		private LinkLabel linkLabel1;
 		private Label label6;
 		private Button button4;
+		private PropertyGrid propertyGrid1;
+		private ImageList imageList2;
 	}
 }

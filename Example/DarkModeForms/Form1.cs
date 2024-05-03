@@ -20,6 +20,8 @@ namespace DarkModeForms
 		{
 			InitializeComponent();
 			DM = new DarkModeCS(this);
+
+			
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -62,6 +64,19 @@ namespace DarkModeForms
 			dataGridView1.DataSource = DS;
 			treeView1.Nodes[0].Expand();
 			tabControl1.SelectTab(1);
+
+			treeView1.ImageList = null;
+			int index = 0;
+			foreach (Image image in imageList2.Images)
+			{
+				var coloredImage = DarkModeCS.ChangeToColor(image, DM.OScolors.TextInactive);
+				imageList2.Images.RemoveAt(index);
+				imageList2.Images.Add(coloredImage);
+				index++;
+			}
+			treeView1.ImageList = imageList2;
+
+			
 		}
 
 		int CtrlCounter = 0;
