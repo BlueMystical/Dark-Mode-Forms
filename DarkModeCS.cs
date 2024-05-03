@@ -502,13 +502,16 @@ namespace BlueMystic
 			//get the theme --> only if Windows 10 or newer
 			if (IsWindows10orGreater())
 			{
-				var opaque = true;
-				var color = (int)colors.ColorizationColor;
+				var color = colors.ColorizationColor;
 
-				return Color.FromArgb((byte)(opaque ? 255 : (color >> 24) & 0xff),
-										(byte)((color >> 16) & 0xff),
-										(byte)((color >> 8) & 0xff),
-										(byte)(color) & 0xff);
+				var colorValue = long.Parse(color.ToString(), System.Globalization.NumberStyles.HexNumber);
+
+				var transparency = (colorValue & 0xFF000000) >> 24;
+				var red = (colorValue & 0x00FF0000) >> 16;
+				var green = (colorValue & 0x0000FF00) >> 8;
+				var blue = colorValue & 0x000000FF;
+
+				return Color.FromArgb((int)transparency, (int)red, (int)green, (int)blue);
 			}
 			else
 			{
