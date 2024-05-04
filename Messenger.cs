@@ -822,7 +822,7 @@ namespace BlueMystic
 		{
 			string _ret = pDefault;
 			string CurrentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-			if (IsCurrentLanguageSupported(new List<string>() { "en", "es", "fr", "de", "ru" }, CurrentLanguage))
+			if (IsCurrentLanguageSupported(new List<string>() { "en", "es", "fr", "de", "ru", "ko" }, CurrentLanguage))
 			{
 				_ret = CurrentLanguage;
 			}
@@ -830,7 +830,7 @@ namespace BlueMystic
 		}
 
 		/// <summary>Return the Translations for the desired language (if supported).</summary>
-		/// <param name="pLanguage">Supported Languages: [en, es, fr, de, ru]</param>
+		/// <param name="pLanguage">Supported Languages: [en, es, fr, de, ru, ko]</param>
 		/// <returns>Keys: OK, Cancel, Yes, No, Continue, Retry, Abort</returns>
 		private static Dictionary<string, string> GetButtonTranslations(string pLanguage)
 		{
@@ -843,6 +843,7 @@ namespace BlueMystic
 				{ "fr", "Accepter|Annuler|Oui|Non|Continuer|Réessayer|Abandonner|Ignorer" },
 				{ "de", "Akzeptieren|Abbrechen|Ja|Nein|Weiter|Wiederholen|Abbrechen|Ignorieren"},
 				{ "ru", "Принять|Отменить|Да|Нет|Продолжить|Повторить|Прервать|Игнорировать" },
+				{ "ko", "확인|취소|예|아니오|계속|다시 시도|중단|무시" },
 				/* Add here you own language button translations */
 			};
 
