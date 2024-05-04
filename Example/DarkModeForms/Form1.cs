@@ -150,11 +150,11 @@ namespace DarkModeForms
 			}
 			catch (Exception ex)
 			{
-				Messenger.MesageBox(ex);
+				Messenger.MessageBox(ex);
 			}
 
 
-			if (Messenger.MesageBox("Hello World!", "You got a Message:",
+			if (Messenger.MessageBox("Hello World!", "You got a Message:",
 				MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
 			{
 				//Do Something here.
@@ -198,7 +198,7 @@ namespace DarkModeForms
 
 				//TODO: you can either Validate user and password individually as before or Send them to your Backend for validation here
 
-				Messenger.MesageBox(string.Format("The User '{0}' is Logged!", _userName), "Login Correct!",
+				Messenger.MessageBox(string.Format("The User '{0}' is Logged!", _userName), "Login Correct!",
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
