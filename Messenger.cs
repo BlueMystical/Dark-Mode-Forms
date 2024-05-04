@@ -36,14 +36,14 @@ namespace BlueMystic
 
 		#region MessageBox
 
-		public static DialogResult MesageBox(string Message)
-			=> MesageBox(Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+		public static DialogResult MessageBox(string Message)
+			=> MessageBox(Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 		/// <summary>Shows an Error Message.</summary>
 		/// <param name="ex">an Exception error to show</param>
 		/// <returns></returns>
-		public static DialogResult MesageBox(Exception ex, bool ShowTrace = true) =>
-			MesageBox(ex.Message + (ShowTrace ? "\r\n" + ex.StackTrace : ""), "Error!", icon: MessageBoxIcon.Error);
+		public static DialogResult MessageBox(Exception ex, bool ShowTrace = true) =>
+			MessageBox(ex.Message + (ShowTrace ? "\r\n" + ex.StackTrace : ""), "Error!", icon: MessageBoxIcon.Error);
 
 		/// <summary>Displays a message window, also known as a dialog box, which presents a message to the user.</summary>
 		/// <param name="Message">The text to display in the message box.</param>
@@ -51,7 +51,7 @@ namespace BlueMystic
 		/// <param name="Icon">One of the 'Base64Icons.MsgIcon' values that specifies which icon to display in the message box.</param>
 		/// <param name="buttons">One of the MessageBoxButtons values that specifies which buttons to display in the message box.</param>
 		/// <returns>It is a modal window, blocking other actions in the application until the user closes it.</returns>
-		public static DialogResult MesageBox(
+		public static DialogResult MessageBox(
 			string Message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK,
 			MessageBoxIcon icon = MessageBoxIcon.Information)
 		{
@@ -74,7 +74,7 @@ namespace BlueMystic
 			}
 
 
-			return MesageBox(Message, title, Icon, buttons);
+			return MessageBox(Message, title, Icon, buttons);
 		}
 
 		/// <summary>Displays a message window, also known as a dialog box, which presents a message to the user.</summary>
@@ -83,7 +83,7 @@ namespace BlueMystic
 		/// <param name="Icon">One of the 'Base64Icons.MsgIcon' values that specifies which icon to display in the message box.</param>
 		/// <param name="buttons">One of the MessageBoxButtons values that specifies which buttons to display in the message box.</param>
 		/// <returns>It is a modal window, blocking other actions in the application until the user closes it.</returns>
-		public static DialogResult MesageBox(
+		public static DialogResult MessageBox(
 			string Message, string title, MsgIcon Icon,
 			MessageBoxButtons buttons = MessageBoxButtons.OK)
 		{
