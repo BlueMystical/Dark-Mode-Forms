@@ -822,7 +822,7 @@ namespace BlueMystic
 		{
 			string _ret = pDefault;
 			string CurrentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-			if (IsCurrentLanguageSupported(new List<string>() { "en", "es", "fr", "de", "ru", "ko" }, CurrentLanguage))
+			if (IsCurrentLanguageSupported(new List<string>() { "en", "es", "fr", "de", "ru", "ko", "zh" }, CurrentLanguage))
 			{
 				_ret = CurrentLanguage;
 			}
@@ -844,6 +844,7 @@ namespace BlueMystic
 				{ "de", "Akzeptieren|Abbrechen|Ja|Nein|Weiter|Wiederholen|Abbrechen|Ignorieren"},
 				{ "ru", "Принять|Отменить|Да|Нет|Продолжить|Повторить|Прервать|Игнорировать" },
 				{ "ko", "확인|취소|예|아니오|계속|다시 시도|중단|무시" },
+				{ "zh", "确定|取消|是|否|继续|重试|中止|忽略" }
 				/* Add here you own language button translations */
 			};
 
