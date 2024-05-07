@@ -826,6 +826,19 @@ namespace BlueMystic
 			{
 				_ret = CurrentLanguage;
 			}
+			if (CurrentLanguage.ToLowerInvariant().Equals("zh")) {
+				var LangVariable = CultureInfo.CurrentCulture.Name;
+				if (string.Equals(LangVariable, "zh-CN") || string.Equals(LangVariable, "zh-SG") || string.Equals(LangVariable, "zh-Hans"))
+				{
+					_ret = "zh-Hans";
+				} else if (string.Equals(LangVariable, "zh-TW") || string.Equals(LangVariable, "zh-HK") || string.Equals(LangVariable, "zh-MO") || string.Equals(LangVariable, "zh-Hant"))
+				{
+					_ret = "zh-Hant";
+				} else 
+				{
+					_ret = "zh-Hans";
+				}
+			}
 			return _ret;
 		}
 
@@ -844,6 +857,8 @@ namespace BlueMystic
 				{ "de", "Akzeptieren|Abbrechen|Ja|Nein|Weiter|Wiederholen|Abbrechen|Ignorieren"},
 				{ "ru", "Принять|Отменить|Да|Нет|Продолжить|Повторить|Прервать|Игнорировать" },
 				{ "ko", "확인|취소|예|아니오|계속|다시 시도|중단|무시" },
+				{ "zh-Hans", "确定|取消|是|否|继续|重试|中止|忽略" },
+				{ "zh-Hant", "確定|取消|是|否|繼續|重試|中止|忽略" }
 				/* Add here you own language button translations */
 			};
 
