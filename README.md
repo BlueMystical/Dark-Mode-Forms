@@ -13,7 +13,7 @@ Apply Dark Mode to all Controls in a Form [WinForms]
 
 Window's default MessageBox cant not be themed, so Added a [Messenger.cs](Messenger.cs) class that allowes the user to popup Messages and InputBoxes:
 
-- ```Messenger.MesageBox``` is a Direct replacement for the old ```MessageBox.Show```, the new one applies Windows's Dark Mode automaticaly.
+- ```Messenger.MessageBox``` is a Direct replacement for the old ```MessageBox.Show```, the new one applies Windows's Dark Mode automaticaly.
 - ```Messenger.InputBox``` is a replacement for VisualBasic's InputBox, implemented for C# and with extended functionalities:
   - In its simplies form, you ask the user for a Text Input, then you use that for whatever you need
   - But Messenger.InputBox allowes you to promt the user with many more 'Fields' of different types:
@@ -21,12 +21,12 @@ Window's default MessageBox cant not be themed, so Added a [Messenger.cs](Messen
 - Button Texts are automatically translated to 5 Languages: ```en, es, de, fr, ru, kr, zh```.
 - DarkMode doesnt require the Messenger but Messenger does require DarkMode.
 
-MesageBox:
+MessageBox:
 
 ```csharp
 try
 {
- if (Messenger.MesageBox("Hello World!", "You got a Message:", 
+ if (Messenger.MessageBox("Hello World!", "You got a Message:", 
   MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
  {
   //Do Something here.
@@ -34,7 +34,7 @@ try
 }
 catch (Exception ex)
 {
- Messenger.MesageBox(ex);
+ Messenger.MessageBox(ex);
 }
 ```
 
@@ -47,20 +47,20 @@ var DarkMode = new KeyValue("Boolean", "true", KeyValue.ValueTypes.Boolean);
 // Can Validate User Inputs on the Field:
 DarkMode.Validate += (object? _control, KeyValue.ValidateEventArgs _e) =>
 {
- string OldValue = _e.OldValue;
- if (_e.NewValue == "False")
- {
-  //_e.Cancel = true; //<- CAN CANCEL THE MODIFICATION
-  _e.ErrorText = "No puede ser Falso!";
- }
+   string OldValue = _e.OldValue;
+   if (_e.NewValue == "False")
+   {
+    //_e.Cancel = true; //<- CAN CANCEL THE MODIFICATION
+    _e.ErrorText = "No puede ser Falso!";
+   }
 };
    
 // Custom Values for 'Dynamic' Fields:
 List<KeyValue> Dtypes = new List<KeyValue>
 {
- new KeyValue("RichText Format", "0"),
- new KeyValue("Plain Text",      "1"),
- new KeyValue("AccountManager",  "2")
+   new KeyValue("RichText Format", "0"),
+   new KeyValue("Plain Text",      "1"),
+   new KeyValue("AccountManager",  "2")
 };
 
 // Definition of Multiple Fields:
