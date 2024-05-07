@@ -18,7 +18,7 @@ Window's default MessageBox cant not be themed, so Added a [Messenger.cs](Messen
   - In its simplies form, you ask the user for a Text Input, then you use that for whatever you need
   - But Messenger.InputBox allowes you to promt the user with many more 'Fields' of different types:
 ![Preview](Screenshots/DarkMessenger.png)
-- Button Texts are automatically translated to 5 Languages: ```en, es, de, fr, ru, kr, zh```.
+- Button Texts are automatically translated to 7 Languages: ```en, es, de, fr, ru, kr, zh```.
 - DarkMode doesnt require the Messenger but Messenger does require DarkMode.
 
 MessageBox:
