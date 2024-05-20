@@ -595,7 +595,7 @@ namespace BlueMystic
 			{
 				var color = colors.ColorizationColor;
 
-				var colorValue = long.Parse(color.ToString(), System.Globalization.NumberStyles.HexNumber);
+				var colorValue = long.Parse(color.ToString("X"), System.Globalization.NumberStyles.HexNumber);
 
 				var transparency = (colorValue & 0xFF000000) >> 24;
 				var red = (colorValue & 0x00FF0000) >> 16;
