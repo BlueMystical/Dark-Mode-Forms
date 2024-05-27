@@ -595,7 +595,7 @@ namespace BlueMystic
 			{
 				var color = colors.ColorizationColor;
 
-				var colorValue = long.Parse(color.ToString("X"), System.Globalization.NumberStyles.HexNumber);
+				var colorValue = long.Parse(color.ToString(), System.Globalization.NumberStyles.HexNumber);
 
 				var transparency = (colorValue & 0xFF000000) >> 24;
 				var red = (colorValue & 0x00FF0000) >> 16;
@@ -739,13 +739,21 @@ namespace BlueMystic
 				float tG = c.G / 255f;
 				float tB = c.B / 255f;
 
+				//System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
+				//{
+				//	new float[] { 0,    0,  0,  0,  0 },
+				//	new float[] { 0,    0,  0,  0,  0 },
+				//	new float[] { 0,    0,  0,  0,  0 },
+				//	new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
+				//	new float[] { tR,   tG, tB, 0,  1 }
+				//});
 				System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
 				{
-					new float[] { 0,    0,  0,  0,  0 },
-					new float[] { 0,    0,  0,  0,  0 },
-					new float[] { 0,    0,  0,  0,  0 },
-					new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
-					new float[] { tR,   tG, tB, 0,  1 }
+				new float[] { 1,    0,  0,  0,  0 },
+				new float[] { 0,    1,  0,  0,  0 },
+				new float[] { 0,    0,  1,  0,  0 },
+				new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
+				new float[] { tR,   tG, tB, 0,  1 }
 				});
 
 				System.Drawing.Imaging.ImageAttributes attributes = new System.Drawing.Imaging.ImageAttributes();
@@ -1187,11 +1195,12 @@ namespace BlueMystic
 					e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 					e.Graphics.DrawImage(adjustedImage, e.ImageRectangle);
 				}
-
 			}
-		}
-
-		
+			else
+			{
+				base.OnRenderItemImage(e);
+			}
+		}	
 
 	}
 	public class CustomColorTable : ProfessionalColorTable
