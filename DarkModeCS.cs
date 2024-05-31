@@ -597,10 +597,10 @@ namespace BlueMystic
 
 				var colorValue = long.Parse(color.ToString(), System.Globalization.NumberStyles.HexNumber);
 
-				var transparency = (colorValue & 0xFF000000) >> 24;
-				var red = (colorValue & 0x00FF0000) >> 16;
-				var green = (colorValue & 0x0000FF00) >> 8;
-				var blue = colorValue & 0x000000FF;
+				var transparency = ( colorValue >> 24 ) & 0xFF;
+				var red = ( colorValue >> 16 ) & 0xFF;
+				var green = ( colorValue >> 8 ) & 0xFF;
+				var blue = ( colorValue >> 0 ) & 0xFF;
 
 				return Color.FromArgb((int)transparency, (int)red, (int)green, (int)blue);
 			}
