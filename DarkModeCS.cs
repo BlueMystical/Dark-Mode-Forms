@@ -1,8 +1,10 @@
-﻿using System;
+﻿﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
@@ -500,13 +502,13 @@ namespace BlueMystic
 
 				grid.ColumnHeadersDefaultCellStyle.BackColor = OScolors.Surface;
 				grid.ColumnHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
-				grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = OScolors.Accent;
+				grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = OScolors.AccentOpaque;
 				grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 				grid.ColumnHeadersHeight = 140;
 
 				grid.RowHeadersDefaultCellStyle.BackColor = OScolors.Surface;
 				grid.RowHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
-				grid.RowHeadersDefaultCellStyle.SelectionBackColor = OScolors.Accent;
+				grid.RowHeadersDefaultCellStyle.SelectionBackColor = OScolors.AccentOpaque;
 				grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 			}
 			if (control is PropertyGrid pGrid)
@@ -603,6 +605,32 @@ namespace BlueMystic
 				var blue = ( colorValue >> 0 ) & 0xFF;
 
 				return Color.FromArgb((int)transparency, (int)red, (int)green, (int)blue);
+			}
+			else
+			{
+				return Color.CadetBlue;
+			}
+		}
+
+		/// <summary>Returns the Accent Color used by Windows.</summary>
+		/// <returns>an opaque Color</returns>
+		public static Color GetWindowsAccentOpaqueColor()
+		{
+			DWMCOLORIZATIONcolors colors = new DWMCOLORIZATIONcolors();
+			DwmGetColorizationParameters(ref colors);
+
+			//get the theme --> only if Windows 10 or newer
+			if (IsWindows10orGreater())
+			{
+				var color = colors.ColorizationColor;
+
+				var colorValue = long.Parse(color.ToString(), System.Globalization.NumberStyles.HexNumber);
+
+				var red = ( colorValue >> 16 ) & 0xFF;
+				var green = ( colorValue >> 8 ) & 0xFF;
+				var blue = ( colorValue >> 0 ) & 0xFF;
+
+				return Color.FromArgb(255, (int)red, (int)green, (int)blue);
 			}
 			else
 			{
@@ -810,11 +838,18 @@ namespace BlueMystic
 
 		private static int WindowsVersion()
 		{
-			//for .Net4.8 and Minor
-			int result = 10;
-			var reg = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
-			string[] productName = reg.GetValue("ProductName").ToString().Split((char)32);
-			int.TryParse(productName[1], out result);
+            //for .Net4.8 and Minor
+            int result;
+			try
+			{
+				var reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+				string[] productName = reg.GetValue("ProductName").ToString().Split((char)32);
+				int.TryParse(productName[1], out result);
+			} catch (Exception) {
+				OperatingSystem os = Environment.OSVersion;
+				result = os.Version.Major;
+			}
+
 			return result;
 
 			//fixed .Net6
@@ -888,6 +923,7 @@ namespace BlueMystic
 
 		/// <summary>Windows 10+ Chosen Accent Color</summary>
 		public System.Drawing.Color Accent { get; set; } = DarkModeCS.GetWindowsAccentColor();
+		public System.Drawing.Color AccentOpaque { get; set; } = DarkModeCS.GetWindowsAccentOpaqueColor();
 		public System.Drawing.Color AccentDark { get { return ControlPaint.Dark(Accent); } }
 		public System.Drawing.Color AccentLight { get { return ControlPaint.Light(Accent); } }
 
