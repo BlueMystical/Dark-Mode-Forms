@@ -1,0 +1,10 @@
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\DarkModeForms.csproj.AssemblyReference.cache
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\DarkModeForms.Form1.resources
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\DarkModeForms.Properties.Resources.resources
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\DarkModeForms.csproj.GenerateResource.cache
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\DarkModeForms.csproj.CoreCompileInputs.cache
+G:\@Proyectos\VS2022\DarkModeForms\bin\Debug\DarkModeForms.exe.config
+G:\@Proyectos\VS2022\DarkModeForms\bin\Debug\DarkModeForms.exe
+G:\@Proyectos\VS2022\DarkModeForms\bin\Debug\DarkModeForms.pdb
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\DarkModeForms.exe
+G:\@Proyectos\VS2022\DarkModeForms\obj\Debug\DarkModeForms.pdb
