@@ -277,13 +277,13 @@ namespace DarkModeForms {
     /// <summary>Muestra un mensaje en un cuadro de diálogo, solicitando al usuario el ingreso de datos varios.</summary>
     /// <example>Modo de Uso del <see cref="InputBox"/> method.
     /// <code>
-    ///	List<KeyValue> props = new List<KeyValue>
-    ///	{
-    ///		new KeyValue("[FieldName]", "[Default Value]", KeyValue.ValueTypes.String),
-    ///	};
+    ///  List<KeyValue> props = new List<KeyValue>
+    ///  {
+    ///    new KeyValue("[FieldName]", "[Default Value]", KeyValue.ValueTypes.String),
+    ///  };
     /// if (Util.InputBox("[WindowTitle]", "[Prompt]", ref props, Base64Icons.MsgIcon.Edit) == DialogResult.OK)
     /// {
-    ///		Console.WriteLine(props[0].Value);
+    ///    Console.WriteLine(props[0].Value);
     /// }
     /// </code>
     /// </example>
@@ -468,11 +468,11 @@ namespace DarkModeForms {
         //{
         //_button.Click += (s, e) =>
         //{
-        //	CancelEventArgs args = new CancelEventArgs();
-        //	ValidateControls(null, args);
+        //  CancelEventArgs args = new CancelEventArgs();
+        //  ValidateControls(null, args);
 
-        //	//2.  If the Client cancelled the change, revert to the previous value:
-        //	if (args.Cancel) {  }
+        //  //2.  If the Client cancelled the change, revert to the previous value:
+        //  if (args.Cancel) {  }
         //};
         //}
       }
@@ -884,7 +884,7 @@ namespace DarkModeForms {
         var newValue = value;
 
         //1. We Raize the 'Validate' Event to the Client informing both the
-        //	 New and Old Values for Client Side Validation:
+        //   New and Old Values for Client Side Validation:
         OnValidate(ref newValue); //<- Validate can Cancel the new Value
 
         if (_value != newValue) {
@@ -929,7 +929,7 @@ namespace DarkModeForms {
       var validateHandler = Validate;
       if (validateHandler != null) {
         //1. We Raize the 'Validate' Event to the Client informing both the
-        //	 New and Old Values for Client Side Validation:
+        //   New and Old Values for Client Side Validation:
         var args = new ValidateEventArgs(newValue) { OldValue = _value };
         validateHandler(this, args);
 

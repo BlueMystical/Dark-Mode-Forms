@@ -92,15 +92,15 @@ namespace DarkModeForms {
         // a decorative line on top of pages:
         //using (Brush bLineColor = new SolidBrush(LineColor))
         //{
-        //	Rectangle rectangle = ClientRectangle;
-        //	rectangle.Height = 1;
-        //	rectangle.Y = 25;
-        //	g.FillRectangle(bLineColor, rectangle);
+        //  Rectangle rectangle = ClientRectangle;
+        //  rectangle.Height = 1;
+        //  rectangle.Y = 25;
+        //  g.FillRectangle(bLineColor, rectangle);
 
-        //	rectangle = ClientRectangle;
-        //	rectangle.Height = 1;
-        //	rectangle.Y = 26;
-        //	g.FillRectangle(bLineColor, rectangle);
+        //  rectangle = ClientRectangle;
+        //  rectangle.Height = 1;
+        //  rectangle.Y = 26;
+        //  g.FillRectangle(bLineColor, rectangle);
         //}
       } catch { }
     }
@@ -152,8 +152,7 @@ namespace DarkModeForms {
       Rectangle rectangleF = tabTextRect;
       rectangleF.Y += 2;
 
-      TextRenderer.DrawText(g, customTabPage.Text, Font, rectangleF,
-           isSelected ? SelectedForeColor : ForeColor);
+      TextRenderer.DrawText(g, customTabPage.Text, Font, rectangleF, isSelected ? SelectedForeColor : ForeColor);
     }
   }
 }

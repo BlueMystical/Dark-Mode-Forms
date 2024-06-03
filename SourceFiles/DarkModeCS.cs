@@ -673,11 +673,11 @@ tree.DrawNode += (object? sender, DrawTreeNodeEventArgs e) =>
 
         //System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
         //{
-        //	new float[] { 0,    0,  0,  0,  0 },
-        //	new float[] { 0,    0,  0,  0,  0 },
-        //	new float[] { 0,    0,  0,  0,  0 },
-        //	new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
-        //	new float[] { tR,   tG, tB, 0,  1 }
+        //  new float[] { 0,    0,  0,  0,  0 },
+        //  new float[] { 0,    0,  0,  0,  0 },
+        //  new float[] { 0,    0,  0,  0,  0 },
+        //  new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
+        //  new float[] { tR,   tG, tB, 0,  1 }
         //});
         System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
         {
@@ -685,7 +685,7 @@ tree.DrawNode += (object? sender, DrawTreeNodeEventArgs e) =>
                 new float[] { 0,    1,  0,  0,  0 },
                 new float[] { 0,    0,  1,  0,  0 },
                 new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
-				new float[] { tR,   tG, tB, 0,  1 }
+        new float[] { tR,   tG, tB, 0,  1 }
         });
 
         System.Drawing.Imaging.ImageAttributes attributes = new System.Drawing.Imaging.ImageAttributes();
@@ -877,9 +877,9 @@ tree.DrawNode += (object? sender, DrawTreeNodeEventArgs e) =>
 
       // Center the titlebar grip.
       //g.DrawImage(
-      //	titlebarGrip,
-      //	new Point(rect.X + ((rect.Width / 2) - (titlebarGrip.Width / 2)),
-      //	rect.Y + 1));
+      //  titlebarGrip,
+      //  new Point(rect.X + ((rect.Width / 2) - (titlebarGrip.Width / 2)),
+      //  rect.Y + 1));
     }
 
     // This method handles the RenderGrip event.

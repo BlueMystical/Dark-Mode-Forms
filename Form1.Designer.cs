@@ -1,35 +1,34 @@
 using System.Windows.Forms;
 
-namespace DarkModeForms
-{
-	partial class Form1
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+namespace DarkModeForms {
+  partial class Form1
+  {
+    /// <summary>
+    /// Required designer variable.
+    /// </summary>
+    private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+      if (disposing && (components != null))
+      {
+        components.Dispose();
+      }
+      base.Dispose(disposing);
+    }
 
-		#region Windows Form Designer generated code
+    #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+    /// <summary>
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Nodo1");
             System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Nodo5");
@@ -848,72 +847,72 @@ namespace DarkModeForms
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
+    }
 
-		#endregion
+    #endregion
 
-		private Panel panel1;
-		private ToolStrip toolStrip1;
-		private ToolStripButton toolStripButton1;
-		private ToolStripSplitButton toolStripSplitButton1;
-		private ToolStripMenuItem asssToolStripMenuItem;
-		private MenuStrip menuStrip1;
-		private ToolStripMenuItem assToolStripMenuItem;
-		private ToolStripMenuItem titsToolStripMenuItem;
-		private Label label1;
-		private TextBox textBox1;
-		private ComboBox comboBox1;
-		private NumericUpDown numericUpDown1;
-		private ListBox listBox1;
-		private TreeView treeView1;
-		private ToolStripMenuItem assToolStripMenuItem1;
-		private ToolStripSeparator toolStripSeparator1;
-		private ToolStripMenuItem hjhfjfToolStripMenuItem;
-		private ToolStripMenuItem kjlkToolStripMenuItem;
-		private Button button2;
-		private Button button1;
-		private ToolStripMenuItem jhgjhgToolStripMenuItem;
-		private ListView listView1;
-		private ColumnHeader columnHeader1;
-		private ColumnHeader columnHeader2;
-		private ImageList imageList1;
-		private ToolStripButton toolStripButton3;
-		private ToolStripButton toolStripButton2;
-		private ToolStripDropDownButton toolStripDropDownButton1;
-		private ToolStripMenuItem xxxToolStripMenuItem;
-		private ToolStripMenuItem asssToolStripMenuItem1;
-		private TextBox textBox2;
-		private Label label2;
-		private Label label3;
-		private Label label4;
-		private DataGridView dataGridView1;
-		private FlatComboBox flatComboBox1;
-		private StatusStrip statusStrip1;
-		private ToolStripStatusLabel toolStripStatusLabel1;
-		private ToolStripDropDownButton toolStripDropDownButton2;
-		private ToolStripMenuItem test2ToolStripMenuItem;
-		private ToolStripMenuItem test1ToolStripMenuItem;
-		private ContextMenuStrip contextMenuStrip1;
-		private ToolStripMenuItem contex01ToolStripMenuItem;
-		private ToolStripMenuItem contex02ToolStripMenuItem;
-		private ToolStripMenuItem context03ToolStripMenuItem;
-		private GroupBox groupBox1;
-		private Label label5;
-		private Button button3;
-		private TabControl tabControl1;
-		private TabPage tabPage1;
-		private TabPage tabPage2;
-		private CheckBox checkBox1;
-		private RadioButton radioButton1;
-		private Button button5;
-		private FlatTabControl flatTabControl1;
-		private TabPage tabPage3;
-		private TabPage tabPage4;
-		private TextBox textBox3;
-		private LinkLabel linkLabel1;
-		private Label label6;
-		private Button button4;
-		private PropertyGrid propertyGrid1;
-		private ImageList imageList2;
-	}
+    private Panel panel1;
+    private ToolStrip toolStrip1;
+    private ToolStripButton toolStripButton1;
+    private ToolStripSplitButton toolStripSplitButton1;
+    private ToolStripMenuItem asssToolStripMenuItem;
+    private MenuStrip menuStrip1;
+    private ToolStripMenuItem assToolStripMenuItem;
+    private ToolStripMenuItem titsToolStripMenuItem;
+    private Label label1;
+    private TextBox textBox1;
+    private ComboBox comboBox1;
+    private NumericUpDown numericUpDown1;
+    private ListBox listBox1;
+    private TreeView treeView1;
+    private ToolStripMenuItem assToolStripMenuItem1;
+    private ToolStripSeparator toolStripSeparator1;
+    private ToolStripMenuItem hjhfjfToolStripMenuItem;
+    private ToolStripMenuItem kjlkToolStripMenuItem;
+    private Button button2;
+    private Button button1;
+    private ToolStripMenuItem jhgjhgToolStripMenuItem;
+    private ListView listView1;
+    private ColumnHeader columnHeader1;
+    private ColumnHeader columnHeader2;
+    private ImageList imageList1;
+    private ToolStripButton toolStripButton3;
+    private ToolStripButton toolStripButton2;
+    private ToolStripDropDownButton toolStripDropDownButton1;
+    private ToolStripMenuItem xxxToolStripMenuItem;
+    private ToolStripMenuItem asssToolStripMenuItem1;
+    private TextBox textBox2;
+    private Label label2;
+    private Label label3;
+    private Label label4;
+    private DataGridView dataGridView1;
+    private FlatComboBox flatComboBox1;
+    private StatusStrip statusStrip1;
+    private ToolStripStatusLabel toolStripStatusLabel1;
+    private ToolStripDropDownButton toolStripDropDownButton2;
+    private ToolStripMenuItem test2ToolStripMenuItem;
+    private ToolStripMenuItem test1ToolStripMenuItem;
+    private ContextMenuStrip contextMenuStrip1;
+    private ToolStripMenuItem contex01ToolStripMenuItem;
+    private ToolStripMenuItem contex02ToolStripMenuItem;
+    private ToolStripMenuItem context03ToolStripMenuItem;
+    private GroupBox groupBox1;
+    private Label label5;
+    private Button button3;
+    private TabControl tabControl1;
+    private TabPage tabPage1;
+    private TabPage tabPage2;
+    private CheckBox checkBox1;
+    private RadioButton radioButton1;
+    private Button button5;
+    private FlatTabControl flatTabControl1;
+    private TabPage tabPage3;
+    private TabPage tabPage4;
+    private TextBox textBox3;
+    private LinkLabel linkLabel1;
+    private Label label6;
+    private Button button4;
+    private PropertyGrid propertyGrid1;
+    private ImageList imageList2;
+  }
 }

@@ -100,7 +100,7 @@ namespace DarkModeForms {
           //Replaced 'arrow' triangle with a Windows 11's Chevron:
           //using (var b = new SolidBrush(outerBorderColor))
           //{
-          //	g.FillPolygon(b, arrow);
+          //  g.FillPolygon(b, arrow);
           //}
 
           Size cSize = new Size(8, 4); //<- Size of the Chevron: 8x4 px
