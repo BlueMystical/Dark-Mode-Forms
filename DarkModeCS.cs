@@ -1,10 +1,6 @@
-﻿﻿using System;
-using System.Drawing;
+﻿﻿using Microsoft.Win32;
 using System.Drawing.Drawing2D;
-﻿using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
-
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
