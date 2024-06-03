@@ -11,7 +11,7 @@ Apply Dark Mode to all Controls in a Form [WinForms]
 
 ## Now with Dark Messenger
 
-Window's default MessageBox cant not be themed, so Added a [Messenger.cs](Messenger.cs) class that allowes the user to popup Messages and InputBoxes:
+Window's default MessageBox cant not be themed, so Added a [Messenger.cs](SourceFiles/Messenger.cs) class that allowes the user to popup Messages and InputBoxes:
 
 - ```Messenger.MessageBox``` is a Direct replacement for the old ```MessageBox.Show```, the new one applies Windows's Dark Mode automaticaly.
 - ```Messenger.InputBox``` is a replacement for VisualBasic's InputBox, implemented for C# and with extended functionalities:
@@ -26,7 +26,7 @@ MessageBox:
 ```csharp
 try
 {
- if (Messenger.MessageBox("Hello World!", "You got a Message:", 
+ if (Messenger.MessageBox("Hello World!", "You got a Message:",
   MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
  {
   //Do Something here.
@@ -54,7 +54,7 @@ DarkMode.Validate += (object? _control, KeyValue.ValidateEventArgs _e) =>
     _e.ErrorText = "No puede ser Falso!";
    }
 };
-   
+
 // Custom Values for 'Dynamic' Fields:
 List<KeyValue> Dtypes = new List<KeyValue>
 {
@@ -92,7 +92,7 @@ List<KeyValue> _Fields = new List<KeyValue>
  new KeyValue("User Name", "user", KeyValue.ValueTypes.String),
  new KeyValue("Password",  string.Empty, KeyValue.ValueTypes.Password)
 };
-   
+
 // Can Validate All the Controls before Closing the Dialog:
 Messenger.ValidateControls += (object? sender, CancelEventArgs e) =>
 {
@@ -119,7 +119,7 @@ if (Messenger.InputBox("Login", "Please Input your Credentials:", ref _Fields,
 
 ## Implementation
 
-- No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](DarkModeCS.cs) Copy/Paste or [Download](https://github.com/BlueMystical/Dark-Mode-Forms/releases/latest) and import it into your project.
+- No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](SourceFiles/DarkModeCS.cs) Copy/Paste or [Download](https://github.com/BlueMystical/Dark-Mode-Forms/releases/latest) and import it into your project.
 - 1 Line to implement it:
 
 ```csharp
@@ -145,9 +145,9 @@ public Form1()
 
 There are a few Winforms Controls that are, by design, extremely hard to theme:
 
-- ComboBox:   Borders & Dropdown Button look too white.  You could use [FlatComboBox](Example/DarkModeForms/FlatComboBox.cs) instead, check in the Example.
-- TabControl: 90% themed, a white border around the selected tab still remains.  You could use [FlatTabControl](Example/DarkModeForms/FlatTabControl.cs) instead, check in the Example.
-- MessageBox:  Can't be themed. You can use [Messenger](Messenger.cs) instead.
+- ComboBox:   Borders & Dropdown Button look too white.  You could use [FlatComboBox](SourceFiles/FlatComboBox.cs) instead, check in the Example.
+- TabControl: 90% themed, a white border around the selected tab still remains.  You could use [FlatTabControl](SourceFiles/FlatTabControl.cs) instead, check in the Example.
+- MessageBox:  Can't be themed. You can use [Messenger](SourceFiles/Messenger.cs) instead.
 - DateTimePicker: Un-themed.
 - MonthCalendar:  Un-themed.
 - ProgressBar:    Un-themed.
