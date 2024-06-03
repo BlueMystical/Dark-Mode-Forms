@@ -132,87 +132,87 @@ namespace BlueMystic
 					CmdButtons.Add(new Button()
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.OK,
-						Text = ButtonTranslations["OK"]
-					});
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Cancel,
 						Text = ButtonTranslations["Cancel"]
 					});
-					form.AcceptButton = CmdButtons[0];
-					form.CancelButton = CmdButtons[1];
-					break;
-				case MessageBoxButtons.AbortRetryIgnore:
 					CmdButtons.Add(new Button()
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.Retry,
-						Text = ButtonTranslations["Retry"]
+						DialogResult = DialogResult.OK,
+						Text = ButtonTranslations["OK"]
 					});
+					form.CancelButton = CmdButtons[0];
+					form.AcceptButton = CmdButtons[1];
+					break;
+				case MessageBoxButtons.AbortRetryIgnore:
 					CmdButtons.Add(new Button()
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Abort,
 						Text = ButtonTranslations["Abort"]
 					});
-					form.AcceptButton = CmdButtons[0];
-					form.CancelButton = CmdButtons[1];
-					break;
-				case MessageBoxButtons.YesNoCancel:
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.Yes,
-						Text = ButtonTranslations["Yes"]
-					});
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.No,
-						Text = ButtonTranslations["No"]
-					});
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.Cancel,
-						Text = ButtonTranslations["Cancel"]
-					});
-					form.AcceptButton = CmdButtons[0];
-					form.CancelButton = CmdButtons[2];
-					break;
-				case MessageBoxButtons.YesNo:
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.Yes,
-						Text = ButtonTranslations["Yes"]
-					});
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.No,
-						Text = ButtonTranslations["No"]
-					});
-					form.AcceptButton = CmdButtons[0];
-					form.CancelButton = CmdButtons[1];
-					break;
-				case MessageBoxButtons.RetryCancel:
 					CmdButtons.Add(new Button()
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Retry,
 						Text = ButtonTranslations["Retry"]
 					});
+					form.CancelButton = CmdButtons[0];
+					form.AcceptButton = CmdButtons[1];
+					break;
+				case MessageBoxButtons.YesNoCancel:
 					CmdButtons.Add(new Button()
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Cancel,
 						Text = ButtonTranslations["Cancel"]
 					});
-					form.AcceptButton = CmdButtons[0];
-					form.CancelButton = CmdButtons[1];
+					CmdButtons.Add(new Button()
+					{
+						Anchor = AnchorStyles.Top | AnchorStyles.Right,
+						DialogResult = DialogResult.No,
+						Text = ButtonTranslations["No"]
+					});
+					CmdButtons.Add(new Button()
+					{
+						Anchor = AnchorStyles.Top | AnchorStyles.Right,
+						DialogResult = DialogResult.Yes,
+						Text = ButtonTranslations["Yes"]
+					});
+					form.CancelButton = CmdButtons[0];
+					form.AcceptButton = CmdButtons[2];
+					break;
+				case MessageBoxButtons.YesNo:
+					CmdButtons.Add(new Button()
+					{
+						Anchor = AnchorStyles.Top | AnchorStyles.Right,
+						DialogResult = DialogResult.No,
+						Text = ButtonTranslations["No"]
+					});
+					CmdButtons.Add(new Button()
+					{
+						Anchor = AnchorStyles.Top | AnchorStyles.Right,
+						DialogResult = DialogResult.Yes,
+						Text = ButtonTranslations["Yes"]
+					});
+					form.CancelButton = CmdButtons[0];
+					form.AcceptButton = CmdButtons[1];
+					break;
+				case MessageBoxButtons.RetryCancel:
+					CmdButtons.Add(new Button()
+					{
+						Anchor = AnchorStyles.Top | AnchorStyles.Right,
+						DialogResult = DialogResult.Cancel,
+						Text = ButtonTranslations["Cancel"]
+					});
+					CmdButtons.Add(new Button()
+					{
+						Anchor = AnchorStyles.Top | AnchorStyles.Right,
+						DialogResult = DialogResult.Retry,
+						Text = ButtonTranslations["Retry"]
+					});
+					form.CancelButton = CmdButtons[0];
+					form.AcceptButton = CmdButtons[1];
 					break;
 				/*
 				case MessageBoxButtons.CancelTryContinue:
