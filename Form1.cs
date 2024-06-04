@@ -112,7 +112,7 @@ namespace DarkModeForms
 			// Definition of a Single Field:
 			var BooleanControl = new KeyValue("Boolean", "true", KeyValue.ValueTypes.Boolean);
 
-			// Can Validate User Inputs on the Field:
+			// Can Validate User Inputs on each Field:
 			BooleanControl.Validate += (object _control, KeyValue.ValidateEventArgs _e) =>
 			{
 				string OldValue = _e.OldValue;
@@ -144,7 +144,7 @@ namespace DarkModeForms
 
 			// Dialog Show:
 			if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
-			  MsgIcon.Edit, MessageBoxButtons.OKCancel) == DialogResult.OK)
+							MsgIcon.Edit, MessageBoxButtons.OKCancel) == DialogResult.OK)
 			{
 				Debug.WriteLine(string.Format("The New Password is: '{0}'", _Fields[1].Value));
 			}
@@ -164,9 +164,11 @@ namespace DarkModeForms
 			{
 				string _userName = _Fields[0].Value;
 				string _password = _Fields[1].Value;
+				bool _isValid = false;
 
 				//TODO: Here you should send the User/Password to your BackEnd for Validation
-				if (_password != "password")
+				_isValid = _password == "password";
+				if (_isValid)
 				{
 					_Fields[1].ErrorText = "Incorrect Password!";
 					E.Cancel = true; //<- Prevents the Dialog to be closed until is valid

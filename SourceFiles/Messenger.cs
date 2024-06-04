@@ -840,11 +840,11 @@ namespace DarkModeForms {
 
   /// <summary>Stores Data for Dynamic Fields on the InputBox Dialog.</summary>
   public class KeyValue {
-    #region Pirvate Members
+    #region Private Members
 
     private string _value;
 
-    #endregion Pirvate Members
+    #endregion Private Members
 
     #region Contructors
 
