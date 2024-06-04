@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("DarkModeForms")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Example")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("BlueMystic")]
 [assembly: AssemblyProduct("DarkModeForms")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
