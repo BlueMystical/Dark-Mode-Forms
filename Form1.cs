@@ -91,10 +91,19 @@ namespace DarkModeForms
 			CtrlCounter = CtrlCounter + 10;
 		}
 
-		// Default MessageBox, for comparing
+		// Default MessageBox, for comparing, and Custom Error showing
 		private void button2_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Sadly its not possible to change\r\nthe default MessageBoxes :(", "Hello World!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			try
+			{
+				MessageBox.Show("Sadly its not possible to change\r\nthe default MessageBoxes :(", "Hello World!", 
+					MessageBoxButtons.OK, MessageBoxIcon.Information);
+				throw new Exception("Hello!");
+			}
+			catch (Exception ex)
+			{
+				Messenger.MessageBox(ex);
+			}			
 		}
 
 		// Example of the Custom InputBox
