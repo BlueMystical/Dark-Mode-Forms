@@ -21,45 +21,47 @@ namespace DarkModeForms
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
+			// Prepare a Datasource for the GridView control
 			DS = new BindingList<ExampleDataSource>
-	  {
-		new ExampleDataSource()
-		{
-		  Sequence = 1,
-		  Name = "Philip J. Fry",
-		  IsAlive = true,
-		  Points = 20000,
-		  Observations = "Missing in Action"
-		},
-		new ExampleDataSource()
-		{
-		  Sequence = 2,
-		  Name = "Turanga Leela",
-		  IsAlive = true,
-		  Points = 23000,
-		  Observations = "on Duty"
-		},
-		new ExampleDataSource()
-		{
-		  Sequence = 3,
-		  Name = "Profesor Hubert Farnsworth",
-		  IsAlive = false,
-		  Points = 0,
-		  Observations = "RIP"
-		},
-		new ExampleDataSource()
-		{
-		  Sequence = 4,
-		  Name = "Zapp Brannigan",
-		  IsAlive = true,
-		  Points = 7000,
-		  Observations = "on Duty"
-		},
-	  };
+			{
+				new ExampleDataSource()
+				{
+					Sequence = 1,
+					Name = "Philip J. Fry",
+					IsAlive = true,
+					Points = 20000,
+					Observations = "Missing in Action"
+				},
+				new ExampleDataSource()
+				{
+					Sequence = 2,
+					Name = "Turanga Leela",
+					IsAlive = true,
+					Points = 23000,
+					Observations = "on Duty"
+				},
+				new ExampleDataSource()
+				{
+					Sequence = 3,
+					Name = "Profesor Hubert Farnsworth",
+					IsAlive = false,
+					Points = 0,
+					Observations = "RIP"
+				},
+				new ExampleDataSource()
+				{
+					Sequence = 4,
+					Name = "Zapp Brannigan",
+					IsAlive = true,
+					Points = 7000,
+					Observations = "on Duty"
+				},
+			};
 			dataGridView1.DataSource = DS;
 			treeView1.Nodes[0].Expand();
 			tabControl1.SelectTab(1);
 
+			//Manually Re-Coloring Images on the ListView Control, or any other Control
 			treeView1.ImageList = null;
 			int index = 0;
 			foreach (Image image in imageList2.Images)
@@ -74,6 +76,7 @@ namespace DarkModeForms
 
 		private int CtrlCounter = 0;
 
+		// Adds a new Control to the Form, to test if Darkmode is applied to dynamically added controls, it does!
 		private void button1_Click(object sender, EventArgs e)
 		{
 			var newT = new TextBox()
@@ -88,15 +91,15 @@ namespace DarkModeForms
 			CtrlCounter = CtrlCounter + 10;
 		}
 
+		// Default MessageBox, for comparing
 		private void button2_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Sadly its not possible to change\r\nthe default MessageBoxes :(", "Hello World!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
+		// Example of the Custom InputBox
 		private void button3_Click(object sender, EventArgs e)
 		{
-			/**** USE EXAMPLE FOR THE INPUTBOX  ****/
-
 			// Definition of a Single Field:
 			var BooleanControl = new KeyValue("Boolean", "true", KeyValue.ValueTypes.Boolean);
 
@@ -138,9 +141,9 @@ namespace DarkModeForms
 			}
 		}
 
+		// Example of a Login Form with Password Validation:
 		private void button4_Click(object sender, EventArgs e)
-		{
-			// Example of a Login Form with Password Validation:
+		{			
 			List<KeyValue> _Fields = new List<KeyValue>
 			{
 				new KeyValue("User Name", "user", KeyValue.ValueTypes.String),
@@ -171,6 +174,7 @@ namespace DarkModeForms
 			}
 		}
 
+		// Example of the Custom MessageBox
 		private void button5_Click(object sender, EventArgs e)
 		{
 			if (Messenger.MessageBox("Hello World!", "You got a Message:",
