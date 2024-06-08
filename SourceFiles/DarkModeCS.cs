@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
 using System.Drawing;
 using System;
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -498,6 +500,10 @@ namespace DarkModeForms
 				cMenu.RenderMode = ToolStripRenderMode.Professional;
 				cMenu.Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
 			}
+			if (control is ToolStripDropDown toolStripDropDown)
+			{
+				toolStripDropDown.Opening += Tsdd_Opening;
+			}
 			if (control is DataGridView grid)
 			{
 				grid.EnableHeadersVisualStyles = false;
@@ -566,6 +572,31 @@ namespace DarkModeForms
 				// Recursively process its children
 				ThemeControl(childControl);
 			}
+		}
+
+		/// <summary>
+		/// handle hierarchical context menus (otherwise, only the root level gets themed)
+		/// </summary>
+		private void Tsdd_Opening (object sender, CancelEventArgs e)
+		{
+			ToolStripDropDown tsdd = sender as ToolStripDropDown;
+			foreach (ToolStripMenuItem toolStripMenuItem in tsdd.Items.OfType<ToolStripMenuItem>())
+			{
+				toolStripMenuItem.DropDownOpening += Tsmi_DropDownOpening;
+			}
+		}
+
+		/// <summary>
+		/// handle hierarchical context menus (otherwise, only the root level gets themed)
+		/// </summary>
+		private void Tsmi_DropDownOpening (object sender, EventArgs e)
+		{
+			ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+			if (tsmi != null && tsmi.DropDown.Items.Count > 0)
+				ThemeControl(tsmi.DropDown);
+
+			//once processed, remove itself to prevent multiple executions (when user leaves and reenters the sub-menu)
+			tsmi.DropDownOpening -= Tsmi_DropDownOpening;
 		}
 
 		private void Tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
