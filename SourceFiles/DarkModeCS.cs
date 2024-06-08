@@ -2,6 +2,7 @@
 using System.Drawing;
 using System;
 using System.Drawing.Drawing2D;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -213,6 +214,18 @@ namespace DarkModeForms
 
 		#endregion Win32 API Declarations
 
+		#region Static Local Members
+
+	    /// <summary>
+	    /// prevents applying a theme multiple times to the same control
+	    /// without this, it happens at least is some MDI forms
+	    /// currently, only Key is being used, the Value is not.
+	    /// Using ConditionalWeakTable because I found no suitable ISet<Control> implementation
+	    /// </summary>
+	    private static readonly ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();		
+
+		#endregion
+
 		#region Public Members
 
 		/// <summary>'true' if Dark Mode Color is set in Windows's Settings.</summary>
@@ -271,6 +284,11 @@ namespace DarkModeForms
 		/// <param name="control">Can be a Form or any Winforms Control.</param>
 		public void ThemeControl(Control control)
 		{
+			//prevent applying a theme multiple times to the same control
+			//without this, it happens at least is some MDI forms
+			if (ControlsProcessed.TryGetValue(control, out object _)) return;
+			ControlsProcessed.Add(control, null);
+      
 			BorderStyle BStyle = (IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D);
 			FlatStyle FStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
 
