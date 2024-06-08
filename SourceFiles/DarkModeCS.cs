@@ -580,6 +580,8 @@ namespace DarkModeForms
 		private void Tsdd_Opening (object sender, CancelEventArgs e)
 		{
 			ToolStripDropDown tsdd = sender as ToolStripDropDown;
+			if (tsdd == null) return; //should not occur
+
 			foreach (ToolStripMenuItem toolStripMenuItem in tsdd.Items.OfType<ToolStripMenuItem>())
 			{
 				toolStripMenuItem.DropDownOpening += Tsmi_DropDownOpening;
@@ -592,8 +594,9 @@ namespace DarkModeForms
 		private void Tsmi_DropDownOpening (object sender, EventArgs e)
 		{
 			ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-			if (tsmi != null && tsmi.DropDown.Items.Count > 0)
-				ThemeControl(tsmi.DropDown);
+			if (tsmi == null) return; //should not occur
+
+			if (tsmi.DropDown.Items.Count > 0) ThemeControl(tsmi.DropDown);
 
 			//once processed, remove itself to prevent multiple executions (when user leaves and reenters the sub-menu)
 			tsmi.DropDownOpening -= Tsmi_DropDownOpening;
