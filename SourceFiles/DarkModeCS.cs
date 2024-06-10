@@ -218,13 +218,13 @@ namespace DarkModeForms
 
 		#region Static Local Members
 
-	    /// <summary>
-	    /// prevents applying a theme multiple times to the same control
-	    /// without this, it happens at least is some MDI forms
-	    /// currently, only Key is being used, the Value is not.
-	    /// Using ConditionalWeakTable because I found no suitable ISet<Control> implementation
-	    /// </summary>
-	    private static readonly ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();		
+		/// <summary>
+		/// prevents applying a theme multiple times to the same control
+		/// without this, it happens at least is some MDI forms
+		/// currently, only Key is being used, the Value is not.
+		/// Using ConditionalWeakTable because I found no suitable ISet<Control> implementation
+		/// </summary>
+		private static readonly ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();
 
 		#endregion
 
@@ -290,7 +290,7 @@ namespace DarkModeForms
 			//without this, it happens at least is some MDI forms
 			if (ControlsProcessed.TryGetValue(control, out object _)) return;
 			ControlsProcessed.Add(control, null);
-      
+
 			BorderStyle BStyle = (IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D);
 			FlatStyle FStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
 
@@ -491,9 +491,20 @@ namespace DarkModeForms
 			}
 			if (control is ToolStrip toolBar)
 			{
-				toolBar.GripStyle = ToolStripGripStyle.Hidden;
+				//commented out because it would just freeze the toolstrips with no obvious benefit:
+				//toolBar.GripStyle = ToolStripGripStyle.Hidden;
 				toolBar.RenderMode = ToolStripRenderMode.Professional;
 				toolBar.Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
+			}
+			if (control is ToolStripPanel tsp)
+			{
+				//empty area around ToolStrip
+				tsp.BackColor = OScolors.Surface;
+			}
+			if (control is MdiClient mdiClient)
+			{
+				//empty area of MDI container window
+				mdiClient.BackColor = OScolors.Surface;
 			}
 			if (control is ContextMenuStrip cMenu)
 			{
@@ -577,7 +588,7 @@ namespace DarkModeForms
 		/// <summary>
 		/// handle hierarchical context menus (otherwise, only the root level gets themed)
 		/// </summary>
-		private void Tsdd_Opening (object sender, CancelEventArgs e)
+		private void Tsdd_Opening(object sender, CancelEventArgs e)
 		{
 			ToolStripDropDown tsdd = sender as ToolStripDropDown;
 			if (tsdd == null) return; //should not occur
@@ -591,7 +602,7 @@ namespace DarkModeForms
 		/// <summary>
 		/// handle hierarchical context menus (otherwise, only the root level gets themed)
 		/// </summary>
-		private void Tsmi_DropDownOpening (object sender, EventArgs e)
+		private void Tsmi_DropDownOpening(object sender, EventArgs e)
 		{
 			ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
 			if (tsmi == null) return; //should not occur
@@ -600,11 +611,6 @@ namespace DarkModeForms
 
 			//once processed, remove itself to prevent multiple executions (when user leaves and reenters the sub-menu)
 			tsmi.DropDownOpening -= Tsmi_DropDownOpening;
-		}
-
-		private void Tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
-		{
-			throw new NotImplementedException();
 		}
 
 		/// <summary>Returns Windows Color Mode for Applications.
