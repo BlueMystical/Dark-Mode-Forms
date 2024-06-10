@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -521,6 +522,30 @@ namespace DarkModeForms
 				grid.BorderStyle = BorderStyle.FixedSingle;
 				grid.BackgroundColor = OScolors.Control;
 				grid.GridColor = OScolors.Control;
+
+				//paint the bottom right corner where the scrollbars meet
+				grid.Paint += (object sender, PaintEventArgs e) =>
+				{
+					DataGridView dgv = sender as DataGridView;
+
+					//get the value of dgv.HorizontalScrollBar protected property
+					HScrollBar hs = (HScrollBar)typeof(DataGridView).GetProperty("HorizontalScrollBar", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(dgv);
+					if (hs.Visible)
+					{
+						//get the value of dgv.VerticalScrollBar protected property
+						VScrollBar vs = (VScrollBar)typeof(DataGridView).GetProperty("VerticalScrollBar", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(dgv);
+
+						if (vs.Visible)
+						{
+							//only when both the scrollbars are visible, do the actual painting
+							Brush brush = new SolidBrush(OScolors.Surface); //or even darker...
+							var w = vs.Size.Width;//System.Windows.Forms.SystemInformation.VerticalScrollBarWidth;
+							var h = hs.Size.Height;//System.Windows.Forms.SystemInformation.HorizontalScrollBarHeight;
+							e.Graphics.FillRectangle(brush, e.ClipRectangle.X + e.ClipRectangle.Width - w - 1,
+					  e.ClipRectangle.Y + e.ClipRectangle.Height - h - 1, w, h);
+						}
+					}
+				};
 
 				grid.DefaultCellStyle.BackColor = OScolors.Surface;
 				grid.DefaultCellStyle.ForeColor = OScolors.TextActive;
