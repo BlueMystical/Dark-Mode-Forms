@@ -31,22 +31,22 @@ namespace DarkModeForms
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Nodo1");
-			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Nodo5");
-			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Nodo2", new System.Windows.Forms.TreeNode[] {
-			treeNode8});
-			System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Nodo3");
-			System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Nodo0", new System.Windows.Forms.TreeNode[] {
-			treeNode7,
-			treeNode9,
-			treeNode10});
-			System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Nodo4");
+			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Nodo1");
+			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Nodo5");
+			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Nodo2", new System.Windows.Forms.TreeNode[] {
+            treeNode2});
+			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Nodo3");
+			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Nodo0", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode3,
+            treeNode4});
+			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Nodo4");
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-			"AA",
-			"xx"}, 0);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("BB", 2);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("CC", 1);
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "AA",
+            "xx"}, 0);
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("BB", 2);
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("CC", 1);
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.button4 = new System.Windows.Forms.Button();
 			this.button5 = new System.Windows.Forms.Button();
@@ -110,6 +110,8 @@ namespace DarkModeForms
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+			this.progressBar1 = new System.Windows.Forms.ProgressBar();
+			this.newProgressBar1 = new DarkModeForms.FlatProgressBar();
 			this.panel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -132,18 +134,16 @@ namespace DarkModeForms
 			this.panel1.Controls.Add(this.button1);
 			this.panel1.Controls.Add(this.button2);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 490);
-			this.panel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.panel1.Location = new System.Drawing.Point(0, 532);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(852, 43);
+			this.panel1.Size = new System.Drawing.Size(730, 47);
 			this.panel1.TabIndex = 0;
 			// 
 			// button4
 			// 
-			this.button4.Location = new System.Drawing.Point(592, 3);
-			this.button4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.button4.Location = new System.Drawing.Point(507, 3);
 			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(75, 39);
+			this.button4.Size = new System.Drawing.Size(64, 42);
 			this.button4.TabIndex = 5;
 			this.button4.Text = "Password Input";
 			this.button4.UseVisualStyleBackColor = true;
@@ -151,10 +151,9 @@ namespace DarkModeForms
 			// 
 			// button5
 			// 
-			this.button5.Location = new System.Drawing.Point(434, 3);
-			this.button5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.button5.Location = new System.Drawing.Point(372, 3);
 			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(75, 39);
+			this.button5.Size = new System.Drawing.Size(64, 42);
 			this.button5.TabIndex = 4;
 			this.button5.Text = "Custom MsgBox";
 			this.button5.UseVisualStyleBackColor = true;
@@ -162,10 +161,9 @@ namespace DarkModeForms
 			// 
 			// button3
 			// 
-			this.button3.Location = new System.Drawing.Point(514, 3);
-			this.button3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.button3.Location = new System.Drawing.Point(441, 3);
 			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(75, 39);
+			this.button3.Size = new System.Drawing.Size(64, 42);
 			this.button3.TabIndex = 3;
 			this.button3.Text = "Custom InputBox";
 			this.button3.UseVisualStyleBackColor = true;
@@ -173,10 +171,9 @@ namespace DarkModeForms
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(229, 11);
-			this.button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.button1.Location = new System.Drawing.Point(196, 12);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(100, 21);
+			this.button1.Size = new System.Drawing.Size(86, 23);
 			this.button1.TabIndex = 2;
 			this.button1.Text = "CreateControl";
 			this.button1.UseVisualStyleBackColor = true;
@@ -184,10 +181,9 @@ namespace DarkModeForms
 			// 
 			// button2
 			// 
-			this.button2.Location = new System.Drawing.Point(337, 11);
-			this.button2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.button2.Location = new System.Drawing.Point(289, 12);
 			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(88, 21);
+			this.button2.Size = new System.Drawing.Size(75, 23);
 			this.button2.TabIndex = 1;
 			this.button2.Text = "MsgBox";
 			this.button2.UseVisualStyleBackColor = true;
@@ -197,14 +193,14 @@ namespace DarkModeForms
 			// 
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.toolStripButton1,
-			this.toolStripButton3,
-			this.toolStripButton2,
-			this.toolStripSplitButton1,
-			this.toolStripDropDownButton1});
+            this.toolStripButton1,
+            this.toolStripButton3,
+            this.toolStripButton2,
+            this.toolStripSplitButton1,
+            this.toolStripDropDownButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(852, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(730, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -238,8 +234,8 @@ namespace DarkModeForms
 			// toolStripSplitButton1
 			// 
 			this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.asssToolStripMenuItem,
-			this.jhgjhgToolStripMenuItem});
+            this.asssToolStripMenuItem,
+            this.jhgjhgToolStripMenuItem});
 			this.toolStripSplitButton1.Image = global::DarkModeForms.Properties.Resources.forward_16x16;
 			this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripSplitButton1.Name = "toolStripSplitButton1";
@@ -264,7 +260,7 @@ namespace DarkModeForms
 			// 
 			this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.xxxToolStripMenuItem});
+            this.xxxToolStripMenuItem});
 			this.toolStripDropDownButton1.Image = global::DarkModeForms.Properties.Resources.font_16x16;
 			this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -281,45 +277,44 @@ namespace DarkModeForms
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.assToolStripMenuItem});
+            this.assToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-			this.menuStrip1.Size = new System.Drawing.Size(852, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(730, 24);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
 			// assToolStripMenuItem
 			// 
 			this.assToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.titsToolStripMenuItem,
-			this.toolStripSeparator1,
-			this.assToolStripMenuItem1});
+            this.titsToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.assToolStripMenuItem1});
 			this.assToolStripMenuItem.Name = "assToolStripMenuItem";
-			this.assToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+			this.assToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
 			this.assToolStripMenuItem.Text = "&File Menu";
 			// 
 			// titsToolStripMenuItem
 			// 
 			this.titsToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.font_16x16;
 			this.titsToolStripMenuItem.Name = "titsToolStripMenuItem";
-			this.titsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.titsToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
 			this.titsToolStripMenuItem.Text = "Sub Menu 1";
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(134, 6);
 			// 
 			// assToolStripMenuItem1
 			// 
 			this.assToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.hjhfjfToolStripMenuItem,
-			this.kjlkToolStripMenuItem,
-			this.asssToolStripMenuItem1});
+            this.hjhfjfToolStripMenuItem,
+            this.kjlkToolStripMenuItem,
+            this.asssToolStripMenuItem1});
 			this.assToolStripMenuItem1.Image = global::DarkModeForms.Properties.Resources.customization_16x16;
 			this.assToolStripMenuItem1.Name = "assToolStripMenuItem1";
-			this.assToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+			this.assToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
 			this.assToolStripMenuItem1.Text = "Sub Menu 2";
 			// 
 			// hjhfjfToolStripMenuItem
@@ -348,19 +343,17 @@ namespace DarkModeForms
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(240, 57);
-			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label1.Location = new System.Drawing.Point(206, 62);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 12);
+			this.label1.Size = new System.Drawing.Size(86, 13);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Custom Controls:";
 			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(7, 20);
-			this.textBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.textBox1.Location = new System.Drawing.Point(6, 22);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(177, 21);
+			this.textBox1.Size = new System.Drawing.Size(152, 20);
 			this.textBox1.TabIndex = 3;
 			this.textBox1.Text = "ASDFG";
 			// 
@@ -368,60 +361,56 @@ namespace DarkModeForms
 			// 
 			this.comboBox1.FormattingEnabled = true;
 			this.comboBox1.Items.AddRange(new object[] {
-			"1",
-			"2",
-			"3",
-			"4",
-			"5",
-			"6",
-			"7",
-			"8",
-			"9",
-			"0"});
-			this.comboBox1.Location = new System.Drawing.Point(7, 45);
-			this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "0"});
+			this.comboBox1.Location = new System.Drawing.Point(6, 49);
 			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(177, 20);
+			this.comboBox1.Size = new System.Drawing.Size(152, 21);
 			this.comboBox1.TabIndex = 4;
 			this.comboBox1.Text = "8";
 			// 
 			// numericUpDown1
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(7, 71);
-			this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.numericUpDown1.Location = new System.Drawing.Point(6, 77);
 			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(177, 21);
+			this.numericUpDown1.Size = new System.Drawing.Size(152, 20);
 			this.numericUpDown1.TabIndex = 5;
 			// 
 			// listBox1
 			// 
 			this.listBox1.FormattingEnabled = true;
-			this.listBox1.ItemHeight = 12;
 			this.listBox1.Items.AddRange(new object[] {
-			"1",
-			"2",
-			"3",
-			"4",
-			"5",
-			"6",
-			"7",
-			"8",
-			"9",
-			"0",
-			"1",
-			"2",
-			"3",
-			"4",
-			"5",
-			"6",
-			"7",
-			"8",
-			"9",
-			"0"});
-			this.listBox1.Location = new System.Drawing.Point(6, 94);
-			this.listBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "0"});
+			this.listBox1.Location = new System.Drawing.Point(5, 102);
 			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(177, 88);
+			this.listBox1.Size = new System.Drawing.Size(152, 95);
 			this.listBox1.TabIndex = 6;
 			// 
 			// treeView1
@@ -430,56 +419,55 @@ namespace DarkModeForms
 			this.treeView1.HideSelection = false;
 			this.treeView1.ImageIndex = 0;
 			this.treeView1.ImageList = this.imageList2;
-			this.treeView1.Location = new System.Drawing.Point(229, 149);
-			this.treeView1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.treeView1.Location = new System.Drawing.Point(196, 161);
 			this.treeView1.Name = "treeView1";
-			treeNode7.ImageKey = "forward_16x16.png";
-			treeNode7.Name = "Nodo1";
-			treeNode7.Text = "Nodo1";
-			treeNode8.Name = "Nodo5";
-			treeNode8.Text = "Nodo5";
-			treeNode9.Name = "Nodo2";
-			treeNode9.Text = "Nodo2";
-			treeNode10.ImageKey = "font_16x16.png";
-			treeNode10.Name = "Nodo3";
-			treeNode10.Text = "Nodo3";
-			treeNode11.Name = "Nodo0";
-			treeNode11.Text = "Nodo0";
-			treeNode12.Name = "Nodo4";
-			treeNode12.Text = "Nodo4";
+			treeNode1.ImageKey = "forward_16x16.png";
+			treeNode1.Name = "Nodo1";
+			treeNode1.Text = "Nodo1";
+			treeNode2.Name = "Nodo5";
+			treeNode2.Text = "Nodo5";
+			treeNode3.Name = "Nodo2";
+			treeNode3.Text = "Nodo2";
+			treeNode4.ImageKey = "font_16x16.png";
+			treeNode4.Name = "Nodo3";
+			treeNode4.Text = "Nodo3";
+			treeNode5.Name = "Nodo0";
+			treeNode5.Text = "Nodo0";
+			treeNode6.Name = "Nodo4";
+			treeNode6.Text = "Nodo4";
 			this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-			treeNode11,
-			treeNode12});
+            treeNode5,
+            treeNode6});
 			this.treeView1.SelectedImageIndex = 0;
-			this.treeView1.Size = new System.Drawing.Size(140, 87);
+			this.treeView1.Size = new System.Drawing.Size(121, 94);
 			this.treeView1.TabIndex = 9;
 			// 
 			// contextMenuStrip1
 			// 
 			this.contextMenuStrip1.BackColor = System.Drawing.SystemColors.Control;
 			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.contex01ToolStripMenuItem,
-			this.contex02ToolStripMenuItem,
-			this.context03ToolStripMenuItem});
+            this.contex01ToolStripMenuItem,
+            this.contex02ToolStripMenuItem,
+            this.context03ToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(135, 70);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(132, 70);
 			// 
 			// contex01ToolStripMenuItem
 			// 
 			this.contex01ToolStripMenuItem.Name = "contex01ToolStripMenuItem";
-			this.contex01ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+			this.contex01ToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
 			this.contex01ToolStripMenuItem.Text = "Context 01";
 			// 
 			// contex02ToolStripMenuItem
 			// 
 			this.contex02ToolStripMenuItem.Name = "contex02ToolStripMenuItem";
-			this.contex02ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+			this.contex02ToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
 			this.contex02ToolStripMenuItem.Text = "Context 02";
 			// 
 			// context03ToolStripMenuItem
 			// 
 			this.context03ToolStripMenuItem.Name = "context03ToolStripMenuItem";
-			this.context03ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+			this.context03ToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
 			this.context03ToolStripMenuItem.Text = "Context 03";
 			// 
 			// imageList2
@@ -494,18 +482,17 @@ namespace DarkModeForms
 			// 
 			this.listView1.BackColor = System.Drawing.SystemColors.Window;
 			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader1,
-			this.columnHeader2});
+            this.columnHeader1,
+            this.columnHeader2});
 			this.listView1.HideSelection = false;
 			this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-			listViewItem4,
-			listViewItem5,
-			listViewItem6});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
 			this.listView1.LargeImageList = this.imageList1;
-			this.listView1.Location = new System.Drawing.Point(397, 57);
-			this.listView1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.listView1.Location = new System.Drawing.Point(340, 62);
 			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(445, 209);
+			this.listView1.Size = new System.Drawing.Size(382, 146);
 			this.listView1.TabIndex = 10;
 			this.listView1.UseCompatibleStateImageBehavior = false;
 			// 
@@ -519,10 +506,9 @@ namespace DarkModeForms
 			// 
 			// textBox2
 			// 
-			this.textBox2.Location = new System.Drawing.Point(229, 97);
-			this.textBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.textBox2.Location = new System.Drawing.Point(196, 105);
 			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(140, 21);
+			this.textBox2.Size = new System.Drawing.Size(121, 20);
 			this.textBox2.TabIndex = 11;
 			this.textBox2.Text = "1234567890";
 			this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -531,20 +517,18 @@ namespace DarkModeForms
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(434, 39);
-			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label2.Location = new System.Drawing.Point(372, 42);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(170, 12);
+			this.label2.Size = new System.Drawing.Size(141, 13);
 			this.label2.TabIndex = 13;
 			this.label2.Text = "ListView - Large Icons Mode";
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(29, 254);
-			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label3.Location = new System.Drawing.Point(25, 275);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(89, 12);
+			this.label3.Size = new System.Drawing.Size(78, 13);
 			this.label3.TabIndex = 14;
 			this.label3.Text = "DataGrid View:";
 			// 
@@ -552,66 +536,64 @@ namespace DarkModeForms
 			// 
 			this.label4.AutoSize = true;
 			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.label4.Location = new System.Drawing.Point(229, 135);
-			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label4.Location = new System.Drawing.Point(196, 146);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(59, 12);
+			this.label4.Size = new System.Drawing.Size(52, 13);
 			this.label4.TabIndex = 15;
 			this.label4.Text = "TreeView";
 			// 
 			// dataGridView1
 			// 
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView1.Location = new System.Drawing.Point(31, 269);
-			this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.dataGridView1.Location = new System.Drawing.Point(27, 291);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowTemplate.Height = 25;
-			this.dataGridView1.Size = new System.Drawing.Size(530, 93);
+			this.dataGridView1.Size = new System.Drawing.Size(454, 101);
 			this.dataGridView1.TabIndex = 16;
 			// 
 			// flatComboBox1
 			// 
 			this.flatComboBox1.FormattingEnabled = true;
 			this.flatComboBox1.Items.AddRange(new object[] {
-			"AA",
-			"AB",
-			"AC",
-			"BA",
-			"BB",
-			"BC",
-			"CA",
-			"CB",
-			"CC"});
-			this.flatComboBox1.Location = new System.Drawing.Point(229, 72);
-			this.flatComboBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            "AA",
+            "AB",
+            "AC",
+            "BA",
+            "BB",
+            "BC",
+            "CA",
+            "CB",
+            "CC"});
+			this.flatComboBox1.Location = new System.Drawing.Point(196, 78);
 			this.flatComboBox1.Name = "flatComboBox1";
-			this.flatComboBox1.Size = new System.Drawing.Size(140, 20);
+			this.flatComboBox1.Size = new System.Drawing.Size(121, 21);
 			this.flatComboBox1.TabIndex = 17;
 			this.flatComboBox1.Text = "BA";
 			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.toolStripStatusLabel1,
-			this.toolStripDropDownButton2});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 533);
+            this.toolStripStatusLabel1,
+            this.toolStripDropDownButton2});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 579);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(852, 22);
+			this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 12, 0);
+			this.statusStrip1.Size = new System.Drawing.Size(730, 22);
 			this.statusStrip1.TabIndex = 18;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
 			// toolStripStatusLabel1
 			// 
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(40, 17);
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(39, 17);
 			this.toolStripStatusLabel1.Text = "Status";
 			// 
 			// toolStripDropDownButton2
 			// 
 			this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.test2ToolStripMenuItem,
-			this.test1ToolStripMenuItem});
+            this.test2ToolStripMenuItem,
+            this.test1ToolStripMenuItem});
 			this.toolStripDropDownButton2.Image = global::DarkModeForms.Properties.Resources.all_borders_16x16;
 			this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
@@ -622,14 +604,14 @@ namespace DarkModeForms
 			// 
 			this.test2ToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.font_16x16;
 			this.test2ToolStripMenuItem.Name = "test2ToolStripMenuItem";
-			this.test2ToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+			this.test2ToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.test2ToolStripMenuItem.Text = "Test 2";
 			// 
 			// test1ToolStripMenuItem
 			// 
 			this.test1ToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.customization_16x16;
 			this.test1ToolStripMenuItem.Name = "test1ToolStripMenuItem";
-			this.test1ToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+			this.test1ToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.test1ToolStripMenuItem.Text = "Test 1";
 			// 
 			// groupBox1
@@ -638,11 +620,9 @@ namespace DarkModeForms
 			this.groupBox1.Controls.Add(this.comboBox1);
 			this.groupBox1.Controls.Add(this.numericUpDown1);
 			this.groupBox1.Controls.Add(this.listBox1);
-			this.groupBox1.Location = new System.Drawing.Point(12, 51);
-			this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.groupBox1.Location = new System.Drawing.Point(10, 55);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.groupBox1.Size = new System.Drawing.Size(200, 191);
+			this.groupBox1.Size = new System.Drawing.Size(171, 207);
 			this.groupBox1.TabIndex = 19;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Common Controls";
@@ -650,10 +630,9 @@ namespace DarkModeForms
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(229, 237);
-			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label5.Location = new System.Drawing.Point(196, 257);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(145, 24);
+			this.label5.Size = new System.Drawing.Size(122, 26);
 			this.label5.TabIndex = 20;
 			this.label5.Text = "↑  Right Click on Nodes \r\n    for Context Menu.";
 			// 
@@ -661,20 +640,18 @@ namespace DarkModeForms
 			// 
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Location = new System.Drawing.Point(16, 373);
-			this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.tabControl1.Location = new System.Drawing.Point(14, 404);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(266, 117);
+			this.tabControl1.Size = new System.Drawing.Size(228, 127);
 			this.tabControl1.TabIndex = 21;
 			// 
 			// tabPage1
 			// 
 			this.tabPage1.BackColor = System.Drawing.Color.Transparent;
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Size = new System.Drawing.Size(258, 91);
+			this.tabPage1.Size = new System.Drawing.Size(220, 101);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "tabPage1";
 			// 
@@ -684,29 +661,26 @@ namespace DarkModeForms
 			this.tabPage2.Controls.Add(this.linkLabel1);
 			this.tabPage2.Controls.Add(this.label6);
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.tabPage2.Size = new System.Drawing.Size(258, 91);
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(220, 101);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "tabPage2";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
 			// textBox3
 			// 
-			this.textBox3.Location = new System.Drawing.Point(74, 18);
-			this.textBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.textBox3.Location = new System.Drawing.Point(63, 20);
 			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(100, 21);
+			this.textBox3.Size = new System.Drawing.Size(86, 20);
 			this.textBox3.TabIndex = 6;
 			// 
 			// linkLabel1
 			// 
 			this.linkLabel1.AutoSize = true;
-			this.linkLabel1.Location = new System.Drawing.Point(125, 66);
-			this.linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.linkLabel1.Location = new System.Drawing.Point(107, 72);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(61, 12);
+			this.linkLabel1.Size = new System.Drawing.Size(55, 13);
 			this.linkLabel1.TabIndex = 5;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "linkLabel1";
@@ -714,10 +688,9 @@ namespace DarkModeForms
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(74, 63);
-			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label6.Location = new System.Drawing.Point(63, 68);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(38, 12);
+			this.label6.Size = new System.Drawing.Size(35, 13);
 			this.label6.TabIndex = 4;
 			this.label6.Text = "label6";
 			// 
@@ -726,10 +699,9 @@ namespace DarkModeForms
 			this.checkBox1.AutoSize = true;
 			this.checkBox1.Checked = true;
 			this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBox1.Location = new System.Drawing.Point(74, 49);
-			this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.checkBox1.Location = new System.Drawing.Point(63, 53);
 			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(86, 16);
+			this.checkBox1.Size = new System.Drawing.Size(80, 17);
 			this.checkBox1.TabIndex = 22;
 			this.checkBox1.Text = "checkBox1";
 			this.checkBox1.UseVisualStyleBackColor = true;
@@ -738,10 +710,9 @@ namespace DarkModeForms
 			// 
 			this.radioButton1.AutoSize = true;
 			this.radioButton1.Checked = true;
-			this.radioButton1.Location = new System.Drawing.Point(74, 29);
-			this.radioButton1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.radioButton1.Location = new System.Drawing.Point(63, 31);
 			this.radioButton1.Name = "radioButton1";
-			this.radioButton1.Size = new System.Drawing.Size(92, 16);
+			this.radioButton1.Size = new System.Drawing.Size(85, 17);
 			this.radioButton1.TabIndex = 23;
 			this.radioButton1.TabStop = true;
 			this.radioButton1.Text = "radioButton1";
@@ -754,13 +725,12 @@ namespace DarkModeForms
 			this.flatTabControl1.Controls.Add(this.tabPage3);
 			this.flatTabControl1.Controls.Add(this.tabPage4);
 			this.flatTabControl1.LineColor = System.Drawing.SystemColors.ControlLight;
-			this.flatTabControl1.Location = new System.Drawing.Point(288, 367);
-			this.flatTabControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.flatTabControl1.Location = new System.Drawing.Point(247, 398);
 			this.flatTabControl1.Name = "flatTabControl1";
 			this.flatTabControl1.SelectedForeColor = System.Drawing.SystemColors.ControlText;
 			this.flatTabControl1.SelectedIndex = 0;
 			this.flatTabControl1.SelectTabColor = System.Drawing.SystemColors.Control;
-			this.flatTabControl1.Size = new System.Drawing.Size(278, 123);
+			this.flatTabControl1.Size = new System.Drawing.Size(238, 133);
 			this.flatTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.flatTabControl1.TabColor = System.Drawing.SystemColors.ControlLight;
 			this.flatTabControl1.TabIndex = 24;
@@ -771,10 +741,9 @@ namespace DarkModeForms
 			this.tabPage3.Controls.Add(this.radioButton1);
 			this.tabPage3.Controls.Add(this.checkBox1);
 			this.tabPage3.Location = new System.Drawing.Point(4, 25);
-			this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.tabPage3.Size = new System.Drawing.Size(270, 94);
+			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage3.Size = new System.Drawing.Size(230, 104);
 			this.tabPage3.TabIndex = 0;
 			this.tabPage3.Text = "tabPage3";
 			// 
@@ -782,28 +751,45 @@ namespace DarkModeForms
 			// 
 			this.tabPage4.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.tabPage4.Location = new System.Drawing.Point(4, 25);
-			this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.tabPage4.Size = new System.Drawing.Size(270, 94);
+			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage4.Size = new System.Drawing.Size(230, 104);
 			this.tabPage4.TabIndex = 1;
 			this.tabPage4.Text = "tabPage4";
 			// 
 			// propertyGrid1
 			// 
-			this.propertyGrid1.Location = new System.Drawing.Point(573, 271);
-			this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.propertyGrid1.Location = new System.Drawing.Point(491, 294);
 			this.propertyGrid1.Name = "propertyGrid1";
 			this.propertyGrid1.SelectedObject = this.dataGridView1;
-			this.propertyGrid1.Size = new System.Drawing.Size(270, 217);
+			this.propertyGrid1.Size = new System.Drawing.Size(231, 235);
 			this.propertyGrid1.TabIndex = 25;
+			// 
+			// progressBar1
+			// 
+			this.progressBar1.Location = new System.Drawing.Point(340, 262);
+			this.progressBar1.Name = "progressBar1";
+			this.progressBar1.Size = new System.Drawing.Size(382, 23);
+			this.progressBar1.TabIndex = 26;
+			this.progressBar1.Value = 60;
+			// 
+			// newProgressBar1
+			// 
+			this.newProgressBar1.Location = new System.Drawing.Point(340, 229);
+			this.newProgressBar1.Name = "newProgressBar1";
+			this.newProgressBar1.ProgressBarColor = System.Drawing.Color.Green;
+			this.newProgressBar1.Size = new System.Drawing.Size(382, 23);
+			this.newProgressBar1.TabIndex = 27;
+			this.newProgressBar1.Value = 65;
 			// 
 			// Form1
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
-			this.ClientSize = new System.Drawing.Size(852, 555);
+			this.ClientSize = new System.Drawing.Size(730, 601);
+			this.Controls.Add(this.newProgressBar1);
+			this.Controls.Add(this.progressBar1);
 			this.Controls.Add(this.propertyGrid1);
 			this.Controls.Add(this.flatTabControl1);
 			this.Controls.Add(this.tabControl1);
@@ -823,7 +809,6 @@ namespace DarkModeForms
 			this.Controls.Add(this.menuStrip1);
 			this.Controls.Add(this.statusStrip1);
 			this.MainMenuStrip = this.menuStrip1;
-			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.Name = "Form1";
 			this.Text = "DarkModeForms - Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
@@ -915,5 +900,7 @@ namespace DarkModeForms
 		private Button button4;
 		private PropertyGrid propertyGrid1;
 		private ImageList imageList2;
+		private ProgressBar progressBar1;
+		private FlatProgressBar newProgressBar1;
 	}
 }
