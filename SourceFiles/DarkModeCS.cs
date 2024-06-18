@@ -538,11 +538,11 @@ namespace DarkModeForms
 						if (vs.Visible)
 						{
 							//only when both the scrollbars are visible, do the actual painting
-							Brush brush = new SolidBrush(OScolors.Surface); //or even darker...
-							var w = vs.Size.Width;//System.Windows.Forms.SystemInformation.VerticalScrollBarWidth;
-							var h = hs.Size.Height;//System.Windows.Forms.SystemInformation.HorizontalScrollBarHeight;
-							e.Graphics.FillRectangle(brush, e.ClipRectangle.X + e.ClipRectangle.Width - w - 1,
-					  e.ClipRectangle.Y + e.ClipRectangle.Height - h - 1, w, h);
+							Brush brush = new SolidBrush(OScolors.SurfaceDark);
+							var w = vs.Size.Width;
+							var h = hs.Size.Height;
+							e.Graphics.FillRectangle(brush, dgv.ClientRectangle.X + dgv.ClientRectangle.Width - w - 1,
+								dgv.ClientRectangle.Y + dgv.ClientRectangle.Height - h - 1, w, h);
 						}
 					}
 				};
