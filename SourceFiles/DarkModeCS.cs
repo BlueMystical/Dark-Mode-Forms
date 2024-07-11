@@ -1308,6 +1308,27 @@ namespace DarkModeForms
 		// Re-Colors the Icon Images to a Clear color:
 		protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)
 		{
+			if (e.Item.GetType().FullName == "System.Windows.Forms.MdiControlStrip+ControlBoxMenuItem")
+			{
+				//Window Controls - Minimize, Maximize, Close button of a maximized MDI child windows
+				//are realized as ControlBoxMenuItem contained in the MenuStrip
+				//by default they would be painted black on a dark surface
+				//so to make them more visible, we paint them ourselves:
+				Image image = e.Image;
+				Color _ClearColor = e.Item.Enabled ? MyColors.TextActive : MyColors.SurfaceDark;
+
+				using (Image adjustedImage = DarkModeCS.ChangeToColor(image, _ClearColor))
+				{
+					e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+					e.Graphics.CompositingQuality =
+						CompositingQuality.AssumeLinear; //looks thinner and less fuzzy than HighQuality
+					e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+					e.Graphics.DrawImage(adjustedImage, e.ImageRectangle);
+				}
+
+				return;
+			}
+
 			if (ColorizeIcons && e.Image != null)
 			{
 				// Get the current icon
