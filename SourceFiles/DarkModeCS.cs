@@ -229,6 +229,14 @@ namespace DarkModeForms
 
 		#endregion
 
+		#region Public Static Members
+		/// <summary>
+		/// setting to false (ideally before any Form is created) disables DarkModeCS
+		/// </summary>
+		public static bool IsDarkModeCSEnabled { get; set; } = true;
+
+		#endregion
+
 		#region Public Members
 
 		/// <summary>'true' if Dark Mode Color is set in Windows's Settings.</summary>
@@ -256,6 +264,8 @@ namespace DarkModeForms
 		/// <param name="_RoundedPanels">[OPTIONAL] make all Panels Borders Rounded</param>
 		public DarkModeCS(Form _Form, bool _ColorizeIcons = true, bool _RoundedPanels = false)
 		{
+			if (!IsDarkModeCSEnabled) return;
+
 			//Sets the Properties:
 			OwnerForm = _Form;
 			ColorizeIcons = _ColorizeIcons;
@@ -287,6 +297,8 @@ namespace DarkModeForms
 		/// <param name="control">Can be a Form or any Winforms Control.</param>
 		public void ThemeControl(Control control)
 		{
+			if (!IsDarkModeCSEnabled) return;
+
 			//prevent applying a theme multiple times to the same control
 			//without this, it happens at least is some MDI forms
 			if (ControlsProcessed.TryGetValue(control, out object _)) return;
