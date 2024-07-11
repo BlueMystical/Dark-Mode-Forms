@@ -61,6 +61,9 @@
     <Compile Include="SourceFiles\FlatComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SourceFiles\FlatProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SourceFiles\FlatTabControl.cs">
       <SubType>Component</SubType>
     </Compile>

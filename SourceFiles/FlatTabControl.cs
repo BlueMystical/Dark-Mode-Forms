@@ -131,27 +131,27 @@ namespace DarkModeForms
 			{
 				points = new[]
 				{
-			new Point(tabRect.Left+3, tabRect.Bottom),
-			new Point(tabRect.Left+3, tabRect.Top + 0),
-			new Point(tabRect.Left + 0, tabRect.Top),
-			new Point(tabRect.Right - 0, tabRect.Top),
-			new Point(tabRect.Right, tabRect.Top + 0),
-			new Point(tabRect.Right, tabRect.Bottom),
-			new Point(tabRect.Left+3, tabRect.Bottom)
-		};
+					new Point(tabRect.Left+3, tabRect.Bottom),
+					new Point(tabRect.Left+3, tabRect.Top + 0),
+					new Point(tabRect.Left + 0, tabRect.Top),
+					new Point(tabRect.Right - 0, tabRect.Top),
+					new Point(tabRect.Right, tabRect.Top + 0),
+					new Point(tabRect.Right, tabRect.Bottom),
+					new Point(tabRect.Left+3, tabRect.Bottom)
+				};
 			}
 			else
 			{
 				points = new[]
 				{
-			new Point(tabRect.Left, tabRect.Top),
-			new Point(tabRect.Right, tabRect.Top),
-			new Point(tabRect.Right, tabRect.Bottom - 0),
-			new Point(tabRect.Right - 0, tabRect.Bottom),
-			new Point(tabRect.Left + 0, tabRect.Bottom),
-			new Point(tabRect.Left, tabRect.Bottom - 0),
-			new Point(tabRect.Left, tabRect.Top)
-		};
+					new Point(tabRect.Left, tabRect.Top),
+					new Point(tabRect.Right, tabRect.Top),
+					new Point(tabRect.Right, tabRect.Bottom - 0),
+					new Point(tabRect.Right - 0, tabRect.Bottom),
+					new Point(tabRect.Left + 0, tabRect.Bottom),
+					new Point(tabRect.Left, tabRect.Bottom - 0),
+					new Point(tabRect.Left, tabRect.Top)
+				};
 			}
 
 			// Draws the Tab Header:
