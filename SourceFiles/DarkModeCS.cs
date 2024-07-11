@@ -1376,4 +1376,6 @@ namespace DarkModeForms
 			get { return Colors.Control; }
 		}
 	}
+
+	
 }
