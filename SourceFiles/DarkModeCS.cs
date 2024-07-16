@@ -264,14 +264,14 @@ namespace DarkModeForms
 		/// <param name="_RoundedPanels">[OPTIONAL] make all Panels Borders Rounded</param>
 		public DarkModeCS(Form _Form, bool _ColorizeIcons = true, bool _RoundedPanels = false)
 		{
-			if (!IsDarkModeCSEnabled) return;
 
 			//Sets the Properties:
 			OwnerForm = _Form;
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
-			IsDarkMode = GetWindowsColorMode() <= 0 ? true : false;
+			IsDarkMode = IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
 			OScolors = GetSystemColors(OwnerForm);
+			if (!IsDarkModeCSEnabled) return;
 
 			if (IsDarkMode && OScolors != null)
 			{
@@ -728,7 +728,7 @@ namespace DarkModeForms
 		{
 			OSThemeColors _ret = new OSThemeColors();
 
-			bool IsDarkMode = (GetWindowsColorMode() <= 0); //<- O: DarkMode, 1: LightMode
+			bool IsDarkMode = IsDarkModeCSEnabled && (GetWindowsColorMode() <= 0); //<- O: DarkMode, 1: LightMode
 			if (IsDarkMode)
 			{
 				_ret.Background = Color.FromArgb(32, 32, 32);   //<- Negro Claro
@@ -885,6 +885,7 @@ namespace DarkModeForms
 		/// <param name="control"></param>
 		private static void ApplySystemDarkTheme(Control control = null)
 		{
+			if (!IsDarkModeCSEnabled) return;
 			/*
 		DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
 
