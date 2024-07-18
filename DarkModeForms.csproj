@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProjectGuid>{3972405E-252E-4EAE-97B7-204957260480}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net48;net50-windows;net60-windows;net70-windows;net80-windows</TargetFrameworks>
+    <TargetFrameworks>net48;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>DarkModeForms</AssemblyTitle>
     <Company>BlueMystic</Company>
