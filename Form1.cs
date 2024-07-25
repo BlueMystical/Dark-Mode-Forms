@@ -11,6 +11,7 @@ namespace DarkModeForms
 	public partial class Form1 : Form
 	{
 		private DarkModeCS DM = null;
+		private bool IsDarkMode = false;
 
 		private BindingList<ExampleDataSource> DS = null;
 
@@ -22,6 +23,8 @@ namespace DarkModeForms
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
+			IsDarkMode = DM.IsDarkMode;
+
 			// Prepare a Datasource for the GridView control
 			DS = new BindingList<ExampleDataSource>
 			{
@@ -194,6 +197,12 @@ namespace DarkModeForms
 			{
 				//Do Something here.
 			}
+		}
+		
+		private void button6_Click(object sender, EventArgs e)
+		{
+			IsDarkMode = !IsDarkMode;
+			DM.ApplyTheme(IsDarkMode);
 		}
 	}
 

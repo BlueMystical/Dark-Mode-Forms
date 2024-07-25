@@ -225,7 +225,7 @@ namespace DarkModeForms
 		/// currently, only Key is being used, the Value is not.
 		/// Using ConditionalWeakTable because I found no suitable ISet<Control> implementation
 		/// </summary>
-		private static readonly ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();
+		private static  ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();
 
 		#endregion
 
@@ -270,34 +270,55 @@ namespace DarkModeForms
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
 			IsDarkMode = IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
-			OScolors = GetSystemColors(OwnerForm);
-			if (!IsDarkModeCSEnabled) return;
+			
+			//if (!IsDarkModeCSEnabled) return;
 
-			if (IsDarkMode && OScolors != null)
-			{
-				if (OwnerForm != null && OwnerForm.Controls != null)
-				{
-					foreach (Control _control in OwnerForm.Controls)
-					{
-						ThemeControl(_control);
-					}
-					OwnerForm.ControlAdded += (object sender, ControlEventArgs e) =>
-					{
-						ThemeControl(e.Control);
-					};
-				}
-			}
+			ApplyTheme(IsDarkMode);
 		}
 
 		#endregion Constructors
 
 		#region Public Methods
 
+		public void ApplyTheme(bool pIsDarkMode = true)
+		{
+			try
+			{
+				IsDarkMode = pIsDarkMode;
+				OScolors = GetSystemColors(OwnerForm, pIsDarkMode ? 0 : 1);
+				ControlsProcessed = new ConditionalWeakTable<Control, object>();
+
+				if (OScolors != null)
+				{
+					ApplySystemDarkTheme(OwnerForm, pIsDarkMode);
+
+					OwnerForm.BackColor = OScolors.Background;
+					OwnerForm.ForeColor = OScolors.TextInactive;
+
+					if (OwnerForm != null && OwnerForm.Controls != null)
+					{
+						foreach (Control _control in OwnerForm.Controls)
+						{
+							ThemeControl(_control);
+						}
+						OwnerForm.ControlAdded += (object sender, ControlEventArgs e) =>
+						{
+							ThemeControl(e.Control);
+						};
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
 		/// <summary>Recursively apply the Colors from 'OScolors' to the Control and all its childs.</summary>
 		/// <param name="control">Can be a Form or any Winforms Control.</param>
 		public void ThemeControl(Control control)
 		{
-			if (!IsDarkModeCSEnabled) return;
+			//if (!IsDarkModeCSEnabled) return;
 
 			//prevent applying a theme multiple times to the same control
 			//without this, it happens at least is some MDI forms
@@ -588,24 +609,24 @@ namespace DarkModeForms
 				tree.BorderStyle = BorderStyle.None;
 				tree.BackColor = OScolors.Surface;
 				/*
-		tree.DrawNode += (object? sender, DrawTreeNodeEventArgs e) =>
-		{
-		  if (e.Node.ImageIndex != -1)
-		  {
-			Image image = tree.ImageList.Images[e.Node.ImageIndex];
-			using (Graphics g = Graphics.FromImage(image))
-			{
-			  g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-			  g.CompositingQuality = CompositingQuality.HighQuality;
-			  g.SmoothingMode = SmoothingMode.HighQuality;
+					tree.DrawNode += (object? sender, DrawTreeNodeEventArgs e) =>
+					{
+					  if (e.Node.ImageIndex != -1)
+					  {
+						Image image = tree.ImageList.Images[e.Node.ImageIndex];
+						using (Graphics g = Graphics.FromImage(image))
+						{
+						  g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+						  g.CompositingQuality = CompositingQuality.HighQuality;
+						  g.SmoothingMode = SmoothingMode.HighQuality;
 
-			  g.DrawImage(DarkModeCS.ChangeToColor(image, OScolors.TextInactive), new Point(0,0));
-			}
-			tree.ImageList.Images[e.Node.ImageIndex] = image;
-		  }
-		  tree.Invalidate();
-		};
-		*/
+						  g.DrawImage(DarkModeCS.ChangeToColor(image, OScolors.TextInactive), new Point(0,0));
+						}
+						tree.ImageList.Images[e.Node.ImageIndex] = image;
+					  }
+					  tree.Invalidate();
+					};
+					*/
 			}
 			if (control is TrackBar slider)
 			{
@@ -724,12 +745,13 @@ namespace DarkModeForms
 		/// <summary>Returns Windows's System Colors for UI components following Google Material Design concepts.</summary>
 		/// <param name="Window">[OPTIONAL] Applies DarkMode (if set) to this Window Title and Background.</param>
 		/// <returns>List of Colors:  Background, OnBackground, Surface, OnSurface, Primary, OnPrimary, Secondary, OnSecondary</returns>
-		public static OSThemeColors GetSystemColors(Form Window = null)
+		public static OSThemeColors GetSystemColors(Form Window = null, int ColorMode = 0) //<- O: DarkMode, 1: LightMode
 		{
 			OSThemeColors _ret = new OSThemeColors();
 
-			bool IsDarkMode = IsDarkModeCSEnabled && (GetWindowsColorMode() <= 0); //<- O: DarkMode, 1: LightMode
-			if (IsDarkMode)
+			//bool IsDarkMode = IsDarkModeCSEnabled && (GetWindowsColorMode() <= 0); //<- O: DarkMode, 1: LightMode
+			//if (IsDarkMode)
+			if (ColorMode <= 0)
 			{
 				_ret.Background = Color.FromArgb(32, 32, 32);   //<- Negro Claro
 				_ret.BackgroundDark = Color.FromArgb(18, 18, 18);
@@ -751,14 +773,14 @@ namespace DarkModeForms
 				_ret.Secondary = Color.MediumSlateBlue;         //<- Magenta Claro
 
 				//Apply Window's Dark Mode to the Form's Title bar
-				if (Window != null)
-				{
-					//SetWin32ApiTheme(Window);
-					ApplySystemDarkTheme(Window);
+				//if (Window != null)
+				//{
+				//	//SetWin32ApiTheme(Window);
+				//	ApplySystemDarkTheme(Window);
 
-					Window.BackColor = _ret.Background;
-					Window.ForeColor = _ret.TextInactive;
-				}
+				//	Window.BackColor = _ret.Background;
+				//	Window.ForeColor = _ret.TextInactive;
+				//}
 			}
 
 			return _ret;
@@ -849,21 +871,13 @@ namespace DarkModeForms
 				float tG = c.G / 255f;
 				float tB = c.B / 255f;
 
-				//System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
-				//{
-				//  new float[] { 0,    0,  0,  0,  0 },
-				//  new float[] { 0,    0,  0,  0,  0 },
-				//  new float[] { 0,    0,  0,  0,  0 },
-				//  new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
-				//  new float[] { tR,   tG, tB, 0,  1 }
-				//});
 				System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
 				{
-				new float[] { 1,    0,  0,  0,  0 },
-				new float[] { 0,    1,  0,  0,  0 },
-				new float[] { 0,    0,  1,  0,  0 },
-				new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
-        new float[] { tR,   tG, tB, 0,  1 }
+					new float[] { 1,    0,  0,  0,  0 },
+					new float[] { 0,    1,  0,  0,  0 },
+					new float[] { 0,    0,  1,  0,  0 },
+					new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
+					new float[] { tR,   tG, tB, 0,  1 }
 				});
 
 				System.Drawing.Imaging.ImageAttributes attributes = new System.Drawing.Imaging.ImageAttributes();
@@ -883,22 +897,22 @@ namespace DarkModeForms
 
 		/// <summary>Attemps to apply Window's Dark Style to the Control and all its childs.</summary>
 		/// <param name="control"></param>
-		private static void ApplySystemDarkTheme(Control control = null)
+		private static void ApplySystemDarkTheme(Control control = null, bool IsDarkMode = true)
 		{
 			if (!IsDarkModeCSEnabled) return;
 			/*
-		DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
+			DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
 
-		Use with DwmSetWindowAttribute. Allows the window frame for this window to be drawn in dark mode colors when the dark mode system setting is enabled.
-		For compatibility reasons, all windows default to light mode regardless of the system setting.
-		The pvAttribute parameter points to a value of type BOOL. TRUE to honor dark mode for the window, FALSE to always use light mode.
+			Use with DwmSetWindowAttribute. Allows the window frame for this window to be drawn in dark mode colors when the dark mode system setting is enabled.
+			For compatibility reasons, all windows default to light mode regardless of the system setting.
+			The pvAttribute parameter points to a value of type BOOL. TRUE to honor dark mode for the window, FALSE to always use light mode.
 
-		This value is supported starting with Windows 11 Build 22000.
+			This value is supported starting with Windows 11 Build 22000.
 
-		SetWindowTheme:     https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme
-		Causes a window to use a different set of visual style information than its class normally uses.
-	   */
-			int[] DarkModeOn = new[] { 0x01 }; //<- 1=True, 0=False
+			SetWindowTheme:     https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme
+			Causes a window to use a different set of visual style information than its class normally uses.
+		   */
+			int[] DarkModeOn = IsDarkMode ? new[] { 0x01 } : new[] { 0x00 }; //<- 1=True, 0=False
 
 			SetWindowTheme(control.Handle, "DarkMode_Explorer", null);
 

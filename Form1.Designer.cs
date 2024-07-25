@@ -48,6 +48,7 @@ namespace DarkModeForms
 			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("BB", 2);
 			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("CC", 1);
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.button6 = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
 			this.button5 = new System.Windows.Forms.Button();
 			this.button3 = new System.Windows.Forms.Button();
@@ -90,7 +91,6 @@ namespace DarkModeForms
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
-			this.flatComboBox1 = new DarkModeForms.FlatComboBox();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
@@ -104,14 +104,15 @@ namespace DarkModeForms
 			this.textBox3 = new System.Windows.Forms.TextBox();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.label6 = new System.Windows.Forms.Label();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.radioButton1 = new System.Windows.Forms.RadioButton();
-			this.flatTabControl1 = new DarkModeForms.FlatTabControl();
-			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.progressBar1 = new System.Windows.Forms.ProgressBar();
 			this.newProgressBar1 = new DarkModeForms.FlatProgressBar();
+			this.flatTabControl1 = new DarkModeForms.FlatTabControl();
+			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.radioButton1 = new System.Windows.Forms.RadioButton();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.flatComboBox1 = new DarkModeForms.FlatComboBox();
 			this.panel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -128,6 +129,7 @@ namespace DarkModeForms
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.button6);
 			this.panel1.Controls.Add(this.button4);
 			this.panel1.Controls.Add(this.button5);
 			this.panel1.Controls.Add(this.button3);
@@ -138,6 +140,16 @@ namespace DarkModeForms
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(730, 47);
 			this.panel1.TabIndex = 0;
+			// 
+			// button6
+			// 
+			this.button6.Location = new System.Drawing.Point(577, 3);
+			this.button6.Name = "button6";
+			this.button6.Size = new System.Drawing.Size(75, 41);
+			this.button6.TabIndex = 6;
+			this.button6.Text = "Theme Swap";
+			this.button6.UseVisualStyleBackColor = true;
+			this.button6.Click += new System.EventHandler(this.button6_Click);
 			// 
 			// button4
 			// 
@@ -551,25 +563,6 @@ namespace DarkModeForms
 			this.dataGridView1.Size = new System.Drawing.Size(454, 101);
 			this.dataGridView1.TabIndex = 16;
 			// 
-			// flatComboBox1
-			// 
-			this.flatComboBox1.FormattingEnabled = true;
-			this.flatComboBox1.Items.AddRange(new object[] {
-            "AA",
-            "AB",
-            "AC",
-            "BA",
-            "BB",
-            "BC",
-            "CA",
-            "CB",
-            "CC"});
-			this.flatComboBox1.Location = new System.Drawing.Point(196, 78);
-			this.flatComboBox1.Name = "flatComboBox1";
-			this.flatComboBox1.Size = new System.Drawing.Size(121, 21);
-			this.flatComboBox1.TabIndex = 17;
-			this.flatComboBox1.Text = "BA";
-			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -694,29 +687,30 @@ namespace DarkModeForms
 			this.label6.TabIndex = 4;
 			this.label6.Text = "label6";
 			// 
-			// checkBox1
+			// propertyGrid1
 			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Checked = true;
-			this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBox1.Location = new System.Drawing.Point(63, 53);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(80, 17);
-			this.checkBox1.TabIndex = 22;
-			this.checkBox1.Text = "checkBox1";
-			this.checkBox1.UseVisualStyleBackColor = true;
+			this.propertyGrid1.Location = new System.Drawing.Point(491, 294);
+			this.propertyGrid1.Name = "propertyGrid1";
+			this.propertyGrid1.SelectedObject = this.dataGridView1;
+			this.propertyGrid1.Size = new System.Drawing.Size(231, 235);
+			this.propertyGrid1.TabIndex = 25;
 			// 
-			// radioButton1
+			// progressBar1
 			// 
-			this.radioButton1.AutoSize = true;
-			this.radioButton1.Checked = true;
-			this.radioButton1.Location = new System.Drawing.Point(63, 31);
-			this.radioButton1.Name = "radioButton1";
-			this.radioButton1.Size = new System.Drawing.Size(85, 17);
-			this.radioButton1.TabIndex = 23;
-			this.radioButton1.TabStop = true;
-			this.radioButton1.Text = "radioButton1";
-			this.radioButton1.UseVisualStyleBackColor = true;
+			this.progressBar1.Location = new System.Drawing.Point(340, 262);
+			this.progressBar1.Name = "progressBar1";
+			this.progressBar1.Size = new System.Drawing.Size(382, 23);
+			this.progressBar1.TabIndex = 26;
+			this.progressBar1.Value = 60;
+			// 
+			// newProgressBar1
+			// 
+			this.newProgressBar1.Location = new System.Drawing.Point(340, 229);
+			this.newProgressBar1.Name = "newProgressBar1";
+			this.newProgressBar1.ProgressBarColor = System.Drawing.Color.Green;
+			this.newProgressBar1.Size = new System.Drawing.Size(382, 23);
+			this.newProgressBar1.TabIndex = 27;
+			this.newProgressBar1.Value = 65;
 			// 
 			// flatTabControl1
 			// 
@@ -747,6 +741,30 @@ namespace DarkModeForms
 			this.tabPage3.TabIndex = 0;
 			this.tabPage3.Text = "tabPage3";
 			// 
+			// radioButton1
+			// 
+			this.radioButton1.AutoSize = true;
+			this.radioButton1.Checked = true;
+			this.radioButton1.Location = new System.Drawing.Point(63, 31);
+			this.radioButton1.Name = "radioButton1";
+			this.radioButton1.Size = new System.Drawing.Size(85, 17);
+			this.radioButton1.TabIndex = 23;
+			this.radioButton1.TabStop = true;
+			this.radioButton1.Text = "radioButton1";
+			this.radioButton1.UseVisualStyleBackColor = true;
+			// 
+			// checkBox1
+			// 
+			this.checkBox1.AutoSize = true;
+			this.checkBox1.Checked = true;
+			this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBox1.Location = new System.Drawing.Point(63, 53);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(80, 17);
+			this.checkBox1.TabIndex = 22;
+			this.checkBox1.Text = "checkBox1";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			// 
 			// tabPage4
 			// 
 			this.tabPage4.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -757,30 +775,24 @@ namespace DarkModeForms
 			this.tabPage4.TabIndex = 1;
 			this.tabPage4.Text = "tabPage4";
 			// 
-			// propertyGrid1
+			// flatComboBox1
 			// 
-			this.propertyGrid1.Location = new System.Drawing.Point(491, 294);
-			this.propertyGrid1.Name = "propertyGrid1";
-			this.propertyGrid1.SelectedObject = this.dataGridView1;
-			this.propertyGrid1.Size = new System.Drawing.Size(231, 235);
-			this.propertyGrid1.TabIndex = 25;
-			// 
-			// progressBar1
-			// 
-			this.progressBar1.Location = new System.Drawing.Point(340, 262);
-			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(382, 23);
-			this.progressBar1.TabIndex = 26;
-			this.progressBar1.Value = 60;
-			// 
-			// newProgressBar1
-			// 
-			this.newProgressBar1.Location = new System.Drawing.Point(340, 229);
-			this.newProgressBar1.Name = "newProgressBar1";
-			this.newProgressBar1.ProgressBarColor = System.Drawing.Color.Green;
-			this.newProgressBar1.Size = new System.Drawing.Size(382, 23);
-			this.newProgressBar1.TabIndex = 27;
-			this.newProgressBar1.Value = 65;
+			this.flatComboBox1.FormattingEnabled = true;
+			this.flatComboBox1.Items.AddRange(new object[] {
+            "AA",
+            "AB",
+            "AC",
+            "BA",
+            "BB",
+            "BC",
+            "CA",
+            "CB",
+            "CC"});
+			this.flatComboBox1.Location = new System.Drawing.Point(196, 78);
+			this.flatComboBox1.Name = "flatComboBox1";
+			this.flatComboBox1.Size = new System.Drawing.Size(121, 21);
+			this.flatComboBox1.TabIndex = 17;
+			this.flatComboBox1.Text = "BA";
 			// 
 			// Form1
 			// 
@@ -902,5 +914,6 @@ namespace DarkModeForms
 		private ImageList imageList2;
 		private ProgressBar progressBar1;
 		private FlatProgressBar newProgressBar1;
+		private Button button6;
 	}
 }
