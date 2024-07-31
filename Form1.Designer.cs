@@ -71,7 +71,6 @@ namespace DarkModeForms
 			this.hjhfjfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.kjlkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.asssToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.label1 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -112,7 +111,7 @@ namespace DarkModeForms
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
-			this.flatComboBox1 = new DarkModeForms.FlatComboBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -352,15 +351,6 @@ namespace DarkModeForms
 			this.asssToolStripMenuItem1.Size = new System.Drawing.Size(102, 22);
 			this.asssToolStripMenuItem1.Text = "asss";
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(206, 62);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(86, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Custom Controls:";
-			// 
 			// textBox1
 			// 
 			this.textBox1.Location = new System.Drawing.Point(6, 22);
@@ -431,7 +421,7 @@ namespace DarkModeForms
 			this.treeView1.HideSelection = false;
 			this.treeView1.ImageIndex = 0;
 			this.treeView1.ImageList = this.imageList2;
-			this.treeView1.Location = new System.Drawing.Point(196, 161);
+			this.treeView1.Location = new System.Drawing.Point(196, 132);
 			this.treeView1.Name = "treeView1";
 			treeNode1.ImageKey = "forward_16x16.png";
 			treeNode1.Name = "Nodo1";
@@ -451,7 +441,7 @@ namespace DarkModeForms
             treeNode5,
             treeNode6});
 			this.treeView1.SelectedImageIndex = 0;
-			this.treeView1.Size = new System.Drawing.Size(121, 94);
+			this.treeView1.Size = new System.Drawing.Size(121, 123);
 			this.treeView1.TabIndex = 9;
 			// 
 			// contextMenuStrip1
@@ -518,7 +508,7 @@ namespace DarkModeForms
 			// 
 			// textBox2
 			// 
-			this.textBox2.Location = new System.Drawing.Point(196, 105);
+			this.textBox2.Location = new System.Drawing.Point(196, 78);
 			this.textBox2.Name = "textBox2";
 			this.textBox2.Size = new System.Drawing.Size(121, 20);
 			this.textBox2.TabIndex = 11;
@@ -548,7 +538,7 @@ namespace DarkModeForms
 			// 
 			this.label4.AutoSize = true;
 			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.label4.Location = new System.Drawing.Point(196, 146);
+			this.label4.Location = new System.Drawing.Point(196, 112);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(52, 13);
 			this.label4.TabIndex = 15;
@@ -775,24 +765,14 @@ namespace DarkModeForms
 			this.tabPage4.TabIndex = 1;
 			this.tabPage4.Text = "tabPage4";
 			// 
-			// flatComboBox1
+			// label1
 			// 
-			this.flatComboBox1.FormattingEnabled = true;
-			this.flatComboBox1.Items.AddRange(new object[] {
-            "AA",
-            "AB",
-            "AC",
-            "BA",
-            "BB",
-            "BC",
-            "CA",
-            "CB",
-            "CC"});
-			this.flatComboBox1.Location = new System.Drawing.Point(196, 78);
-			this.flatComboBox1.Name = "flatComboBox1";
-			this.flatComboBox1.Size = new System.Drawing.Size(121, 21);
-			this.flatComboBox1.TabIndex = 17;
-			this.flatComboBox1.Text = "BA";
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(206, 62);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(86, 13);
+			this.label1.TabIndex = 2;
+			this.label1.Text = "Custom Controls:";
 			// 
 			// Form1
 			// 
@@ -807,7 +787,6 @@ namespace DarkModeForms
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.flatComboBox1);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
@@ -857,7 +836,6 @@ namespace DarkModeForms
 		private MenuStrip menuStrip1;
 		private ToolStripMenuItem assToolStripMenuItem;
 		private ToolStripMenuItem titsToolStripMenuItem;
-		private Label label1;
 		private TextBox textBox1;
 		private ComboBox comboBox1;
 		private NumericUpDown numericUpDown1;
@@ -884,7 +862,6 @@ namespace DarkModeForms
 		private Label label3;
 		private Label label4;
 		private DataGridView dataGridView1;
-		private FlatComboBox flatComboBox1;
 		private StatusStrip statusStrip1;
 		private ToolStripStatusLabel toolStripStatusLabel1;
 		private ToolStripDropDownButton toolStripDropDownButton2;
@@ -915,5 +892,6 @@ namespace DarkModeForms
 		private ProgressBar progressBar1;
 		private FlatProgressBar newProgressBar1;
 		private Button button6;
+		private Label label1;
 	}
 }
