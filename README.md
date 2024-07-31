@@ -144,7 +144,6 @@ public Form1()
 
 There are a few Winforms Controls that are, by design, extremely hard to theme:
 
-- ComboBox:   Borders & Dropdown Button look too white.  You could use [FlatComboBox](SourceFiles/FlatComboBox.cs) instead, check in the Example.
 - TabControl: 90% themed, a white border around the selected tab still remains.  You could use [FlatTabControl](SourceFiles/FlatTabControl.cs) instead, check in the Example.
 - MessageBox:  Can't be themed. You can use [Messenger](SourceFiles/Messenger.cs) instead.
 - DateTimePicker: Un-themed.
