@@ -290,6 +290,7 @@ namespace DarkModeForms
 
 				if (OScolors != null)
 				{
+					//Apply Window's Dark Mode to the Form's Title bar:
 					ApplySystemDarkTheme(OwnerForm, pIsDarkMode);
 
 					OwnerForm.BackColor = OScolors.Background;
@@ -318,8 +319,6 @@ namespace DarkModeForms
 		/// <param name="control">Can be a Form or any Winforms Control.</param>
 		public void ThemeControl(Control control)
 		{
-			//if (!IsDarkModeCSEnabled) return;
-
 			//prevent applying a theme multiple times to the same control
 			//without this, it happens at least is some MDI forms
 			if (ControlsProcessed.TryGetValue(control, out object _)) return;
@@ -327,30 +326,27 @@ namespace DarkModeForms
 
 			BorderStyle BStyle = (IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D);
 			FlatStyle FStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
-
-			//Change the Colors only if its the default ones, this allows the user to set own colors:
-			if (control.BackColor == SystemColors.Control || control.BackColor == SystemColors.Window)
-			{
-				control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Control);
-			}
-			if (control.ForeColor == SystemColors.ControlText || control.ForeColor == SystemColors.WindowText)
-			{
-				control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
-			}
+			
+			control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Control);
+			control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
 			control.GetType().GetProperty("BorderStyle")?.SetValue(control, BStyle);
 
 			control.HandleCreated += (object sender, EventArgs e) =>
 			{
-				ApplySystemDarkTheme(control);
+				ApplySystemDarkTheme(control, IsDarkMode);
 			};
 			control.ControlAdded += (object sender, ControlEventArgs e) =>
 			{
 				ThemeControl(e.Control);
 			};
 
+			string Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";
+			SetWindowTheme(control.Handle, Mode, null);
+
 			if (control is TextBox tb)
 			{
 				//SetRoundBorders(tb, 4, OScolors.SurfaceDark, 1);
+				
 			}
 			if (control is Panel panel)
 			{
@@ -489,7 +485,7 @@ namespace DarkModeForms
 				button.BackColor = OScolors.Control;
 				button.FlatAppearance.BorderColor = (OwnerForm.AcceptButton == button) ?
 					OScolors.Accent : OScolors.Control;
-				//SetRoundBorders(button, 4, OScolors.SurfaceDark, 1);
+				
 			}
 			if (control is Label label)
 			{
@@ -510,10 +506,13 @@ namespace DarkModeForms
 			}
 			if (control is ComboBox combo)
 			{
-				combo.FlatStyle = FStyle;
-				combo.BackColor = OScolors.Control;
-				control.GetType().GetProperty("ButtonColor")?.SetValue(control, OScolors.Surface);
-				combo.Invalidate();
+				//combo.FlatStyle = FStyle;
+				//combo.BackColor = OScolors.Control;
+				//control.GetType().GetProperty("ButtonColor")?.SetValue(control, OScolors.Surface);
+				//combo.Invalidate();
+
+				Mode = IsDarkMode ? "DarkMode_CFD" : "ClearMode_CFD";
+				SetWindowTheme(control.Handle, Mode, null);
 			}
 			if (control is MenuStrip menu)
 			{
@@ -643,34 +642,6 @@ namespace DarkModeForms
 			}
 		}
 
-		/// <summary>
-		/// handle hierarchical context menus (otherwise, only the root level gets themed)
-		/// </summary>
-		private void Tsdd_Opening(object sender, CancelEventArgs e)
-		{
-			ToolStripDropDown tsdd = sender as ToolStripDropDown;
-			if (tsdd == null) return; //should not occur
-
-			foreach (ToolStripMenuItem toolStripMenuItem in tsdd.Items.OfType<ToolStripMenuItem>())
-			{
-				toolStripMenuItem.DropDownOpening += Tsmi_DropDownOpening;
-			}
-		}
-
-		/// <summary>
-		/// handle hierarchical context menus (otherwise, only the root level gets themed)
-		/// </summary>
-		private void Tsmi_DropDownOpening(object sender, EventArgs e)
-		{
-			ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-			if (tsmi == null) return; //should not occur
-
-			if (tsmi.DropDown.Items.Count > 0) ThemeControl(tsmi.DropDown);
-
-			//once processed, remove itself to prevent multiple executions (when user leaves and reenters the sub-menu)
-			tsmi.DropDownOpening -= Tsmi_DropDownOpening;
-		}
-
 		/// <summary>Returns Windows Color Mode for Applications.
 		/// <para>0=dark theme, 1=light theme</para>
 		/// </summary>
@@ -772,15 +743,7 @@ namespace DarkModeForms
 				_ret.Primary = Color.FromArgb(3, 218, 198);   //<- Verde Pastel
 				_ret.Secondary = Color.MediumSlateBlue;         //<- Magenta Claro
 
-				//Apply Window's Dark Mode to the Form's Title bar
-				//if (Window != null)
-				//{
-				//	//SetWin32ApiTheme(Window);
-				//	ApplySystemDarkTheme(Window);
-
-				//	Window.BackColor = _ret.Background;
-				//	Window.ForeColor = _ret.TextInactive;
-				//}
+				
 			}
 
 			return _ret;
@@ -895,11 +858,39 @@ namespace DarkModeForms
 
 		#region Private Methods
 
+		/// <summary>
+		/// handle hierarchical context menus (otherwise, only the root level gets themed)
+		/// </summary>
+		private void Tsdd_Opening(object sender, CancelEventArgs e)
+		{
+			ToolStripDropDown tsdd = sender as ToolStripDropDown;
+			if (tsdd == null) return; //should not occur
+
+			foreach (ToolStripMenuItem toolStripMenuItem in tsdd.Items.OfType<ToolStripMenuItem>())
+			{
+				toolStripMenuItem.DropDownOpening += Tsmi_DropDownOpening;
+			}
+		}
+
+		/// <summary>
+		/// handle hierarchical context menus (otherwise, only the root level gets themed)
+		/// </summary>
+		private void Tsmi_DropDownOpening(object sender, EventArgs e)
+		{
+			ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+			if (tsmi == null) return; //should not occur
+
+			if (tsmi.DropDown.Items.Count > 0) ThemeControl(tsmi.DropDown);
+
+			//once processed, remove itself to prevent multiple executions (when user leaves and reenters the sub-menu)
+			tsmi.DropDownOpening -= Tsmi_DropDownOpening;
+		}
+
 		/// <summary>Attemps to apply Window's Dark Style to the Control and all its childs.</summary>
 		/// <param name="control"></param>
 		private static void ApplySystemDarkTheme(Control control = null, bool IsDarkMode = true)
 		{
-			if (!IsDarkModeCSEnabled) return;
+			//if (!IsDarkModeCSEnabled) return;
 			/*
 			DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
 
@@ -913,8 +904,9 @@ namespace DarkModeForms
 			Causes a window to use a different set of visual style information than its class normally uses.
 		   */
 			int[] DarkModeOn = IsDarkMode ? new[] { 0x01 } : new[] { 0x00 }; //<- 1=True, 0=False
+			string Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";
 
-			SetWindowTheme(control.Handle, "DarkMode_Explorer", null);
+			SetWindowTheme(control.Handle, Mode, null); //DarkMode_Explorer, ClearMode_Explorer, DarkMode_CFD, DarkMode_ItemsView, 
 
 			if (DwmSetWindowAttribute(control.Handle, (int)DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1, DarkModeOn, 4) != 0)
 				DwmSetWindowAttribute(control.Handle, (int)DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, DarkModeOn, 4);
@@ -922,7 +914,7 @@ namespace DarkModeForms
 			foreach (Control child in control.Controls)
 			{
 				if (child.Controls.Count != 0)
-					ApplySystemDarkTheme(child);
+					ApplySystemDarkTheme(child, IsDarkMode);
 			}
 		}
 
