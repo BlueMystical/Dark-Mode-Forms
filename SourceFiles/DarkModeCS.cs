@@ -526,9 +526,13 @@ namespace DarkModeForms
 				case "ToolStripDropDown":
 					(control as ToolStripDropDown).Opening += Tsdd_Opening;
 					break;
+				case "ToolStripDropDownMenu":
+					(control as ToolStripDropDownMenu).Opening += Tsdd_Opening;
+					break;
 				case "ContextMenuStrip":
 					(control as ContextMenuStrip).RenderMode = ToolStripRenderMode.Professional;
 					(control as ContextMenuStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
+					(control as ContextMenuStrip).Opening += Tsdd_Opening;
 					break;
 				case "MdiClient": //<- empty area of MDI container window 
 					control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Surface);

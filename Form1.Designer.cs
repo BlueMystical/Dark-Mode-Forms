@@ -47,6 +47,7 @@ namespace DarkModeForms
             "xx"}, 0);
 			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("BB", 2);
 			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("CC", 1);
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.button6 = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
@@ -88,7 +89,6 @@ namespace DarkModeForms
 			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -104,7 +104,6 @@ namespace DarkModeForms
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.label6 = new System.Windows.Forms.Label();
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-			this.progressBar1 = new System.Windows.Forms.ProgressBar();
 			this.newProgressBar1 = new DarkModeForms.FlatProgressBar();
 			this.flatTabControl1 = new DarkModeForms.FlatTabControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -135,7 +134,7 @@ namespace DarkModeForms
 			this.panel1.Controls.Add(this.button1);
 			this.panel1.Controls.Add(this.button2);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 532);
+			this.panel1.Location = new System.Drawing.Point(0, 602);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(730, 47);
 			this.panel1.TabIndex = 0;
@@ -421,7 +420,7 @@ namespace DarkModeForms
 			this.treeView1.HideSelection = false;
 			this.treeView1.ImageIndex = 0;
 			this.treeView1.ImageList = this.imageList2;
-			this.treeView1.Location = new System.Drawing.Point(196, 132);
+			this.treeView1.Location = new System.Drawing.Point(196, 104);
 			this.treeView1.Name = "treeView1";
 			treeNode1.ImageKey = "forward_16x16.png";
 			treeNode1.Name = "Nodo1";
@@ -441,7 +440,7 @@ namespace DarkModeForms
             treeNode5,
             treeNode6});
 			this.treeView1.SelectedImageIndex = 0;
-			this.treeView1.Size = new System.Drawing.Size(121, 123);
+			this.treeView1.Size = new System.Drawing.Size(121, 151);
 			this.treeView1.TabIndex = 9;
 			// 
 			// contextMenuStrip1
@@ -494,7 +493,7 @@ namespace DarkModeForms
 			this.listView1.LargeImageList = this.imageList1;
 			this.listView1.Location = new System.Drawing.Point(340, 62);
 			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(382, 146);
+			this.listView1.Size = new System.Drawing.Size(382, 194);
 			this.listView1.TabIndex = 10;
 			this.listView1.UseCompatibleStateImageBehavior = false;
 			// 
@@ -534,23 +533,21 @@ namespace DarkModeForms
 			this.label3.TabIndex = 14;
 			this.label3.Text = "DataGrid View:";
 			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.label4.Location = new System.Drawing.Point(196, 112);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(52, 13);
-			this.label4.TabIndex = 15;
-			this.label4.Text = "TreeView";
-			// 
 			// dataGridView1
 			// 
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Red;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.Location = new System.Drawing.Point(27, 291);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowTemplate.Height = 25;
-			this.dataGridView1.Size = new System.Drawing.Size(454, 101);
+			this.dataGridView1.Size = new System.Drawing.Size(454, 166);
 			this.dataGridView1.TabIndex = 16;
 			// 
 			// statusStrip1
@@ -558,7 +555,7 @@ namespace DarkModeForms
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripDropDownButton2});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 579);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 649);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 12, 0);
 			this.statusStrip1.Size = new System.Drawing.Size(730, 22);
@@ -623,7 +620,7 @@ namespace DarkModeForms
 			// 
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Location = new System.Drawing.Point(14, 404);
+			this.tabControl1.Location = new System.Drawing.Point(10, 469);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(228, 127);
@@ -682,20 +679,12 @@ namespace DarkModeForms
 			this.propertyGrid1.Location = new System.Drawing.Point(491, 294);
 			this.propertyGrid1.Name = "propertyGrid1";
 			this.propertyGrid1.SelectedObject = this.dataGridView1;
-			this.propertyGrid1.Size = new System.Drawing.Size(231, 235);
+			this.propertyGrid1.Size = new System.Drawing.Size(231, 298);
 			this.propertyGrid1.TabIndex = 25;
-			// 
-			// progressBar1
-			// 
-			this.progressBar1.Location = new System.Drawing.Point(340, 262);
-			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(382, 23);
-			this.progressBar1.TabIndex = 26;
-			this.progressBar1.Value = 60;
 			// 
 			// newProgressBar1
 			// 
-			this.newProgressBar1.Location = new System.Drawing.Point(340, 229);
+			this.newProgressBar1.Location = new System.Drawing.Point(340, 262);
 			this.newProgressBar1.Name = "newProgressBar1";
 			this.newProgressBar1.ProgressBarColor = System.Drawing.Color.Green;
 			this.newProgressBar1.Size = new System.Drawing.Size(382, 23);
@@ -709,7 +698,7 @@ namespace DarkModeForms
 			this.flatTabControl1.Controls.Add(this.tabPage3);
 			this.flatTabControl1.Controls.Add(this.tabPage4);
 			this.flatTabControl1.LineColor = System.Drawing.SystemColors.ControlLight;
-			this.flatTabControl1.Location = new System.Drawing.Point(247, 398);
+			this.flatTabControl1.Location = new System.Drawing.Point(243, 463);
 			this.flatTabControl1.Name = "flatTabControl1";
 			this.flatTabControl1.SelectedForeColor = System.Drawing.SystemColors.ControlText;
 			this.flatTabControl1.SelectedIndex = 0;
@@ -779,16 +768,14 @@ namespace DarkModeForms
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
-			this.ClientSize = new System.Drawing.Size(730, 601);
+			this.ClientSize = new System.Drawing.Size(730, 671);
 			this.Controls.Add(this.newProgressBar1);
-			this.Controls.Add(this.progressBar1);
 			this.Controls.Add(this.propertyGrid1);
 			this.Controls.Add(this.flatTabControl1);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.dataGridView1);
-			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textBox2);
@@ -801,7 +788,7 @@ namespace DarkModeForms
 			this.Controls.Add(this.statusStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
-			this.Text = "DarkModeForms - Form1";
+			this.Text = "DarkModeForms - Example Form";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.panel1.ResumeLayout(false);
 			this.toolStrip1.ResumeLayout(false);
@@ -860,7 +847,6 @@ namespace DarkModeForms
 		private TextBox textBox2;
 		private Label label2;
 		private Label label3;
-		private Label label4;
 		private DataGridView dataGridView1;
 		private StatusStrip statusStrip1;
 		private ToolStripStatusLabel toolStripStatusLabel1;
@@ -889,7 +875,6 @@ namespace DarkModeForms
 		private Button button4;
 		private PropertyGrid propertyGrid1;
 		private ImageList imageList2;
-		private ProgressBar progressBar1;
 		private FlatProgressBar newProgressBar1;
 		private Button button6;
 		private Label label1;
