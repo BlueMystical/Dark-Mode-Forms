@@ -265,22 +265,25 @@ namespace DarkModeForms
 		/// <param name="_RoundedPanels">[OPTIONAL] make all Panels Borders Rounded</param>
 		public DarkModeCS(Form _Form, bool _ColorizeIcons = true, bool _RoundedPanels = false)
 		{
-
 			//Sets the Properties:
 			OwnerForm = _Form;
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
-			IsDarkMode = IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
-			
-			//if (!IsDarkModeCSEnabled) return;
-
-			ApplyTheme(IsDarkMode);
+			SetIsDarkMode();
+			ApplyTheme();
 		}
 
 		#endregion Constructors
 
 		#region Public Methods
 
+		/// <summary>Apply the Theme into the Window and all its controls after refetching the IsDarkMode prop</summary>
+		public void ApplyTheme()
+		{
+			SetIsDarkMode();
+			ApplyTheme(IsDarkMode);
+		}
+		
 		/// <summary>Apply the Theme into the Window and all its controls.</summary>
 		/// <param name="pIsDarkMode">'true': apply Dark Mode, 'false': apply Clear Mode</param>
 		public void ApplyTheme(bool pIsDarkMode = true)
@@ -316,6 +319,12 @@ namespace DarkModeForms
 			{
 				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+		}
+
+		/// <summary>Set the IsDarkMode flag</summary>
+		public void SetIsDarkMode()
+		{
+		    IsDarkMode = IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
 		}
 
 		/// <summary>Recursively apply the Colors from 'OScolors' to the Control and all its childs.</summary>
