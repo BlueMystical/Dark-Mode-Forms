@@ -104,13 +104,14 @@ namespace DarkModeForms
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.label6 = new System.Windows.Forms.Label();
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+			this.label1 = new System.Windows.Forms.Label();
+			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
 			this.newProgressBar1 = new DarkModeForms.FlatProgressBar();
 			this.flatTabControl1 = new DarkModeForms.FlatTabControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
-			this.label1 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -682,6 +683,23 @@ namespace DarkModeForms
 			this.propertyGrid1.Size = new System.Drawing.Size(231, 298);
 			this.propertyGrid1.TabIndex = 25;
 			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(206, 62);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(86, 13);
+			this.label1.TabIndex = 2;
+			this.label1.Text = "Custom Controls:";
+			// 
+			// notifyIcon1
+			// 
+			this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+			this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+			this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+			this.notifyIcon1.Text = "notifyIcon1";
+			this.notifyIcon1.Visible = true;
+			// 
 			// newProgressBar1
 			// 
 			this.newProgressBar1.Location = new System.Drawing.Point(340, 262);
@@ -754,15 +772,6 @@ namespace DarkModeForms
 			this.tabPage4.TabIndex = 1;
 			this.tabPage4.Text = "tabPage4";
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(206, 62);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(86, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Custom Controls:";
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -786,6 +795,7 @@ namespace DarkModeForms
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.menuStrip1);
 			this.Controls.Add(this.statusStrip1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
 			this.Text = "DarkModeForms - Example Form";
@@ -878,5 +888,6 @@ namespace DarkModeForms
 		private FlatProgressBar newProgressBar1;
 		private Button button6;
 		private Label label1;
+		private NotifyIcon notifyIcon1;
 	}
 }
