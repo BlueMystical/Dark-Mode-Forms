@@ -29,7 +29,14 @@ namespace DarkModeForms
 		[Description("Fore Color for all Texts"), Category("Appearance")]
 		public override Color ForeColor { get; set; } = SystemColors.ControlText;
 
+		[Description("Shows a Close Button on each tab"), Category("Appearance")]
+		public bool ShowTabCloseButton { get; set; } = true;
+
+		[Description("Color for the Close Button on each tab"), Category("Appearance")]
+		public Color TabCloseColor { get; set; }
+
 		#endregion Public Properties
+
 
 		public FlatTabControl()
 		{
@@ -39,6 +46,9 @@ namespace DarkModeForms
 				DrawMode = TabDrawMode.Normal;
 				ItemSize = new Size(0, 0);
 				SizeMode = TabSizeMode.Fixed;
+
+				PreRemoveTabPage = null;
+				this.DrawMode = TabDrawMode.OwnerDrawFixed;
 			}
 			catch { }
 		}
@@ -51,12 +61,48 @@ namespace DarkModeForms
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 			SetStyle(ControlStyles.UserPaint, true);
 			base.InitLayout();
+
+			TabCloseColor = this.ForeColor;
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
 			DrawControl(e.Graphics);
+		}
+
+
+		private delegate bool PreRemoveTab(int indx);
+		private PreRemoveTab PreRemoveTabPage;
+
+		protected override void OnMouseClick(MouseEventArgs e)
+		{
+			// Reacts to the Click on the Close Tab Button:
+			if (ShowTabCloseButton)
+			{
+				Point p = e.Location;
+				for (int i = 0; i < TabCount; i++)
+				{
+					Rectangle r = GetTabRect(i);
+					r.Offset(6, 8);
+					r.Width = 5;
+					r.Height = 5;
+					if (r.Contains(p))
+					{
+						CloseTab(i);
+					}
+				}
+			}			
+		}
+		private void CloseTab(int i)
+		{
+			if (PreRemoveTabPage != null)
+			{
+				bool closeIt = PreRemoveTabPage(i);
+				if (!closeIt)
+					return;
+			}
+			TabPages.Remove(TabPages[i]);
 		}
 
 		internal void DrawControl(Graphics g)
@@ -102,20 +148,6 @@ namespace DarkModeForms
 						g.DrawRectangle(border, clientRectangle);
 					}
 				}
-
-				// a decorative line on top of pages:
-				//using (Brush bLineColor = new SolidBrush(LineColor))
-				//{
-				//  Rectangle rectangle = ClientRectangle;
-				//  rectangle.Height = 1;
-				//  rectangle.Y = 25;
-				//  g.FillRectangle(bLineColor, rectangle);
-
-				//  rectangle = ClientRectangle;
-				//  rectangle.Height = 1;
-				//  rectangle.Y = 26;
-				//  g.FillRectangle(bLineColor, rectangle);
-				//}
 			}
 			catch { }
 		}
@@ -170,9 +202,25 @@ namespace DarkModeForms
 				}
 			}
 
+			// Draws a Close Button:
+			if (ShowTabCloseButton)
+			{
+				Rectangle r = tabTextRect;
+				r = GetTabRect(nIndex);
+				r.Offset(6, 8);
+				r.Height = 5;
+				r.Width = 5;
+
+				TabCloseColor = this.ForeColor;
+				Brush b = new SolidBrush(TabCloseColor);
+				Pen p = new Pen(b);
+				g.DrawLine(p, r.X, r.Y, r.X + r.Width, r.Y + r.Height);
+				g.DrawLine(p, r.X + r.Width, r.Y, r.X, r.Y + r.Height);
+			}			
+
+			// Draws the Title of the Tab:
 			Rectangle rectangleF = tabTextRect;
 			rectangleF.Y += 2;
-
 			TextRenderer.DrawText(g, customTabPage.Text, Font, rectangleF, isSelected ? SelectedForeColor : ForeColor);
 		}
 	}
