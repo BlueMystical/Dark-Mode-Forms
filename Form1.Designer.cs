@@ -715,14 +715,17 @@ namespace DarkModeForms
 			this.flatTabControl1.BorderColor = System.Drawing.SystemColors.ControlDark;
 			this.flatTabControl1.Controls.Add(this.tabPage3);
 			this.flatTabControl1.Controls.Add(this.tabPage4);
+			this.flatTabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
 			this.flatTabControl1.LineColor = System.Drawing.SystemColors.ControlLight;
 			this.flatTabControl1.Location = new System.Drawing.Point(243, 463);
 			this.flatTabControl1.Name = "flatTabControl1";
 			this.flatTabControl1.SelectedForeColor = System.Drawing.SystemColors.ControlText;
 			this.flatTabControl1.SelectedIndex = 0;
 			this.flatTabControl1.SelectTabColor = System.Drawing.SystemColors.Control;
+			this.flatTabControl1.ShowTabCloseButton = true;
 			this.flatTabControl1.Size = new System.Drawing.Size(238, 133);
 			this.flatTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+			this.flatTabControl1.TabCloseColor = System.Drawing.SystemColors.ControlText;
 			this.flatTabControl1.TabColor = System.Drawing.SystemColors.ControlLight;
 			this.flatTabControl1.TabIndex = 24;
 			// 

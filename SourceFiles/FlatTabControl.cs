@@ -74,6 +74,7 @@ namespace DarkModeForms
 
 		private delegate bool PreRemoveTab(int indx);
 		private PreRemoveTab PreRemoveTabPage;
+		private bool OverCloseTab = false;
 
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
@@ -85,14 +86,44 @@ namespace DarkModeForms
 				{
 					Rectangle r = GetTabRect(i);
 					r.Offset(6, 8);
-					r.Width = 5;
-					r.Height = 5;
+					r.Width = 12;
+					r.Height = 12;
 					if (r.Contains(p))
 					{
 						CloseTab(i);
 					}
 				}
 			}			
+		}
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			/* Hightlighs the Close Button when the Mouse is over it  */
+			if (ShowTabCloseButton)
+			{
+				Point p = e.Location;
+				for (int i = 0; i < TabCount; i++)
+				{
+					Rectangle r = GetTabRect(i);
+					r.Offset(6, 8);
+					r.Width = 12;
+					r.Height = 12;
+
+					OverCloseTab = r.Contains(p); //<- Mouse is over the Close button
+
+					if (OverCloseTab)
+					{
+						DrawTab(this.CreateGraphics(), this.TabPages[i], i);
+					}
+					else
+					{
+						if (TabCloseColor == Color.Red)
+						{
+							DrawTab(this.CreateGraphics(), this.TabPages[i], i);
+						}
+					}
+				}
+			}
+			//base.OnMouseMove(e);
 		}
 		private void CloseTab(int i)
 		{
@@ -207,20 +238,23 @@ namespace DarkModeForms
 			{
 				Rectangle r = tabTextRect;
 				r = GetTabRect(nIndex);
-				r.Offset(6, 8);
+				r.Offset(6, 8); //Vertically Centered
 				r.Height = 5;
 				r.Width = 5;
 
-				TabCloseColor = this.ForeColor;
+				// If Mouse is over the CloseButton, it Draws it in Red, otherwise uses default Color:
+				TabCloseColor = OverCloseTab ? Color.Red : this.ForeColor;
 				Brush b = new SolidBrush(TabCloseColor);
 				Pen p = new Pen(b);
+
+				// Draws an X:
 				g.DrawLine(p, r.X, r.Y, r.X + r.Width, r.Y + r.Height);
 				g.DrawLine(p, r.X + r.Width, r.Y, r.X, r.Y + r.Height);
 			}			
 
 			// Draws the Title of the Tab:
 			Rectangle rectangleF = tabTextRect;
-			rectangleF.Y += 2;
+			rectangleF.Y += 2; // Horizontally Centered
 			TextRenderer.DrawText(g, customTabPage.Text, Font, rectangleF, isSelected ? SelectedForeColor : ForeColor);
 		}
 	}

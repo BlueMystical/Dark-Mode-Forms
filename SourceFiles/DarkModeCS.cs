@@ -345,282 +345,7 @@ namespace DarkModeForms
 			control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Control);
 			control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
 
-			/*  REVERTED TO THE PILE OF IFs
-			switch (control.GetType().Name)
-			{
-				case "Label":
-					control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-					control.GetType().GetProperty("BorderStyle")?.SetValue(control, BorderStyle.None);
-					break;
-				case "LinkLabel":
-					control.GetType().GetProperty("LinkColor")?.SetValue(control, OScolors.AccentLight);
-					control.GetType().GetProperty("VisitedLinkColor")?.SetValue(control, OScolors.Primary);
-					break;
-				case "TextBox":
-					//SetRoundBorders(tb, 4, OScolors.SurfaceDark, 1);
-					control.GetType().GetProperty("BorderStyle")?.SetValue(control, BStyle);
-					break;
-				case "Button":
-					var button = control as Button;
-					button.FlatStyle = FlatStyle.System;
-					button.FlatAppearance.CheckedBackColor = OScolors.Accent;
-					button.BackColor = OScolors.Control;
-					button.FlatAppearance.BorderColor = (OwnerForm.AcceptButton == button) ?
-						OScolors.Accent : OScolors.Control;
-					break;
-				case "Panel":
-					var panel = control as Panel;
-					// Process the panel within the container
-					panel.BackColor = OScolors.Surface;
-					panel.BorderStyle = BorderStyle.None;
-					if (!(panel.Parent is TabControl) || !(panel.Parent is TableLayoutPanel))
-					{
-						if (RoundedPanels)
-						{
-							SetRoundBorders(panel, 6, OScolors.SurfaceDark, 1);
-						}
-					}
-					break;
-				case "GroupBox":
-					control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-					control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextInactive);
-					break;
-				case "TableLayoutPanel":
-					control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-					control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextInactive);
-					control.GetType().GetProperty("BorderStyle")?.SetValue(control, BorderStyle.None);
-					break;
-				case "TabControl":
-					var tab = control as TabControl;
-					tab.Appearance = TabAppearance.Normal;
-					tab.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-					tab.DrawItem += (object sender, DrawItemEventArgs e) =>
-					{
-						//Draw the background of the main control
-						using (SolidBrush backColor = new SolidBrush(tab.Parent.BackColor))
-						{
-							e.Graphics.FillRectangle(backColor, tab.ClientRectangle);
-						}
-
-						using (Brush tabBack = new SolidBrush(OScolors.Surface))
-						{
-							for (int i = 0; i < tab.TabPages.Count; i++)
-							{
-								TabPage tabPage = tab.TabPages[i];
-								tabPage.BackColor = OScolors.Surface;
-								tabPage.BorderStyle = BorderStyle.FixedSingle;
-								tabPage.ControlAdded += (object _s, ControlEventArgs _e) =>
-								{
-									ThemeControl(_e.Control);
-								};
-
-								var tBounds = e.Bounds;
-								//tBounds.Inflate(100, 100);
-
-								bool IsSelected = (tab.SelectedIndex == i);
-								if (IsSelected)
-								{
-									e.Graphics.FillRectangle(tabBack, tBounds);
-									TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, e.Bounds, OScolors.TextActive);
-								}
-								else
-								{
-									TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, tab.GetTabRect(i), OScolors.TextInactive);
-								}
-							}
-						}
-					};
-					break;
-				case "TabPage": break;
-				case "FlatTabControl":
-					control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Background);
-					control.GetType().GetProperty("TabColor")?.SetValue(control, OScolors.Surface);
-					control.GetType().GetProperty("SelectTabColor")?.SetValue(control, OScolors.Control);
-					control.GetType().GetProperty("SelectedForeColor")?.SetValue(control, OScolors.TextActive);
-					control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextInactive);
-					control.GetType().GetProperty("LineColor")?.SetValue(control, OScolors.Background);
-					break;
-				case "PictureBox":
-					control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-					control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
-					control.GetType().GetProperty("BorderStyle")?.SetValue(control, BorderStyle.None);
-					break;
-				case "ListView":
-					var lView = control as ListView;
-					Mode = IsDarkMode ? "DarkMode_ItemsView" : "ClearMode_ItemsView";
-					SetWindowTheme(control.Handle, Mode, null);
-
-					if (lView.View == View.Details)
-					{
-						lView.OwnerDraw = true;
-						lView.DrawColumnHeader += (object sender, DrawListViewColumnHeaderEventArgs e) =>
-						{
-							//e.DrawDefault = true;
-							//e.DrawBackground();
-							//e.DrawText();
-
-							using (SolidBrush backBrush = new SolidBrush(OScolors.ControlLight))
-							{
-								using (SolidBrush foreBrush = new SolidBrush(OScolors.TextActive))
-								{
-									using (var sf = new StringFormat())
-									{
-										sf.Alignment = StringAlignment.Center;
-										e.Graphics.FillRectangle(backBrush, e.Bounds);
-										e.Graphics.DrawString(e.Header.Text, lView.Font, foreBrush, e.Bounds, sf);
-									}
-								}
-							}
-						};
-						lView.DrawItem += (sender, e) => { e.DrawDefault = true; };
-						lView.DrawSubItem += (sender, e) =>
-						{
-							e.DrawDefault = true;
-
-							//IntPtr headerControl = GetHeaderControl(lView);
-							//IntPtr hdc = GetDC(headerControl);
-							//Rectangle rc = new Rectangle(
-							//  e.Bounds.Right, //<- Right instead of Left - offsets the rectangle
-							//  e.Bounds.Top,
-							//  e.Bounds.Width,
-							//  e.Bounds.Height
-							//);
-							//rc.Width += 200;
-
-							//using (SolidBrush backBrush = new SolidBrush(OScolors.ControlLight))
-							//{
-							//  e.Graphics.FillRectangle(backBrush, rc);
-							//}
-
-							//ReleaseDC(headerControl, hdc);
-
-						};
-
-						Mode = IsDarkMode ? "DarkMode_ItemsView" : "ClearMode_ItemsView";
-						SetWindowTheme(control.Handle, Mode, null);
-					}
-					break;			
-				case "CheckBox":
-					control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-					break;
-				case "RadioButton":
-					control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-					break;
-				case "ComboBox":
-					Mode = IsDarkMode ? "DarkMode_CFD" : "ClearMode_CFD";
-					SetWindowTheme(control.Handle, Mode, null);
-					break;
-				case "MenuStrip":
-					(control as MenuStrip).RenderMode = ToolStripRenderMode.Professional;
-					(control as MenuStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons)
-					{
-						MyColors = OScolors
-					};
-					break;
-				case "ToolStrip":
-					(control as ToolStrip).RenderMode = ToolStripRenderMode.Professional;
-					(control as ToolStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
-					break;
-				case "ToolStripPanel": //<- empty area around ToolStrip
-					control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-					break;
-				case "ToolStripDropDown":
-					(control as ToolStripDropDown).Opening += Tsdd_Opening;
-					break;
-				case "ToolStripDropDownMenu":
-					(control as ToolStripDropDownMenu).Opening += Tsdd_Opening;
-					break;
-				case "ContextMenuStrip":
-					(control as ContextMenuStrip).RenderMode = ToolStripRenderMode.Professional;
-					(control as ContextMenuStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
-					(control as ContextMenuStrip).Opening += Tsdd_Opening;
-					break;
-				case "MdiClient": //<- empty area of MDI container window 
-					control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Surface);
-					break;
-				case "PropertyGrid":
-					var pGrid = control as PropertyGrid;
-					pGrid.BackColor = OScolors.Control;
-					pGrid.ViewBackColor = OScolors.Control;
-					pGrid.LineColor = OScolors.Surface;
-					pGrid.ViewForeColor = OScolors.TextActive;
-					pGrid.ViewBorderColor = OScolors.ControlDark;
-					pGrid.CategoryForeColor = OScolors.TextActive;
-					pGrid.CategorySplitterColor = OScolors.ControlLight;
-					break;
-				case "TreeView":
-					control.GetType().GetProperty("BorderStyle")?.SetValue(control, BorderStyle.None);
-					//tree.DrawNode += (object? sender, DrawTreeNodeEventArgs e) =>
-					//{
-					//  if (e.Node.ImageIndex != -1)
-					//  {
-					//	Image image = tree.ImageList.Images[e.Node.ImageIndex];
-					//	using (Graphics g = Graphics.FromImage(image))
-					//	{
-					//	  g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-					//	  g.CompositingQuality = CompositingQuality.HighQuality;
-					//	  g.SmoothingMode = SmoothingMode.HighQuality;
-
-					//	  g.DrawImage(DarkModeCS.ChangeToColor(image, OScolors.TextInactive), new Point(0,0));
-					//	}
-					//	tree.ImageList.Images[e.Node.ImageIndex] = image;
-					//  }
-					//  tree.Invalidate();
-					//};
-					break;
-				case "DataGridView":
-					var grid = control as DataGridView;
-					grid.EnableHeadersVisualStyles = false;
-					grid.BorderStyle = BorderStyle.FixedSingle;
-					grid.BackgroundColor = OScolors.Control;
-					grid.GridColor = OScolors.Control;
-
-					//paint the bottom right corner where the scrollbars meet
-					grid.Paint += (object sender, PaintEventArgs e) =>
-					{
-						DataGridView dgv = sender as DataGridView;
-
-						//get the value of dgv.HorizontalScrollBar protected property
-						HScrollBar hs = (HScrollBar)typeof(DataGridView).GetProperty("HorizontalScrollBar", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(dgv);
-						if (hs.Visible)
-						{
-							//get the value of dgv.VerticalScrollBar protected property
-							VScrollBar vs = (VScrollBar)typeof(DataGridView).GetProperty("VerticalScrollBar", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(dgv);
-
-							if (vs.Visible)
-							{
-								//only when both the scrollbars are visible, do the actual painting
-								Brush brush = new SolidBrush(OScolors.SurfaceDark);
-								var w = vs.Size.Width;
-								var h = hs.Size.Height;
-								e.Graphics.FillRectangle(brush, dgv.ClientRectangle.X + dgv.ClientRectangle.Width - w - 1,
-									dgv.ClientRectangle.Y + dgv.ClientRectangle.Height - h - 1, w, h);
-							}
-						}
-					};
-
-					grid.DefaultCellStyle.BackColor = OScolors.Surface;
-					grid.DefaultCellStyle.ForeColor = OScolors.TextActive;
-
-					grid.ColumnHeadersDefaultCellStyle.BackColor = OScolors.Surface;
-					grid.ColumnHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
-					grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = OScolors.AccentOpaque;
-					grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-					grid.ColumnHeadersHeight = 140;
-
-					grid.RowHeadersDefaultCellStyle.BackColor = OScolors.Surface;
-					grid.RowHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
-					grid.RowHeadersDefaultCellStyle.SelectionBackColor = OScolors.AccentOpaque;
-					grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-					break;
-				default:
-					//control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Control);
-					//control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
-					//control.GetType().GetProperty("BorderStyle")?.SetValue(control, BStyle);
-					break;
-			}
-			*/
-
+			/* Here we Finetune individual Controls  */
 			if (control is Label)
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
@@ -731,6 +456,60 @@ namespace DarkModeForms
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
 				control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
 				control.GetType().GetProperty("BorderStyle")?.SetValue(control, BorderStyle.None);
+			}			
+			if (control is CheckBox)
+			{
+				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
+			}
+			if (control is RadioButton)
+			{
+				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
+			}			
+			if (control is MenuStrip)
+			{
+				(control as MenuStrip).RenderMode = ToolStripRenderMode.Professional;
+				(control as MenuStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons)
+				{
+					MyColors = OScolors
+				};
+			}
+			if (control is ToolStrip)
+			{
+				(control as ToolStrip).RenderMode = ToolStripRenderMode.Professional;
+				(control as ToolStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
+			}
+			if (control is ToolStripPanel) //<- empty area around ToolStrip
+			{
+				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
+			}
+			if (control is ToolStripDropDown)
+			{
+				(control as ToolStripDropDown).Opening += Tsdd_Opening;
+			}
+			if (control is ToolStripDropDownMenu)
+			{
+				(control as ToolStripDropDownMenu).Opening += Tsdd_Opening;
+			}
+			if (control is ContextMenuStrip)
+			{
+				(control as ContextMenuStrip).RenderMode = ToolStripRenderMode.Professional;
+				(control as ContextMenuStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
+				(control as ContextMenuStrip).Opening += Tsdd_Opening;
+			}
+			if (control is MdiClient) //<- empty area of MDI container window 
+			{				
+				control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Surface);
+			}
+			if (control is PropertyGrid)
+			{
+				var pGrid = control as PropertyGrid;
+				pGrid.BackColor = OScolors.Control;
+				pGrid.ViewBackColor = OScolors.Control;
+				pGrid.LineColor = OScolors.Surface;
+				pGrid.ViewForeColor = OScolors.TextActive;
+				pGrid.ViewBorderColor = OScolors.ControlDark;
+				pGrid.CategoryForeColor = OScolors.TextActive;
+				pGrid.CategorySplitterColor = OScolors.ControlLight;
 			}
 			if (control is ListView)
 			{
@@ -787,60 +566,6 @@ namespace DarkModeForms
 					Mode = IsDarkMode ? "DarkMode_ItemsView" : "ClearMode_ItemsView";
 					SetWindowTheme(control.Handle, Mode, null);
 				}
-			}
-			if (control is CheckBox)
-			{
-				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-			}
-			if (control is RadioButton)
-			{
-				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-			}			
-			if (control is MenuStrip)
-			{
-				(control as MenuStrip).RenderMode = ToolStripRenderMode.Professional;
-				(control as MenuStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons)
-				{
-					MyColors = OScolors
-				};
-			}
-			if (control is ToolStrip)
-			{
-				(control as ToolStrip).RenderMode = ToolStripRenderMode.Professional;
-				(control as ToolStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
-			}
-			if (control is ToolStripPanel) //<- empty area around ToolStrip
-			{
-				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-			}
-			if (control is ToolStripDropDown)
-			{
-				(control as ToolStripDropDown).Opening += Tsdd_Opening;
-			}
-			if (control is ToolStripDropDownMenu)
-			{
-				(control as ToolStripDropDownMenu).Opening += Tsdd_Opening;
-			}
-			if (control is ContextMenuStrip)
-			{
-				(control as ContextMenuStrip).RenderMode = ToolStripRenderMode.Professional;
-				(control as ContextMenuStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
-				(control as ContextMenuStrip).Opening += Tsdd_Opening;
-			}
-			if (control is MdiClient) //<- empty area of MDI container window 
-			{				
-				control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Surface);
-			}
-			if (control is PropertyGrid)
-			{
-				var pGrid = control as PropertyGrid;
-				pGrid.BackColor = OScolors.Control;
-				pGrid.ViewBackColor = OScolors.Control;
-				pGrid.LineColor = OScolors.Surface;
-				pGrid.ViewForeColor = OScolors.TextActive;
-				pGrid.ViewBorderColor = OScolors.ControlDark;
-				pGrid.CategoryForeColor = OScolors.TextActive;
-				pGrid.CategorySplitterColor = OScolors.ControlLight;
 			}
 			if (control is TreeView)
 			{
@@ -1132,7 +857,6 @@ namespace DarkModeForms
 			}
 			return bmp2;
 		}
-
 		public static Image ChangeToColor(Image bmp, Color c) => (Image)ChangeToColor((Bitmap)bmp, c);
 
 		#endregion Public Methods
@@ -1171,7 +895,6 @@ namespace DarkModeForms
 		/// <param name="control"></param>
 		private static void ApplySystemDarkTheme(Control control = null, bool IsDarkMode = true)
 		{
-			//if (!IsDarkModeCSEnabled) return;
 			/*
 			DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
 
@@ -1182,7 +905,7 @@ namespace DarkModeForms
 			This value is supported starting with Windows 11 Build 22000.
 
 			SetWindowTheme:     https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme
-			Causes a window to use a different set of visual style information than its class normally uses.
+			Causes a window to use a different set of visual style information than its class normally uses. Fix for Scrollbars!
 		   */
 			int[] DarkModeOn = IsDarkMode ? new[] { 0x01 } : new[] { 0x00 }; //<- 1=True, 0=False
 			string Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";

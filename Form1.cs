@@ -61,7 +61,13 @@ namespace DarkModeForms
 					Observations = "on Duty"
 				},
 			};
+			dataGridView1.AutoGenerateColumns = true;
 			dataGridView1.DataSource = DS;
+			if (dataGridView1.Rows.Count > 0)
+			{
+				dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[1];
+			}
+
 			treeView1.Nodes[0].Expand();
 			tabControl1.SelectTab(1);
 
