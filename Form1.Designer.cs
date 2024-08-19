@@ -548,6 +548,7 @@ namespace DarkModeForms
 			this.dataGridView1.Location = new System.Drawing.Point(27, 291);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowTemplate.Height = 25;
+			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView1.Size = new System.Drawing.Size(454, 166);
 			this.dataGridView1.TabIndex = 16;
 			// 

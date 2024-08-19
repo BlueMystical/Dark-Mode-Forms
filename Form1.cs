@@ -62,6 +62,7 @@ namespace DarkModeForms
 				},
 			};
 			dataGridView1.AutoGenerateColumns = true;
+			dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			dataGridView1.DataSource = DS;
 			if (dataGridView1.Rows.Count > 0)
 			{

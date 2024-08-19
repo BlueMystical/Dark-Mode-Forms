@@ -594,7 +594,7 @@ namespace DarkModeForms
 				grid.EnableHeadersVisualStyles = false;
 				grid.BorderStyle = BorderStyle.FixedSingle;
 				grid.BackgroundColor = OScolors.Control;
-				grid.GridColor = OScolors.Control;
+				grid.GridColor = OScolors.Control;				
 
 				//paint the bottom right corner where the scrollbars meet
 				grid.Paint += (object sender, PaintEventArgs e) =>
@@ -625,13 +625,13 @@ namespace DarkModeForms
 
 				grid.ColumnHeadersDefaultCellStyle.BackColor = OScolors.Surface;
 				grid.ColumnHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
-				grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = OScolors.AccentOpaque;
+				grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = OScolors.Surface;
 				grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 				grid.ColumnHeadersHeight = 140;
 
 				grid.RowHeadersDefaultCellStyle.BackColor = OScolors.Surface;
 				grid.RowHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
-				grid.RowHeadersDefaultCellStyle.SelectionBackColor = OScolors.AccentOpaque;
+				grid.RowHeadersDefaultCellStyle.SelectionBackColor = OScolors.Surface;
 				grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 			}
 
