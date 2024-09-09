@@ -634,6 +634,16 @@ namespace DarkModeForms
 				grid.RowHeadersDefaultCellStyle.SelectionBackColor = OScolors.Surface;
 				grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 			}
+			if (control is RichTextBox richText)
+			{
+				richText.BackColor = richText.Parent.BackColor;
+				richText.BorderStyle = BorderStyle.None;
+			}
+			if (control is FlowLayoutPanel flowLayout)
+			{
+				flowLayout.BackColor = flowLayout.Parent.BackColor;
+				flowLayout.BorderStyle = BorderStyle.None;
+			}
 
 
 			Debug.Print(string.Format("{0}: {1}", control.Name, control.GetType().Name));
