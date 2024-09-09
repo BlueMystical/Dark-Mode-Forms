@@ -106,12 +106,20 @@ namespace DarkModeForms
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.label1 = new System.Windows.Forms.Label();
 			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.checkBox3 = new System.Windows.Forms.CheckBox();
+			this.radioButton3 = new System.Windows.Forms.RadioButton();
+			this.radioButton2 = new System.Windows.Forms.RadioButton();
+			this.label4 = new System.Windows.Forms.Label();
+			this.checkBox2 = new System.Windows.Forms.CheckBox();
+			this.button7 = new System.Windows.Forms.Button();
 			this.newProgressBar1 = new DarkModeForms.FlatProgressBar();
 			this.flatTabControl1 = new DarkModeForms.FlatTabControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.textBox4 = new System.Windows.Forms.TextBox();
 			this.panel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -122,6 +130,7 @@ namespace DarkModeForms
 			this.groupBox1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.flatTabControl1.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			this.SuspendLayout();
@@ -494,7 +503,7 @@ namespace DarkModeForms
 			this.listView1.LargeImageList = this.imageList1;
 			this.listView1.Location = new System.Drawing.Point(340, 62);
 			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(382, 194);
+			this.listView1.Size = new System.Drawing.Size(382, 97);
 			this.listView1.TabIndex = 10;
 			this.listView1.UseCompatibleStateImageBehavior = false;
 			// 
@@ -701,6 +710,85 @@ namespace DarkModeForms
 			this.notifyIcon1.Text = "notifyIcon1";
 			this.notifyIcon1.Visible = true;
 			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.checkBox3);
+			this.groupBox2.Controls.Add(this.radioButton3);
+			this.groupBox2.Controls.Add(this.radioButton2);
+			this.groupBox2.Controls.Add(this.label4);
+			this.groupBox2.Controls.Add(this.checkBox2);
+			this.groupBox2.Location = new System.Drawing.Point(340, 166);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(200, 89);
+			this.groupBox2.TabIndex = 28;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "groupBox2";
+			// 
+			// checkBox3
+			// 
+			this.checkBox3.AutoSize = true;
+			this.checkBox3.Enabled = false;
+			this.checkBox3.Location = new System.Drawing.Point(114, 43);
+			this.checkBox3.Name = "checkBox3";
+			this.checkBox3.Size = new System.Drawing.Size(80, 17);
+			this.checkBox3.TabIndex = 4;
+			this.checkBox3.Text = "checkBox3";
+			this.checkBox3.UseVisualStyleBackColor = true;
+			// 
+			// radioButton3
+			// 
+			this.radioButton3.AutoSize = true;
+			this.radioButton3.Checked = true;
+			this.radioButton3.Enabled = false;
+			this.radioButton3.Location = new System.Drawing.Point(17, 68);
+			this.radioButton3.Name = "radioButton3";
+			this.radioButton3.Size = new System.Drawing.Size(85, 17);
+			this.radioButton3.TabIndex = 3;
+			this.radioButton3.TabStop = true;
+			this.radioButton3.Text = "radioButton3";
+			this.radioButton3.UseVisualStyleBackColor = true;
+			// 
+			// radioButton2
+			// 
+			this.radioButton2.AutoSize = true;
+			this.radioButton2.Location = new System.Drawing.Point(17, 43);
+			this.radioButton2.Name = "radioButton2";
+			this.radioButton2.Size = new System.Drawing.Size(85, 17);
+			this.radioButton2.TabIndex = 2;
+			this.radioButton2.Text = "radioButton2";
+			this.radioButton2.UseVisualStyleBackColor = true;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(138, 21);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(35, 13);
+			this.label4.TabIndex = 1;
+			this.label4.Text = "label4";
+			// 
+			// checkBox2
+			// 
+			this.checkBox2.AutoSize = true;
+			this.checkBox2.Checked = true;
+			this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBox2.Location = new System.Drawing.Point(17, 20);
+			this.checkBox2.Name = "checkBox2";
+			this.checkBox2.Size = new System.Drawing.Size(80, 17);
+			this.checkBox2.TabIndex = 0;
+			this.checkBox2.Text = "checkBox2";
+			this.checkBox2.UseVisualStyleBackColor = true;
+			// 
+			// button7
+			// 
+			this.button7.Enabled = false;
+			this.button7.Location = new System.Drawing.Point(577, 176);
+			this.button7.Name = "button7";
+			this.button7.Size = new System.Drawing.Size(75, 23);
+			this.button7.TabIndex = 29;
+			this.button7.Text = "button7";
+			this.button7.UseVisualStyleBackColor = true;
+			// 
 			// newProgressBar1
 			// 
 			this.newProgressBar1.Location = new System.Drawing.Point(340, 262);
@@ -776,12 +864,24 @@ namespace DarkModeForms
 			this.tabPage4.TabIndex = 1;
 			this.tabPage4.Text = "tabPage4";
 			// 
+			// textBox4
+			// 
+			this.textBox4.Enabled = false;
+			this.textBox4.Location = new System.Drawing.Point(552, 205);
+			this.textBox4.Name = "textBox4";
+			this.textBox4.Size = new System.Drawing.Size(100, 20);
+			this.textBox4.TabIndex = 30;
+			this.textBox4.Text = "asdfg hjklop";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(730, 671);
+			this.Controls.Add(this.textBox4);
+			this.Controls.Add(this.button7);
+			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.newProgressBar1);
 			this.Controls.Add(this.propertyGrid1);
 			this.Controls.Add(this.flatTabControl1);
@@ -819,6 +919,8 @@ namespace DarkModeForms
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.flatTabControl1.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
@@ -893,5 +995,13 @@ namespace DarkModeForms
 		private Button button6;
 		private Label label1;
 		private NotifyIcon notifyIcon1;
+		private GroupBox groupBox2;
+		private RadioButton radioButton3;
+		private RadioButton radioButton2;
+		private Label label4;
+		private CheckBox checkBox2;
+		private CheckBox checkBox3;
+		private Button button7;
+		private TextBox textBox4;
 	}
 }

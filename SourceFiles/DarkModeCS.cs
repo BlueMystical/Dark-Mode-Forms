@@ -361,6 +361,12 @@ namespace DarkModeForms
 				//SetRoundBorders(tb, 4, OScolors.SurfaceDark, 1);
 				control.GetType().GetProperty("BorderStyle")?.SetValue(control, BStyle);
 			}
+			if (control is NumericUpDown)
+			{
+				//Mode = IsDarkMode ? "DarkMode_CFD" : "ClearMode_CFD";
+				Mode = IsDarkMode ? "DarkMode_ItemsView" : "ClearMode_ItemsView";
+				SetWindowTheme(control.Handle, Mode, null);
+			}
 			if (control is Button)
 			{
 				var button = control as Button;
@@ -392,7 +398,7 @@ namespace DarkModeForms
 			if (control is GroupBox)
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
-				control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextInactive);
+				control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
 			}
 			if (control is TableLayoutPanel)
 			{
@@ -460,10 +466,36 @@ namespace DarkModeForms
 			if (control is CheckBox)
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
+				control.ForeColor = control.Enabled ? OScolors.TextActive : OScolors.TextInactive;
+				if (!control.Enabled && this.IsDarkMode)
+				{
+					control.Paint += (object sender, PaintEventArgs e) =>
+					{
+
+						var radio = (sender as CheckBox);
+						Brush B = new SolidBrush(control.ForeColor);
+
+						e.Graphics.DrawString(radio.Text, radio.Font,
+							B, new System.Drawing.PointF(17, 1));
+					};
+				}
 			}
 			if (control is RadioButton)
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
+				control.ForeColor = control.Enabled ? OScolors.TextActive : OScolors.TextInactive;
+				if (!control.Enabled && this.IsDarkMode)
+				{
+					control.Paint += (object sender, PaintEventArgs e) =>
+					{
+
+						var radio = (sender as RadioButton);
+						Brush B = new SolidBrush(control.ForeColor);
+
+						e.Graphics.DrawString(radio.Text, radio.Font,
+							B, new System.Drawing.PointF(15, 1));
+					};
+				}				
 			}			
 			if (control is MenuStrip)
 			{
@@ -656,6 +688,8 @@ namespace DarkModeForms
 				// Recursively process its children
 				ThemeControl(childControl);
 			}
+
+			
 		}
 
 		/// <summary>Returns Windows Color Mode for Applications.
