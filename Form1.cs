@@ -12,6 +12,7 @@ namespace DarkModeForms
 	{
 		private DarkModeCS DM = null;
 		private bool IsDarkMode = false;
+		private bool mCloseAutorized = false;
 
 		private BindingList<ExampleDataSource> DS = null;
 
@@ -47,7 +48,7 @@ namespace DarkModeForms
 				new ExampleDataSource()
 				{
 					Sequence = 3,
-					Name = "Profesor Hubert Farnsworth",
+					Name = "Prof. Hubert Farnsworth",
 					IsAlive = false,
 					Points = 0,
 					Observations = "RIP"
@@ -83,6 +84,47 @@ namespace DarkModeForms
 				index++;
 			}
 			treeView1.ImageList = imageList2;
+		}
+		
+		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			//Al intentar cerrar la ventana se minimiza en la bandeja 'SysTray'
+			if (e.CloseReason == CloseReason.UserClosing)
+			{
+				if (!this.mCloseAutorized)
+				{
+					e.Cancel = true;
+					base.WindowState = FormWindowState.Minimized;
+				}
+			}
+		}
+
+		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			//Al Cerrar definitivamente el Formulario elimina el icono del SysTray
+			this.notifyIcon1.Dispose();
+		}
+		private void Form1_Resize(object sender, EventArgs e)
+		{
+			//Al Minimizar la Ventana, se oculta y se minimiza en la bandeja 'SysTray'
+			if (this.WindowState == FormWindowState.Minimized)
+			{
+				this.Hide();
+
+				//Muestra una Notificacion en la Bandeja del Sistema:
+				this.notifyIcon1.Visible = true;
+				this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+				this.notifyIcon1.BalloonTipTitle = "DarkMode Forms";
+				this.notifyIcon1.BalloonTipText = "The App will be running hidden";
+				this.notifyIcon1.ShowBalloonTip(5000); //<- Ocultar tras 5 segundos.
+			}
+		}
+		private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+		{
+			//Doble Click en el Icono del SysTray para Mostrar la Ventana
+			this.Show();
+			base.WindowState = FormWindowState.Normal;
+			this.BringToFront();
 		}
 
 		private int CtrlCounter = 0;
@@ -210,6 +252,16 @@ namespace DarkModeForms
 		{
 			IsDarkMode = !IsDarkMode;
 			DM.ApplyTheme(IsDarkMode);
+		}
+
+		private void mnuSalir_Click(object sender, EventArgs e)
+		{
+			//Esta es la forma correcta de Cerrar la Aplicacion, aparte de Apagar el PC
+			if (Messenger.MessageBox("Desea Cerrar este programa?", "Confirmar Salida", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+			{
+				this.mCloseAutorized = true;
+				this.Close();
+			}
 		}
 	}
 

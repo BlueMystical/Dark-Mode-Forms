@@ -113,13 +113,15 @@ namespace DarkModeForms
 			this.label4 = new System.Windows.Forms.Label();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.button7 = new System.Windows.Forms.Button();
+			this.textBox4 = new System.Windows.Forms.TextBox();
+			this.mnuSalir = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.newProgressBar1 = new DarkModeForms.FlatProgressBar();
 			this.flatTabControl1 = new DarkModeForms.FlatTabControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
-			this.textBox4 = new System.Windows.Forms.TextBox();
 			this.panel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -459,9 +461,11 @@ namespace DarkModeForms
 			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contex01ToolStripMenuItem,
             this.contex02ToolStripMenuItem,
-            this.context03ToolStripMenuItem});
+            this.context03ToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.mnuSalir});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(132, 70);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(132, 98);
 			// 
 			// contex01ToolStripMenuItem
 			// 
@@ -709,6 +713,7 @@ namespace DarkModeForms
 			this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
 			this.notifyIcon1.Text = "notifyIcon1";
 			this.notifyIcon1.Visible = true;
+			this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
 			// 
 			// groupBox2
 			// 
@@ -789,6 +794,27 @@ namespace DarkModeForms
 			this.button7.Text = "button7";
 			this.button7.UseVisualStyleBackColor = true;
 			// 
+			// textBox4
+			// 
+			this.textBox4.Enabled = false;
+			this.textBox4.Location = new System.Drawing.Point(552, 205);
+			this.textBox4.Name = "textBox4";
+			this.textBox4.Size = new System.Drawing.Size(100, 20);
+			this.textBox4.TabIndex = 30;
+			this.textBox4.Text = "asdfg hjklop";
+			// 
+			// mnuSalir
+			// 
+			this.mnuSalir.Name = "mnuSalir";
+			this.mnuSalir.Size = new System.Drawing.Size(131, 22);
+			this.mnuSalir.Text = "&Exit App";
+			this.mnuSalir.Click += new System.EventHandler(this.mnuSalir_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(128, 6);
+			// 
 			// newProgressBar1
 			// 
 			this.newProgressBar1.Location = new System.Drawing.Point(340, 262);
@@ -864,15 +890,6 @@ namespace DarkModeForms
 			this.tabPage4.TabIndex = 1;
 			this.tabPage4.Text = "tabPage4";
 			// 
-			// textBox4
-			// 
-			this.textBox4.Enabled = false;
-			this.textBox4.Location = new System.Drawing.Point(552, 205);
-			this.textBox4.Name = "textBox4";
-			this.textBox4.Size = new System.Drawing.Size(100, 20);
-			this.textBox4.TabIndex = 30;
-			this.textBox4.Text = "asdfg hjklop";
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -903,7 +920,10 @@ namespace DarkModeForms
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
 			this.Text = "DarkModeForms - Example Form";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
 			this.Load += new System.EventHandler(this.Form1_Load);
+			this.Resize += new System.EventHandler(this.Form1_Resize);
 			this.panel1.ResumeLayout(false);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
@@ -1003,5 +1023,7 @@ namespace DarkModeForms
 		private CheckBox checkBox3;
 		private Button button7;
 		private TextBox textBox4;
+		private ToolStripSeparator toolStripMenuItem1;
+		private ToolStripMenuItem mnuSalir;
 	}
 }
