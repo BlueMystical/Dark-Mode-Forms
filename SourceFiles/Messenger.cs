@@ -525,15 +525,21 @@ namespace DarkModeForms
 
 			#region Prompt Text
 			
-			Label lblPrompt = new Label
+			Label lblPrompt = new Label();
+			if (!string.IsNullOrWhiteSpace(promptText))
 			{
-				Dock = DockStyle.Top,
-				Text = promptText,
-				//Font = new Font(form.Font, FontStyle.Bold),
-				AutoSize = false,
-				Height = 24,
-				TextAlign = ContentAlignment.MiddleCenter
-			};
+				lblPrompt.Dock = DockStyle.Top;
+				lblPrompt.Text = promptText; //Font = new Font(form.Font, FontStyle.Bold),
+				lblPrompt.AutoSize = false;
+				lblPrompt.Height = 24;
+				lblPrompt.TextAlign = ContentAlignment.MiddleCenter;
+			}
+			else
+			{
+				lblPrompt.Location = new Point(0, 0);
+				lblPrompt.Width = 0;
+				lblPrompt.Height = 0;
+			}
 			form.Controls.Add(lblPrompt);
 
 			#endregion Prompt Text
