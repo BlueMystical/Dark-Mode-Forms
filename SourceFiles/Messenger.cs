@@ -598,6 +598,28 @@ namespace DarkModeForms
 						});
 					};
 				}
+				if (field.ValueType == ValueTypes.Multiline)
+				{
+					field_Control = new TextBox
+					{
+						Text = field.Value,
+						Dock = DockStyle.Fill,
+						TextAlign = HorizontalAlignment.Left,
+						Multiline = true,
+						ScrollBars = ScrollBars.Vertical
+					};
+					((TextBox)field_Control).TextChanged += (sender, args) =>
+					{
+						AddTextChangedDelay((TextBox)field_Control, ChangeDelayMS, text =>
+						{
+							field.Value = ((TextBox)sender).Text;
+
+							//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
+							((TextBox)sender).Text = Convert.ToString(field.Value);
+							Err.SetError(field_Control, field.ErrorText);
+						});
+					};
+				}
 				if (field.ValueType == ValueTypes.Password)
 				{
 					field_Control = new TextBox
@@ -751,7 +773,22 @@ namespace DarkModeForms
 
 				// Add controls to appropriate cells:
 				Contenedor.Controls.Add(field_label, 0, currentRow); // Column 0 for labels
-				Contenedor.Controls.Add(field_Control, 1, currentRow); // Column 1 for text boxes
+				if (field.ValueType == ValueTypes.Multiline)
+				{
+					Contenedor.Controls.Add(field_Control, 1, currentRow);
+					const int spanRow = 6;
+					for (int i = 0; i < spanRow; i++)
+					{
+						currentRow++;
+						Contenedor.RowCount++;
+						Contenedor.RowStyles.Add(new RowStyle(SizeType.Absolute, field_Control.Height));
+					}
+					Contenedor.SetRowSpan(field_Control, spanRow);
+				}
+				else
+				{
+					Contenedor.Controls.Add(field_Control, 1, currentRow); // Column 1 for text boxes
+				}
 
 				Err.SetIconAlignment(field_Control, ErrorIconAlignment.MiddleLeft);
 
@@ -982,7 +1019,8 @@ namespace DarkModeForms
 			Time,
 			Boolean,
 			Dynamic,
-			Password
+			Password,
+			Multiline
 		}
 
 		public string Key { get; set; }
