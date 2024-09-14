@@ -53,7 +53,7 @@ namespace DarkModeForms
 		/// <returns>It is a modal window, blocking other actions in the application until the user closes it.</returns>
 		public static DialogResult MessageBox(
 			string Message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK,
-			MessageBoxIcon icon = MessageBoxIcon.Information)
+			MessageBoxIcon icon = MessageBoxIcon.Information, bool pIsDarkMode = true)
 		{
 			Debug.WriteLine(icon.ToString());
 
@@ -74,7 +74,7 @@ namespace DarkModeForms
 					break;
 			}
 
-			return MessageBox(Message, title, Icon, buttons);
+			return MessageBox(Message, title, Icon, buttons, pIsDarkMode);
 		}
 
 		/// <summary>Displays a message window, also known as a dialog box, which presents a message to the user.</summary>
@@ -85,7 +85,7 @@ namespace DarkModeForms
 		/// <returns>It is a modal window, blocking other actions in the application until the user closes it.</returns>
 		public static DialogResult MessageBox(
 			string Message, string title, MsgIcon Icon,
-			MessageBoxButtons buttons = MessageBoxButtons.OK)
+			MessageBoxButtons buttons = MessageBoxButtons.OK, bool pIsDarkMode = true)
 		{
 			Form form = new Form
 			{
@@ -99,6 +99,8 @@ namespace DarkModeForms
 			};
 
 			DarkModeCS DMode = new DarkModeCS(form);
+			DMode.ApplyTheme(pIsDarkMode);
+
 			Base64Icons _Icons = new Base64Icons();
 
 			#region Bottom Panel & Buttons
@@ -320,7 +322,7 @@ namespace DarkModeForms
 		/// <returns>OK si el usuario acepta. By BlueMystic @2024</returns>
 		public static DialogResult InputBox(
 			string title, string promptText, ref List<KeyValue> Fields,
-			MsgIcon Icon = 0, MessageBoxButtons buttons = MessageBoxButtons.OK)
+			MsgIcon Icon = 0, MessageBoxButtons buttons = MessageBoxButtons.OK, bool pIsDarkMode = true)
 		{
 			Form form = new Form
 			{
@@ -334,6 +336,7 @@ namespace DarkModeForms
 			};
 
 			DarkModeCS DMode = new DarkModeCS(form);
+			DMode.ApplyTheme(pIsDarkMode);
 
 			// Error Management & Icon Library:
 			ErrorProvider Err = new ErrorProvider();
@@ -521,7 +524,7 @@ namespace DarkModeForms
 			#endregion Buttons
 
 			#region Prompt Text
-
+			
 			Label lblPrompt = new Label
 			{
 				Dock = DockStyle.Top,
