@@ -53,7 +53,7 @@ namespace DarkModeForms
 		/// <returns>It is a modal window, blocking other actions in the application until the user closes it.</returns>
 		public static DialogResult MessageBox(
 			string Message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK,
-			MessageBoxIcon icon = MessageBoxIcon.Information)
+			MessageBoxIcon icon = MessageBoxIcon.Information, bool pIsDarkMode = true)
 		{
 			Debug.WriteLine(icon.ToString());
 
@@ -74,7 +74,7 @@ namespace DarkModeForms
 					break;
 			}
 
-			return MessageBox(Message, title, Icon, buttons);
+			return MessageBox(Message, title, Icon, buttons, pIsDarkMode);
 		}
 
 		/// <summary>Displays a message window, also known as a dialog box, which presents a message to the user.</summary>
@@ -85,7 +85,7 @@ namespace DarkModeForms
 		/// <returns>It is a modal window, blocking other actions in the application until the user closes it.</returns>
 		public static DialogResult MessageBox(
 			string Message, string title, MsgIcon Icon,
-			MessageBoxButtons buttons = MessageBoxButtons.OK)
+			MessageBoxButtons buttons = MessageBoxButtons.OK, bool pIsDarkMode = true)
 		{
 			Form form = new Form
 			{
@@ -99,6 +99,8 @@ namespace DarkModeForms
 			};
 
 			DarkModeCS DMode = new DarkModeCS(form);
+			DMode.ApplyTheme(pIsDarkMode);
+
 			Base64Icons _Icons = new Base64Icons();
 
 			#region Bottom Panel & Buttons
@@ -320,7 +322,7 @@ namespace DarkModeForms
 		/// <returns>OK si el usuario acepta. By BlueMystic @2024</returns>
 		public static DialogResult InputBox(
 			string title, string promptText, ref List<KeyValue> Fields,
-			MsgIcon Icon = 0, MessageBoxButtons buttons = MessageBoxButtons.OK)
+			MsgIcon Icon = 0, MessageBoxButtons buttons = MessageBoxButtons.OK, bool pIsDarkMode = true)
 		{
 			Form form = new Form
 			{
@@ -334,6 +336,7 @@ namespace DarkModeForms
 			};
 
 			DarkModeCS DMode = new DarkModeCS(form);
+			DMode.ApplyTheme(pIsDarkMode);
 
 			// Error Management & Icon Library:
 			ErrorProvider Err = new ErrorProvider();
@@ -521,16 +524,22 @@ namespace DarkModeForms
 			#endregion Buttons
 
 			#region Prompt Text
-
-			Label lblPrompt = new Label
+			
+			Label lblPrompt = new Label();
+			if (!string.IsNullOrWhiteSpace(promptText))
 			{
-				Dock = DockStyle.Top,
-				Text = promptText,
-				//Font = new Font(form.Font, FontStyle.Bold),
-				AutoSize = false,
-				Height = 24,
-				TextAlign = ContentAlignment.MiddleCenter
-			};
+				lblPrompt.Dock = DockStyle.Top;
+				lblPrompt.Text = promptText; //Font = new Font(form.Font, FontStyle.Bold),
+				lblPrompt.AutoSize = false;
+				lblPrompt.Height = 24;
+				lblPrompt.TextAlign = ContentAlignment.MiddleCenter;
+			}
+			else
+			{
+				lblPrompt.Location = new Point(0, 0);
+				lblPrompt.Width = 0;
+				lblPrompt.Height = 0;
+			}
 			form.Controls.Add(lblPrompt);
 
 			#endregion Prompt Text
@@ -576,6 +585,28 @@ namespace DarkModeForms
 						Text = field.Value,
 						Dock = DockStyle.Fill,
 						TextAlign = HorizontalAlignment.Center
+					};
+					((TextBox)field_Control).TextChanged += (sender, args) =>
+					{
+						AddTextChangedDelay((TextBox)field_Control, ChangeDelayMS, text =>
+						{
+							field.Value = ((TextBox)sender).Text;
+
+							//aqui 'KeyValue' valida el nuevo valor y puede cancelarlo
+							((TextBox)sender).Text = Convert.ToString(field.Value);
+							Err.SetError(field_Control, field.ErrorText);
+						});
+					};
+				}
+				if (field.ValueType == ValueTypes.Multiline)
+				{
+					field_Control = new TextBox
+					{
+						Text = field.Value,
+						Dock = DockStyle.Fill,
+						TextAlign = HorizontalAlignment.Left,
+						Multiline = true,
+						ScrollBars = ScrollBars.Vertical
 					};
 					((TextBox)field_Control).TextChanged += (sender, args) =>
 					{
@@ -742,7 +773,22 @@ namespace DarkModeForms
 
 				// Add controls to appropriate cells:
 				Contenedor.Controls.Add(field_label, 0, currentRow); // Column 0 for labels
-				Contenedor.Controls.Add(field_Control, 1, currentRow); // Column 1 for text boxes
+				if (field.ValueType == ValueTypes.Multiline)
+				{
+					Contenedor.Controls.Add(field_Control, 1, currentRow);
+					const int spanRow = 6;
+					for (int i = 0; i < spanRow; i++)
+					{
+						currentRow++;
+						Contenedor.RowCount++;
+						Contenedor.RowStyles.Add(new RowStyle(SizeType.Absolute, field_Control.Height));
+					}
+					Contenedor.SetRowSpan(field_Control, spanRow);
+				}
+				else
+				{
+					Contenedor.Controls.Add(field_Control, 1, currentRow); // Column 1 for text boxes
+				}
 
 				Err.SetIconAlignment(field_Control, ErrorIconAlignment.MiddleLeft);
 
@@ -973,7 +1019,8 @@ namespace DarkModeForms
 			Time,
 			Boolean,
 			Dynamic,
-			Password
+			Password,
+			Multiline
 		}
 
 		public string Key { get; set; }
