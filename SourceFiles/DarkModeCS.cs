@@ -21,12 +21,12 @@ namespace DarkModeForms
 		public struct DWMCOLORIZATIONcolors
 		{
 			public uint ColorizationColor,
-				ColorizationAfterglow,
-				ColorizationColorBalance,
-				ColorizationAfterglowBalance,
-				ColorizationBlurBalance,
-				ColorizationGlassReflectionIntensity,
-				ColorizationOpaqueBlend;
+			  ColorizationAfterglow,
+			  ColorizationColorBalance,
+			  ColorizationAfterglowBalance,
+			  ColorizationBlurBalance,
+			  ColorizationGlassReflectionIntensity,
+			  ColorizationOpaqueBlend;
 		}
 
 		[Flags]
@@ -196,12 +196,12 @@ namespace DarkModeForms
 		[DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
 		private static extern IntPtr CreateRoundRectRgn
 		(
-			int nLeftRect,     // x-coordinate of upper-left corner
-			int nTopRect,      // y-coordinate of upper-left corner
-			int nRightRect,    // x-coordinate of lower-right corner
-			int nBottomRect,   // y-coordinate of lower-right corner
-			int nWidthEllipse, // height of ellipse
-			int nHeightEllipse // width of ellipse
+		  int nLeftRect,     // x-coordinate of upper-left corner
+		  int nTopRect,      // y-coordinate of upper-left corner
+		  int nRightRect,    // x-coordinate of lower-right corner
+		  int nBottomRect,   // y-coordinate of lower-right corner
+		  int nWidthEllipse, // height of ellipse
+		  int nHeightEllipse // width of ellipse
 		);
 
 		[DllImport("user32")]
@@ -226,7 +226,7 @@ namespace DarkModeForms
 		/// currently, only Key is being used, the Value is not.
 		/// Using ConditionalWeakTable because I found no suitable ISet<Control> implementation
 		/// </summary>
-		private static  ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();
+		private static ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();
 
 		#endregion
 
@@ -271,7 +271,7 @@ namespace DarkModeForms
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
 			IsDarkMode = IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
-			
+
 			//if (!IsDarkModeCSEnabled) return;
 
 			ApplyTheme(IsDarkMode);
@@ -350,6 +350,17 @@ namespace DarkModeForms
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
 				control.GetType().GetProperty("BorderStyle")?.SetValue(control, BorderStyle.None);
+				control.Paint += (object sender, PaintEventArgs e) =>
+				{
+					if (control.Enabled == false && this.IsDarkMode)
+					{
+						var radio = (sender as Label);
+						Brush B = new SolidBrush(control.ForeColor);
+
+						e.Graphics.DrawString(radio.Text, radio.Font,
+						  B, new System.Drawing.PointF(1, 0));
+					}
+				};
 			}
 			if (control is LinkLabel)
 			{
@@ -374,7 +385,7 @@ namespace DarkModeForms
 				button.FlatAppearance.CheckedBackColor = OScolors.Accent;
 				button.BackColor = OScolors.Control;
 				button.FlatAppearance.BorderColor = (OwnerForm.AcceptButton == button) ?
-					OScolors.Accent : OScolors.Control;
+				  OScolors.Accent : OScolors.Control;
 			}
 			if (control is ComboBox)
 			{
@@ -399,6 +410,17 @@ namespace DarkModeForms
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
 				control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
+				control.Paint += (object sender, PaintEventArgs e) =>
+				{
+					if (control.Enabled == false && this.IsDarkMode)
+					{
+						var radio = (sender as GroupBox);
+						Brush B = new SolidBrush(control.ForeColor);
+
+						e.Graphics.DrawString(radio.Text, radio.Font,
+						  B, new System.Drawing.PointF(6, 0));
+					}
+				};
 			}
 			if (control is TableLayoutPanel)
 			{
@@ -462,41 +484,39 @@ namespace DarkModeForms
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
 				control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
 				control.GetType().GetProperty("BorderStyle")?.SetValue(control, BorderStyle.None);
-			}			
+			}
 			if (control is CheckBox)
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
 				control.ForeColor = control.Enabled ? OScolors.TextActive : OScolors.TextInactive;
-				if (!control.Enabled && this.IsDarkMode)
+				control.Paint += (object sender, PaintEventArgs e) =>
 				{
-					control.Paint += (object sender, PaintEventArgs e) =>
+					if (control.Enabled == false && this.IsDarkMode)
 					{
-
 						var radio = (sender as CheckBox);
 						Brush B = new SolidBrush(control.ForeColor);
 
 						e.Graphics.DrawString(radio.Text, radio.Font,
-							B, new System.Drawing.PointF(17, 1));
-					};
-				}
+						  B, new System.Drawing.PointF(16, 0));
+					}
+				};
 			}
 			if (control is RadioButton)
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
 				control.ForeColor = control.Enabled ? OScolors.TextActive : OScolors.TextInactive;
-				if (!control.Enabled && this.IsDarkMode)
+				control.Paint += (object sender, PaintEventArgs e) =>
 				{
-					control.Paint += (object sender, PaintEventArgs e) =>
+					if (control.Enabled == false && this.IsDarkMode)
 					{
-
 						var radio = (sender as RadioButton);
 						Brush B = new SolidBrush(control.ForeColor);
 
 						e.Graphics.DrawString(radio.Text, radio.Font,
-							B, new System.Drawing.PointF(15, 1));
-					};
-				}				
-			}			
+						  B, new System.Drawing.PointF(16, 0));
+					}
+				};
+			}
 			if (control is MenuStrip)
 			{
 				(control as MenuStrip).RenderMode = ToolStripRenderMode.Professional;
@@ -529,7 +549,7 @@ namespace DarkModeForms
 				(control as ContextMenuStrip).Opening += Tsdd_Opening;
 			}
 			if (control is MdiClient) //<- empty area of MDI container window 
-			{				
+			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Surface);
 			}
 			if (control is PropertyGrid)
@@ -626,7 +646,7 @@ namespace DarkModeForms
 				grid.EnableHeadersVisualStyles = false;
 				grid.BorderStyle = BorderStyle.FixedSingle;
 				grid.BackgroundColor = OScolors.Control;
-				grid.GridColor = OScolors.Control;				
+				grid.GridColor = OScolors.Control;
 
 				//paint the bottom right corner where the scrollbars meet
 				grid.Paint += (object sender, PaintEventArgs e) =>
@@ -647,7 +667,7 @@ namespace DarkModeForms
 							var w = vs.Size.Width;
 							var h = hs.Size.Height;
 							e.Graphics.FillRectangle(brush, dgv.ClientRectangle.X + dgv.ClientRectangle.Width - w - 1,
-								dgv.ClientRectangle.Y + dgv.ClientRectangle.Height - h - 1, w, h);
+							  dgv.ClientRectangle.Y + dgv.ClientRectangle.Height - h - 1, w, h);
 						}
 					}
 				};
@@ -689,7 +709,7 @@ namespace DarkModeForms
 				ThemeControl(childControl);
 			}
 
-			
+
 		}
 
 		/// <summary>Returns Windows Color Mode for Applications.
@@ -700,9 +720,9 @@ namespace DarkModeForms
 			try
 			{
 				return (int)Microsoft.Win32.Registry.GetValue(
-					@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize",
-					GetSystemColorModeInstead ? "SystemUsesLightTheme" : "AppsUseLightTheme",
-					-1);
+				  @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize",
+				  GetSystemColorModeInstead ? "SystemUsesLightTheme" : "AppsUseLightTheme",
+				  -1);
 			}
 			catch
 			{
@@ -793,7 +813,7 @@ namespace DarkModeForms
 				_ret.Primary = Color.FromArgb(3, 218, 198);   //<- Verde Pastel
 				_ret.Secondary = Color.MediumSlateBlue;         //<- Magenta Claro
 
-				
+
 			}
 
 			return _ret;
@@ -886,10 +906,10 @@ namespace DarkModeForms
 
 				System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
 				{
-					new float[] { 1,    0,  0,  0,  0 },
-					new float[] { 0,    1,  0,  0,  0 },
-					new float[] { 0,    0,  1,  0,  0 },
-					new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
+		  new float[] { 1,    0,  0,  0,  0 },
+		  new float[] { 0,    1,  0,  0,  0 },
+		  new float[] { 0,    0,  1,  0,  0 },
+		  new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
 					new float[] { tR,   tG, tB, 0,  1 }
 				});
 
@@ -897,7 +917,7 @@ namespace DarkModeForms
 				attributes.SetColorMatrix(colorMatrix);
 
 				g.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height),
-					0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, attributes);
+				  0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, attributes);
 			}
 			return bmp2;
 		}
@@ -940,17 +960,17 @@ namespace DarkModeForms
 		private static void ApplySystemDarkTheme(Control control = null, bool IsDarkMode = true)
 		{
 			/*
-			DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
+				  DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
 
-			Use with DwmSetWindowAttribute. Allows the window frame for this window to be drawn in dark mode colors when the dark mode system setting is enabled.
-			For compatibility reasons, all windows default to light mode regardless of the system setting.
-			The pvAttribute parameter points to a value of type BOOL. TRUE to honor dark mode for the window, FALSE to always use light mode.
+				  Use with DwmSetWindowAttribute. Allows the window frame for this window to be drawn in dark mode colors when the dark mode system setting is enabled.
+				  For compatibility reasons, all windows default to light mode regardless of the system setting.
+				  The pvAttribute parameter points to a value of type BOOL. TRUE to honor dark mode for the window, FALSE to always use light mode.
 
-			This value is supported starting with Windows 11 Build 22000.
+				  This value is supported starting with Windows 11 Build 22000.
 
-			SetWindowTheme:     https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme
-			Causes a window to use a different set of visual style information than its class normally uses. Fix for Scrollbars!
-		   */
+				  SetWindowTheme:     https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme
+				  Causes a window to use a different set of visual style information than its class normally uses. Fix for Scrollbars!
+				 */
 			int[] DarkModeOn = IsDarkMode ? new[] { 0x01 } : new[] { 0x00 }; //<- 1=True, 0=False
 			string Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";
 
@@ -1132,16 +1152,16 @@ namespace DarkModeForms
 		protected override void OnRenderGrip(ToolStripGripRenderEventArgs e)
 		{
 			DrawTitleBar(
-				e.Graphics,
-				new Rectangle(0, 0, e.ToolStrip.Width, 7));
+			  e.Graphics,
+			  new Rectangle(0, 0, e.ToolStrip.Width, 7));
 		}
 
 		// This method handles the RenderToolStripBorder event.
 		protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
 		{
 			DrawTitleBar(
-				e.Graphics,
-				new Rectangle(0, 0, e.ToolStrip.Width, 7));
+			  e.Graphics,
+			  new Rectangle(0, 0, e.ToolStrip.Width, 7));
 		}
 
 		// Background of the whole ToolBar Or MenuBar:
@@ -1175,42 +1195,42 @@ namespace DarkModeForms
 			}
 
 			using (Brush b = new LinearGradientBrush(
-				bounds,
-				gradientBegin,
-				gradientEnd,
-				LinearGradientMode.Vertical))
+			  bounds,
+			  gradientBegin,
+			  gradientEnd,
+			  LinearGradientMode.Vertical))
 			{
 				g.FillRectangle(b, bounds);
 			}
 
 			e.Graphics.DrawRectangle(
-				BordersPencil,
-				bounds);
+			  BordersPencil,
+			  bounds);
 
 			g.DrawLine(
-				BordersPencil,
-				bounds.X,
-				bounds.Y,
-				bounds.Width - 1,
-				bounds.Y);
+			  BordersPencil,
+			  bounds.X,
+			  bounds.Y,
+			  bounds.Width - 1,
+			  bounds.Y);
 
 			g.DrawLine(
-				BordersPencil,
-				bounds.X,
-				bounds.Y,
-				bounds.X,
-				bounds.Height - 1);
+			  BordersPencil,
+			  bounds.X,
+			  bounds.Y,
+			  bounds.X,
+			  bounds.Height - 1);
 
 			ToolStrip toolStrip = button.Owner;
 
 			if (!(button.Owner.GetItemAt(button.Bounds.X, button.Bounds.Bottom + 1) is ToolStripButton nextItem))
 			{
 				g.DrawLine(
-					BordersPencil,
-					bounds.X,
-					bounds.Height - 1,
-					bounds.X + bounds.Width - 1,
-					bounds.Height - 1);
+				  BordersPencil,
+				  bounds.X,
+				  bounds.Height - 1,
+				  bounds.X + bounds.Width - 1,
+				  bounds.Height - 1);
 			}
 		}
 
@@ -1238,10 +1258,10 @@ namespace DarkModeForms
 
 			//2. Draw the Box around the Control
 			using (Brush b = new LinearGradientBrush(
-				bounds,
-				gradientBegin,
-				gradientEnd,
-				LinearGradientMode.Vertical))
+			  bounds,
+			  gradientBegin,
+			  gradientEnd,
+			  LinearGradientMode.Vertical))
 			{
 				e.Graphics.FillRectangle(b, bounds);
 			}
@@ -1284,10 +1304,10 @@ namespace DarkModeForms
 
 			//2. Draw the Box around the Control
 			using (Brush b = new LinearGradientBrush(
-				bounds,
-				gradientBegin,
-				gradientEnd,
-				LinearGradientMode.Vertical))
+			  bounds,
+			  gradientBegin,
+			  gradientEnd,
+			  LinearGradientMode.Vertical))
 			{
 				e.Graphics.FillRectangle(b, bounds);
 			}
@@ -1388,7 +1408,7 @@ namespace DarkModeForms
 				{
 					e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
 					e.Graphics.CompositingQuality =
-						CompositingQuality.AssumeLinear; //looks thinner and less fuzzy than HighQuality
+					  CompositingQuality.AssumeLinear; //looks thinner and less fuzzy than HighQuality
 					e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 					e.Graphics.DrawImage(adjustedImage, e.ImageRectangle);
 				}
@@ -1444,5 +1464,5 @@ namespace DarkModeForms
 		}
 	}
 
-	
+
 }
