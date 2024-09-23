@@ -81,6 +81,8 @@ namespace DarkModeForms
 			this.contex01ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contex02ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.context03ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.mnuSalir = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageList2 = new System.Windows.Forms.ImageList(this.components);
 			this.listView1 = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -114,8 +116,6 @@ namespace DarkModeForms
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.button7 = new System.Windows.Forms.Button();
 			this.textBox4 = new System.Windows.Forms.TextBox();
-			this.mnuSalir = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.newProgressBar1 = new DarkModeForms.FlatProgressBar();
 			this.flatTabControl1 = new DarkModeForms.FlatTabControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -399,6 +399,7 @@ namespace DarkModeForms
 			// 
 			// listBox1
 			// 
+			this.listBox1.Enabled = false;
 			this.listBox1.FormattingEnabled = true;
 			this.listBox1.Items.AddRange(new object[] {
             "1",
@@ -484,6 +485,18 @@ namespace DarkModeForms
 			this.context03ToolStripMenuItem.Name = "context03ToolStripMenuItem";
 			this.context03ToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
 			this.context03ToolStripMenuItem.Text = "Context 03";
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(128, 6);
+			// 
+			// mnuSalir
+			// 
+			this.mnuSalir.Name = "mnuSalir";
+			this.mnuSalir.Size = new System.Drawing.Size(131, 22);
+			this.mnuSalir.Text = "&Exit App";
+			this.mnuSalir.Click += new System.EventHandler(this.mnuSalir_Click);
 			// 
 			// imageList2
 			// 
@@ -802,18 +815,6 @@ namespace DarkModeForms
 			this.textBox4.Size = new System.Drawing.Size(100, 20);
 			this.textBox4.TabIndex = 30;
 			this.textBox4.Text = "asdfg hjklop";
-			// 
-			// mnuSalir
-			// 
-			this.mnuSalir.Name = "mnuSalir";
-			this.mnuSalir.Size = new System.Drawing.Size(131, 22);
-			this.mnuSalir.Text = "&Exit App";
-			this.mnuSalir.Click += new System.EventHandler(this.mnuSalir_Click);
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(128, 6);
 			// 
 			// newProgressBar1
 			// 

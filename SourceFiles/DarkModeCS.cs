@@ -391,6 +391,7 @@ namespace DarkModeForms
 			{
 				Mode = IsDarkMode ? "DarkMode_CFD" : "ClearMode_CFD";
 				SetWindowTheme(control.Handle, Mode, null);
+				control.BeginInvoke(new Action(() => (control as ComboBox).SelectionLength = 0));
 			}
 			if (control is Panel)
 			{
