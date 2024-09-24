@@ -389,9 +389,13 @@ namespace DarkModeForms
 			}
 			if (control is ComboBox)
 			{
-				Mode = IsDarkMode ? "DarkMode_CFD" : "ClearMode_CFD";
-				SetWindowTheme(control.Handle, Mode, null);
+				Mode = IsDarkMode ? "DarkMode_CFD" : "ClearMode_CFD";				
 				control.BeginInvoke(new Action(() => (control as ComboBox).SelectionLength = 0));
+				if (control.Enabled == false && this.IsDarkMode)
+				{
+					(control as ComboBox).DropDownStyle = ComboBoxStyle.DropDownList;
+				}
+				SetWindowTheme(control.Handle, Mode, null);
 			}
 			if (control is Panel)
 			{
@@ -712,6 +716,8 @@ namespace DarkModeForms
 
 
 		}
+
+
 
 		/// <summary>Returns Windows Color Mode for Applications.
 		/// <para>0=dark theme, 1=light theme</para>

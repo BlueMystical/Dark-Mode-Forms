@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
+
 namespace DarkModeForms
 {
 	public partial class Form1 : Form
@@ -70,6 +71,16 @@ namespace DarkModeForms
 				dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[1];
 			}
 
+			comboBox1.Items.Clear();			
+			comboBox1.ValueMember = "Sequence";
+			comboBox1.DisplayMember = "Name";
+			comboBox1.DataSource = DS;
+
+			//listBox1.Items.Clear();
+			//listBox1.ValueMember = "Sequence";
+			//listBox1.DisplayMember = "Name";
+			//listBox1.DataSource = DS;
+
 			treeView1.Nodes[0].Expand();
 			tabControl1.SelectTab(1);
 
@@ -91,14 +102,13 @@ namespace DarkModeForms
 			//Al intentar cerrar la ventana se minimiza en la bandeja 'SysTray'
 			if (e.CloseReason == CloseReason.UserClosing)
 			{
-				if (!this.mCloseAutorized)
-				{
-					e.Cancel = true;
-					base.WindowState = FormWindowState.Minimized;
-				}
+				//if (!this.mCloseAutorized)
+				//{
+				//	e.Cancel = true;
+				//	base.WindowState = FormWindowState.Minimized;
+				//}
 			}
 		}
-
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			//Al Cerrar definitivamente el Formulario elimina el icono del SysTray
@@ -142,6 +152,8 @@ namespace DarkModeForms
 			newT.BringToFront();
 			newT.Focus();
 			CtrlCounter = CtrlCounter + 10;
+
+			//comboBox1.Enabled = true;
 		}
 
 		// Default MessageBox, for comparing, and Custom Error showing
