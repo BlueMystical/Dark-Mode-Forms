@@ -5,6 +5,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <ApplicationIcon>YinYan.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <AppConfig>App.config</AppConfig>
   </PropertyGroup>
   <ItemGroup>
