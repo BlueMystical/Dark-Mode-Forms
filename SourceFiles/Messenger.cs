@@ -904,16 +904,16 @@ namespace DarkModeForms
 			Dictionary<string, string> _ret = null;
 
 			Dictionary<string, string> ButtonTranslations = new Dictionary<string, string> {
-		{ "en", "OK|Cancel|Yes|No|Continue|Retry|Abort|Ignore" },
-		{ "es", "Aceptar|Cancelar|Sí|No|Continuar|Reintentar|Abortar|Ignorar" },
-		{ "fr", "Accepter|Annuler|Oui|Non|Continuer|Réessayer|Abandonner|Ignorer" },
-		{ "de", "Akzeptieren|Abbrechen|Ja|Nein|Weiter|Wiederholen|Abbrechen|Ignorieren"},
-		{ "ru", "Принять|Отменить|Да|Нет|Продолжить|Повторить|Прервать|Игнорировать" },
-		{ "ko", "확인|취소|예|아니오|계속|다시 시도|중단|무시" },
-		{ "zh-Hans", "确定|取消|是|否|继续|重试|中止|忽略" },
-		{ "zh-Hant", "確定|取消|是|否|繼續|重試|中止|忽略" }
-        /* Add here you own language button translations */
-      };
+				{ "en", "OK|Cancel|Yes|No|Continue|Retry|Abort|Ignore" },
+				{ "es", "Aceptar|Cancelar|Sí|No|Continuar|Reintentar|Abortar|Ignorar" },
+				{ "fr", "Accepter|Annuler|Oui|Non|Continuer|Réessayer|Abandonner|Ignorer" },
+				{ "de", "Akzeptieren|Abbrechen|Ja|Nein|Weiter|Wiederholen|Abbrechen|Ignorieren"},
+				{ "ru", "Принять|Отменить|Да|Нет|Продолжить|Повторить|Прервать|Игнорировать" },
+				{ "ko", "확인|취소|예|아니오|계속|다시 시도|중단|무시" },
+				{ "zh-Hans", "确定|取消|是|否|继续|重试|中止|忽略" },
+				{ "zh-Hant", "確定|取消|是|否|繼續|重試|中止|忽略" }
+				/* Add here you own language button translations */
+			  };
 
 			string raw = ButtonTranslations[pLanguage];
 			if (!string.IsNullOrEmpty(raw))
@@ -921,15 +921,15 @@ namespace DarkModeForms
 				var Words = raw.Split('|').ToList();
 
 				_ret = new Dictionary<string, string> {
-			{ "OK", Words[0] },
-			{ "Cancel", Words[1] },
-			{ "Yes", Words[2] },
-			{ "No", Words[3] },
-			{ "Continue", Words[4] },
-			{ "Retry", Words[5] },
-			{ "Abort", Words[6] },
-			{ "Ignore", Words[7] }
-		};
+					{ "OK", Words[0] },
+					{ "Cancel", Words[1] },
+					{ "Yes", Words[2] },
+					{ "No", Words[3] },
+					{ "Continue", Words[4] },
+					{ "Retry", Words[5] },
+					{ "Abort", Words[6] },
+					{ "Ignore", Words[7] }
+				};
 			}
 
 			return _ret;

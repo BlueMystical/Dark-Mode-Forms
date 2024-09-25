@@ -340,7 +340,7 @@ namespace DarkModeForms
 			};
 
 			string Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";
-			SetWindowTheme(control.Handle, Mode, null);
+			SetWindowTheme(control.Handle, Mode, null); //<- Attempts to apply Dark Mode using Win32 API if available.
 
 			control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Control);
 			control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
