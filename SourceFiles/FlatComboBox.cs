@@ -65,7 +65,7 @@ namespace DarkModeForms
 				}
 				var innerBorderColor = Enabled ? BackColor : SystemColors.Control;
 				var outerBorderColor = Enabled ? BorderColor : SystemColors.ControlDark;
-				var buttonColor = Enabled ? ButtonColor : SystemColors.Control;
+				var buttonColor1 = Enabled ? ButtonColor : SystemColors.Control; //renamed from buttonColor so that it cannot be confused with the field of the same name
 				var middle = new Point(dropDownRect.Left + dropDownRect.Width / 2,
 					dropDownRect.Top + dropDownRect.Height / 2);
 				var arrow = new Point[]
@@ -104,7 +104,7 @@ namespace DarkModeForms
 
 					#region DropDown Button
 
-					using (var b = new SolidBrush(buttonColor))
+					using (var b = new SolidBrush(buttonColor1))
 					{
 						g.FillRectangle(b, dropDownRect);
 					}
