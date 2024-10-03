@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using static DarkModeForms.KeyValue;
 
@@ -103,6 +104,9 @@ namespace DarkModeForms
 
 			Base64Icons _Icons = new Base64Icons();
 
+			Font systemFont = SystemFonts.DefaultFont;
+			int fontHeight = systemFont.Height;
+
 			#region Bottom Panel & Buttons
 
 			Panel bottomPanel = new Panel
@@ -125,7 +129,8 @@ namespace DarkModeForms
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.OK,
-						Text = ButtonTranslations["OK"]
+						Text = ButtonTranslations["OK"],
+						Height = fontHeight + 10,
 					});
 					form.AcceptButton = CmdButtons[0];
 					break;
@@ -135,8 +140,10 @@ namespace DarkModeForms
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.OK,
-						Text = ButtonTranslations["OK"]
+						Text = ButtonTranslations["OK"],
+						Height = fontHeight + 10,
 					});
+					var xx = CmdButtons[CmdButtons.Count - 1].Height;
 					CmdButtons.Add(new Button
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
@@ -243,10 +250,22 @@ namespace DarkModeForms
 			int Padding = 4;
 			int LastPos = form.ClientSize.Width;
 
+			systemFont = SystemFonts.MessageBoxFont;
+			
+
 			foreach (var _button in CmdButtons)
 			{
 				_button.FlatAppearance.BorderColor = (form.AcceptButton == _button) ? DMode.OScolors.Accent : DMode.OScolors.Control;
 				bottomPanel.Controls.Add(_button);
+
+				_button.Font = systemFont;
+
+				// Measure the width of the button text
+				using (Graphics g = form.CreateGraphics())
+				{
+					SizeF textSize = g.MeasureString(_button.Text, systemFont);
+					_button.Size = new Size((int)textSize.Width + 20, systemFont.Height + 10); // Adding some padding
+				}
 
 				_button.Location = new Point(LastPos - (_button.Width + Padding), (bottomPanel.Height - _button.Height) / 2);
 				LastPos = _button.Left;
