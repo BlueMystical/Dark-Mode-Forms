@@ -76,6 +76,11 @@ namespace DarkModeForms
 			comboBox1.DisplayMember = "Name";
 			comboBox1.DataSource = DS;
 
+			comboBox2.Items.Clear();
+			comboBox2.ValueMember = "Sequence";
+			comboBox2.DisplayMember = "Name";
+			comboBox2.DataSource = DS;
+
 			//listBox1.Items.Clear();
 			//listBox1.ValueMember = "Sequence";
 			//listBox1.DisplayMember = "Name";

@@ -388,19 +388,20 @@ namespace DarkModeForms
 				  OScolors.Accent : OScolors.Control;
 			}
 			if (control is ComboBox comboBox)
- {
-     Mode = IsDarkMode ? "DarkMode_CFD" : "ClearMode_CFD";
-     control.BeginInvoke(new Action(() => (control as ComboBox).SelectionLength = 0));
+			{
+				// Fixing a glitch that makes all instances of the ComboBox showing as having a Selected value, even when they dont
+				control.BeginInvoke(new Action(() => (control as ComboBox).SelectionLength = 0));
+				
+				// Fixes a glitch showing the Combo Backgroud white when the control is Disabled:
+				if (!control.Enabled && this.IsDarkMode)
+				{
+					comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+				}
 
-     Optional<ComboBoxStyle> originalStyle = default;//01.10.2024
-     if (control.Enabled == false && this.IsDarkMode)
-     {
-         originalStyle = new(comboBox.DropDownStyle);//01.10.2024 Status change
-         comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-     }
-     SetWindowTheme(control.Handle, Mode, null);
-     if (originalStyle.HasValue) comboBox.DropDownStyle = originalStyle.Value;//01.10.2024 reset original status
- }
+				// Apply Windows Color Mode:
+				Mode = IsDarkMode ? "DarkMode_CFD" : "ClearMode_CFD";
+				SetWindowTheme(control.Handle, Mode, null);
+			}
 			if (control is Panel)
 			{
 				var panel = control as Panel;

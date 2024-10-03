@@ -115,13 +115,13 @@ namespace DarkModeForms
 			this.label4 = new System.Windows.Forms.Label();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.button7 = new System.Windows.Forms.Button();
-			this.textBox4 = new System.Windows.Forms.TextBox();
 			this.newProgressBar1 = new DarkModeForms.FlatProgressBar();
 			this.flatTabControl1 = new DarkModeForms.FlatTabControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.comboBox2 = new System.Windows.Forms.ComboBox();
 			this.panel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -393,7 +393,7 @@ namespace DarkModeForms
 			// 
 			// numericUpDown1
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(6, 77);
+			this.numericUpDown1.Location = new System.Drawing.Point(6, 103);
 			this.numericUpDown1.Name = "numericUpDown1";
 			this.numericUpDown1.Size = new System.Drawing.Size(152, 20);
 			this.numericUpDown1.TabIndex = 5;
@@ -423,9 +423,9 @@ namespace DarkModeForms
             "8",
             "9",
             "0"});
-			this.listBox1.Location = new System.Drawing.Point(5, 102);
+			this.listBox1.Location = new System.Drawing.Point(5, 128);
 			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(152, 95);
+			this.listBox1.Size = new System.Drawing.Size(152, 69);
 			this.listBox1.TabIndex = 6;
 			// 
 			// treeView1
@@ -626,6 +626,7 @@ namespace DarkModeForms
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.textBox1);
+			this.groupBox1.Controls.Add(this.comboBox2);
 			this.groupBox1.Controls.Add(this.comboBox1);
 			this.groupBox1.Controls.Add(this.numericUpDown1);
 			this.groupBox1.Controls.Add(this.listBox1);
@@ -808,15 +809,6 @@ namespace DarkModeForms
 			this.button7.Text = "button7";
 			this.button7.UseVisualStyleBackColor = true;
 			// 
-			// textBox4
-			// 
-			this.textBox4.Enabled = false;
-			this.textBox4.Location = new System.Drawing.Point(552, 205);
-			this.textBox4.Name = "textBox4";
-			this.textBox4.Size = new System.Drawing.Size(100, 20);
-			this.textBox4.TabIndex = 30;
-			this.textBox4.Text = "asdfg hjklop";
-			// 
 			// newProgressBar1
 			// 
 			this.newProgressBar1.Location = new System.Drawing.Point(340, 262);
@@ -892,13 +884,20 @@ namespace DarkModeForms
 			this.tabPage4.TabIndex = 1;
 			this.tabPage4.Text = "tabPage4";
 			// 
+			// comboBox2
+			// 
+			this.comboBox2.FormattingEnabled = true;
+			this.comboBox2.Location = new System.Drawing.Point(6, 76);
+			this.comboBox2.Name = "comboBox2";
+			this.comboBox2.Size = new System.Drawing.Size(152, 21);
+			this.comboBox2.TabIndex = 30;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(730, 671);
-			this.Controls.Add(this.textBox4);
 			this.Controls.Add(this.button7);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.newProgressBar1);
@@ -1024,8 +1023,8 @@ namespace DarkModeForms
 		private CheckBox checkBox2;
 		private CheckBox checkBox3;
 		private Button button7;
-		private TextBox textBox4;
 		private ToolStripSeparator toolStripMenuItem1;
 		private ToolStripMenuItem mnuSalir;
+		private ComboBox comboBox2;
 	}
 }
