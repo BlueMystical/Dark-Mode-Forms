@@ -221,12 +221,11 @@ namespace DarkModeForms
 		#region Static Local Members
 
 		/// <summary>
-		/// prevents applying a theme multiple times to the same control
-		/// without this, it happens at least is some MDI forms
-		/// currently, only Key is being used, the Value is not.
-		/// Using ConditionalWeakTable because I found no suitable ISet<Control> implementation
+		/// Prevents applying a theme multiple times to the same control.
+		/// Without this, it happens at least is some MDI forms.
+		/// Currently, only Key is being used, the Value is not, but the code can be modified if necessary.
 		/// </summary>
-		private static ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();
+		private static readonly ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();
 
 		#endregion
 
@@ -289,7 +288,6 @@ namespace DarkModeForms
 			{
 				IsDarkMode = pIsDarkMode;
 				OScolors = GetSystemColors(OwnerForm, pIsDarkMode ? 0 : 1);
-				ControlsProcessed = new ConditionalWeakTable<Control, object>();
 
 				if (OScolors != null)
 				{
@@ -324,8 +322,7 @@ namespace DarkModeForms
 		{
 			//prevent applying a theme multiple times to the same control
 			//without this, it happens at least is some MDI forms
-			if (ControlsProcessed.TryGetValue(control, out object _)) return;
-			ControlsProcessed.Add(control, null);
+			if (ExcludeFromProcessing(control)) return;
 
 			BorderStyle BStyle = (IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D);
 			FlatStyle FStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
@@ -722,7 +719,17 @@ namespace DarkModeForms
 
 		}
 
-
+		/// <summary>
+		/// Registers the Control as processed. Prevents applying theme to the Control.
+		/// Call it before applying the theme to your Form (or to any other Control containing (directly or indirectly) this Control)
+		/// </summary>
+		/// <returns>True if the Control has been already registered before, False if this is the first time</returns>
+		public static bool ExcludeFromProcessing(Control control)
+		{
+			if (ControlsProcessed.TryGetValue(control, out object _)) return true;
+			ControlsProcessed.Add(control, null);
+			return false;
+		}
 
 		/// <summary>Returns Windows Color Mode for Applications.
 		/// <para>0=dark theme, 1=light theme</para>
