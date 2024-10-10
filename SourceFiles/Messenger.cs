@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using static DarkModeForms.KeyValue;
+using Timer = System.Windows.Forms.Timer;
 
 namespace DarkModeForms
 {
