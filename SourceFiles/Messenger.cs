@@ -78,6 +78,12 @@ namespace DarkModeForms
 			return MessageBox(Message, title, Icon, buttons, pIsDarkMode);
 		}
 
+		public static DialogResult MessageBox(string Message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK,
+											  MsgIcon icon = MsgIcon.None, bool pIsDarkMode = true)
+		{
+			return MessageBox(Message, title, icon, buttons, pIsDarkMode);
+		}
+
 		/// <summary>Displays a message window, also known as a dialog box, which presents a message to the user.</summary>
 		/// <param name="Message">The text to display in the message box.</param>
 		/// <param name="title">The text to display in the title bar of the message box.</param>
