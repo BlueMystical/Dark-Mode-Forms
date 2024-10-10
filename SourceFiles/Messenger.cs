@@ -67,9 +67,9 @@ namespace DarkModeForms
 			switch (icon)
 			{
 				case MessageBoxIcon.Information: Icon = MsgIcon.Info; break;
-				case MessageBoxIcon.Exclamation: Icon = MsgIcon.Success; break;
+				case MessageBoxIcon.Exclamation: Icon = MsgIcon.Warning; break;
 				case MessageBoxIcon.Question: Icon = MsgIcon.Question; break;
-				case MessageBoxIcon.Error: Icon = MsgIcon.Cancel; break;
+				case MessageBoxIcon.Error: Icon = MsgIcon.Error; break;
 				case MessageBoxIcon.None:
 				default:
 					break;
