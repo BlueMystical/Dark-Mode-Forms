@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using static DarkModeForms.KeyValue;
+using Timer = System.Windows.Forms.Timer;
 
 namespace DarkModeForms
 {
@@ -67,15 +68,21 @@ namespace DarkModeForms
 			switch (icon)
 			{
 				case MessageBoxIcon.Information: Icon = MsgIcon.Info; break;
-				case MessageBoxIcon.Exclamation: Icon = MsgIcon.Success; break;
+				case MessageBoxIcon.Exclamation: Icon = MsgIcon.Warning; break;
 				case MessageBoxIcon.Question: Icon = MsgIcon.Question; break;
-				case MessageBoxIcon.Error: Icon = MsgIcon.Cancel; break;
+				case MessageBoxIcon.Error: Icon = MsgIcon.Error; break;
 				case MessageBoxIcon.None:
 				default:
 					break;
 			}
 
 			return MessageBox(Message, title, Icon, buttons, pIsDarkMode);
+		}
+
+		public static DialogResult MessageBox(string Message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK,
+											  MsgIcon icon = MsgIcon.None, bool pIsDarkMode = true)
+		{
+			return MessageBox(Message, title, icon, buttons, pIsDarkMode);
 		}
 
 		/// <summary>Displays a message window, also known as a dialog box, which presents a message to the user.</summary>
