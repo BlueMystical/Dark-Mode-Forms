@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.IO;
+
 
 
 namespace DarkModeForms
@@ -86,20 +88,31 @@ namespace DarkModeForms
 			//listBox1.DisplayMember = "Name";
 			//listBox1.DataSource = DS;
 
+			listView2.Items.Clear();
+			listView2.Columns.Add("Name", 200);
+			foreach (var item in DS)
+			{
+				listView2.Items.Add(item.Name);
+			}
+			
+
 			treeView1.Nodes[0].Expand();
 			tabControl1.SelectTab(1);
 
 			//Manually Re-Coloring Images on the ListView Control, or any other Control
-			treeView1.ImageList = null;
-			int index = 0;
-			foreach (Image image in imageList2.Images)
-			{
-				var coloredImage = DarkModeCS.ChangeToColor(image, DM.OScolors.TextInactive);
-				imageList2.Images.RemoveAt(index);
-				imageList2.Images.Add(coloredImage);
-				index++;
-			}
-			treeView1.ImageList = imageList2;
+			//treeView1.ImageList = null;
+			//int index = 0;
+			//foreach (Image image in imageList2.Images)
+			//{
+			//	var coloredImage = DarkModeCS.ChangeToColor(image, DM.OScolors.TextInactive);
+			//	imageList2.Images.RemoveAt(index);
+			//	imageList2.Images.Add(coloredImage);
+			//	index++;
+			//}
+			//treeView1.ImageList = imageList2;
+
+			string myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+			ListDirectory(this.treeView1, myDocumentsPath, "*.*");
 		}
 		
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -280,6 +293,37 @@ namespace DarkModeForms
 				this.Close();
 			}
 		}
+
+		//Agregar estructura de archivos y directorios recursivamente:
+		private void ListDirectory(TreeView treeView, string path, string filter)//<- filter = "*.exe;*.jpg"
+		{
+			treeView.Nodes.Clear();
+			DirectoryInfo rootDirectoryInfo = new DirectoryInfo(path);
+			treeView.Nodes.Add(CreateDirectoryNode(rootDirectoryInfo, filter));
+		}
+		private static TreeNode CreateDirectoryNode(DirectoryInfo directoryInfo, string filter)
+		{
+			TreeNode directoryNode = new TreeNode(directoryInfo.Name);
+			foreach (DirectoryInfo directory in directoryInfo.GetDirectories())
+			{
+				try
+				{
+					directoryNode.Nodes.Add(CreateDirectoryNode(directory, filter));
+				}
+				catch { }
+			}
+
+			foreach (FileInfo file in directoryInfo.GetFiles(filter))
+			{ 
+				try
+				{
+					directoryNode.Nodes.Add(new TreeNode(file.Name));
+				}
+				catch { }
+			}				
+			return directoryNode;
+		}
+
 	}
 
 	internal class ExampleDataSource

@@ -98,6 +98,7 @@ namespace DarkModeForms
 			this.test2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.test1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.comboBox2 = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -121,7 +122,8 @@ namespace DarkModeForms
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
-			this.comboBox2 = new System.Windows.Forms.ComboBox();
+			this.listView2 = new System.Windows.Forms.ListView();
+			this.label7 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -148,7 +150,7 @@ namespace DarkModeForms
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.panel1.Location = new System.Drawing.Point(0, 602);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(730, 47);
+			this.panel1.Size = new System.Drawing.Size(916, 47);
 			this.panel1.TabIndex = 0;
 			// 
 			// button6
@@ -222,7 +224,7 @@ namespace DarkModeForms
             this.toolStripDropDownButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(730, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(916, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -302,7 +304,7 @@ namespace DarkModeForms
             this.assToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(730, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(916, 24);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -587,7 +589,7 @@ namespace DarkModeForms
 			this.statusStrip1.Location = new System.Drawing.Point(0, 649);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 12, 0);
-			this.statusStrip1.Size = new System.Drawing.Size(730, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(916, 22);
 			this.statusStrip1.TabIndex = 18;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -636,6 +638,14 @@ namespace DarkModeForms
 			this.groupBox1.TabIndex = 19;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Common Controls";
+			// 
+			// comboBox2
+			// 
+			this.comboBox2.FormattingEnabled = true;
+			this.comboBox2.Location = new System.Drawing.Point(6, 76);
+			this.comboBox2.Name = "comboBox2";
+			this.comboBox2.Size = new System.Drawing.Size(152, 21);
+			this.comboBox2.TabIndex = 30;
 			// 
 			// label5
 			// 
@@ -884,20 +894,33 @@ namespace DarkModeForms
 			this.tabPage4.TabIndex = 1;
 			this.tabPage4.Text = "tabPage4";
 			// 
-			// comboBox2
+			// listView2
 			// 
-			this.comboBox2.FormattingEnabled = true;
-			this.comboBox2.Location = new System.Drawing.Point(6, 76);
-			this.comboBox2.Name = "comboBox2";
-			this.comboBox2.Size = new System.Drawing.Size(152, 21);
-			this.comboBox2.TabIndex = 30;
+			this.listView2.HideSelection = false;
+			this.listView2.Location = new System.Drawing.Point(738, 62);
+			this.listView2.Name = "listView2";
+			this.listView2.Size = new System.Drawing.Size(163, 226);
+			this.listView2.TabIndex = 30;
+			this.listView2.UseCompatibleStateImageBehavior = false;
+			this.listView2.View = System.Windows.Forms.View.Details;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(746, 46);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(114, 13);
+			this.label7.TabIndex = 31;
+			this.label7.Text = "ListView -Details Mode";
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.BackColor = System.Drawing.SystemColors.Control;
-			this.ClientSize = new System.Drawing.Size(730, 671);
+			this.ClientSize = new System.Drawing.Size(916, 671);
+			this.Controls.Add(this.label7);
+			this.Controls.Add(this.listView2);
 			this.Controls.Add(this.button7);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.newProgressBar1);
@@ -1026,5 +1049,7 @@ namespace DarkModeForms
 		private ToolStripSeparator toolStripMenuItem1;
 		private ToolStripMenuItem mnuSalir;
 		private ComboBox comboBox2;
+		private ListView listView2;
+		private Label label7;
 	}
 }

@@ -573,9 +573,11 @@ namespace DarkModeForms
 			if (control is ListView)
 			{
 				var lView = control as ListView;
-				Mode = IsDarkMode ? "DarkMode_ItemsView" : "ClearMode_ItemsView";
+				//Mode = IsDarkMode ? "DarkMode_ItemsView" : "ClearMode_ItemsView"; 
+				Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer"; 
 				SetWindowTheme(control.Handle, Mode, null);
 
+				
 				if (lView.View == View.Details)
 				{
 					lView.OwnerDraw = true;
@@ -622,9 +624,10 @@ namespace DarkModeForms
 
 					};
 
-					Mode = IsDarkMode ? "DarkMode_ItemsView" : "ClearMode_ItemsView";
+					Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";
 					SetWindowTheme(control.Handle, Mode, null);
 				}
+				
 			}
 			if (control is TreeView)
 			{
