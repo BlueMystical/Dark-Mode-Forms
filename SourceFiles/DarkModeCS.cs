@@ -337,7 +337,7 @@ namespace DarkModeForms
 		{
 			//prevent applying a theme multiple times to the same control
 			//without this, it happens at least is some MDI forms
-			if (ExcludeFromProcessing(control)) return;
+			//if (ExcludeFromProcessing(control)) return;
 
 			BorderStyle BStyle = (IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D);
 			FlatStyle FStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
