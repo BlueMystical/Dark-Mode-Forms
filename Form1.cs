@@ -3,31 +3,26 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using System.IO;
-
-
+using System.Windows.Forms;
 
 namespace DarkModeForms
 {
-	public partial class Form1 : Form
+	public partial class Form1 : DarkModeBaseForm
 	{
-		private DarkModeCS DM = null;
-		private bool IsDarkMode = false;
+		private bool _isDarkMode = false;
 		private bool mCloseAutorized = false;
-
 		private BindingList<ExampleDataSource> DS = null;
 
 		public Form1()
 		{
 			InitializeComponent();
-			DM = new DarkModeCS(this);
+			base.dm = new DarkModeCS(this);
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			IsDarkMode = DM.IsDarkMode;
+			_isDarkMode = dm.IsDarkMode;
 
 			// Prepare a Datasource for the GridView control
 			DS = new BindingList<ExampleDataSource>
@@ -73,7 +68,7 @@ namespace DarkModeForms
 				dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[1];
 			}
 
-			comboBox1.Items.Clear();			
+			comboBox1.Items.Clear();
 			comboBox1.ValueMember = "Sequence";
 			comboBox1.DisplayMember = "Name";
 			comboBox1.DataSource = DS;
@@ -94,7 +89,7 @@ namespace DarkModeForms
 			{
 				listView2.Items.Add(item.Name);
 			}
-			
+
 
 			treeView1.Nodes[0].Expand();
 			tabControl1.SelectTab(1);
@@ -114,7 +109,7 @@ namespace DarkModeForms
 			string myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 			ListDirectory(this.treeView1, myDocumentsPath, "*.*");
 		}
-		
+
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			//Al intentar cerrar la ventana se minimiza en la bandeja 'SysTray'
@@ -125,7 +120,7 @@ namespace DarkModeForms
 				//	e.Cancel = true;
 				//	base.WindowState = FormWindowState.Minimized;
 				//}
-			}
+				}
 		}
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
@@ -179,14 +174,14 @@ namespace DarkModeForms
 		{
 			try
 			{
-				MessageBox.Show("Sadly its not possible to change\r\nthe default MessageBoxes :(", "Hello World!", 
+				MessageBox.Show("Sadly its not possible to change\r\nthe default MessageBoxes :(", "Hello World!",
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
 				throw new Exception("Hello!");
 			}
 			catch (Exception ex)
 			{
 				Messenger.MessageBox(ex);
-			}			
+			}
 		}
 
 		// Example of the Custom InputBox
@@ -235,7 +230,7 @@ namespace DarkModeForms
 
 		// Example of a Login Form with Password Validation:
 		private void button4_Click(object sender, EventArgs e)
-		{			
+		{
 			List<KeyValue> _Fields = new List<KeyValue>
 			{
 				new KeyValue("User Name", "user", KeyValue.ValueTypes.String),
@@ -277,11 +272,27 @@ namespace DarkModeForms
 				//Do Something here.
 			}
 		}
-		
-		private void button6_Click(object sender, EventArgs e)
+
+		private void radioButtonSystem_CheckedChanged(object sender, EventArgs e)
 		{
-			IsDarkMode = !IsDarkMode;
-			DM.ApplyTheme(IsDarkMode);
+			if (radioButtonSystem.Checked)
+			{
+				dm.DarkModePolicy = DarkModePolicy.FollowSystemTheme;
+				_isDarkMode = dm.isDarkMode();
+				dm.forceProcessing = true;
+			}
+			else if (radioButtonDark.Checked)
+			{
+				dm.DarkModePolicy = DarkModePolicy.ForceDarkTheme;
+				_isDarkMode = true;
+			}
+			else if (radioButtonLight.Checked)
+			{
+				dm.DarkModePolicy = DarkModePolicy.ForceLightTheme;
+				_isDarkMode = false;
+			}
+
+			dm.ApplyTheme(_isDarkMode);
 		}
 
 		private void mnuSalir_Click(object sender, EventArgs e)
@@ -314,13 +325,13 @@ namespace DarkModeForms
 			}
 
 			foreach (FileInfo file in directoryInfo.GetFiles(filter))
-			{ 
+			{
 				try
 				{
 					directoryNode.Nodes.Add(new TreeNode(file.Name));
 				}
 				catch { }
-			}				
+			}
 			return directoryNode;
 		}
 
