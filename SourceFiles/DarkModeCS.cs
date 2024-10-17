@@ -253,8 +253,11 @@ namespace DarkModeForms
 
 		/// <summary>Windows Colors. Can be customized.</summary>
 		public OSThemeColors OScolors { get; set; }
+		public DarkModePolicy DarkModePolicy { get; set; } = DarkModePolicy.FollowSystemTheme;
 
 		#endregion Public Members
+
+		public bool forceProcessing = true;
 
 		#region Constructors
 
@@ -269,11 +272,16 @@ namespace DarkModeForms
 			OwnerForm = _Form;
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
-			IsDarkMode = IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
+			IsDarkMode = isDarkMode();
 
-			//if (!IsDarkModeCSEnabled) return;
+			OScolors = GetSystemColors(OwnerForm, IsDarkMode ? 0 : 1);
 
 			ApplyTheme(IsDarkMode);
+		}
+
+		public bool isDarkMode()
+		{
+		   return IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
 		}
 
 		#endregion Constructors
@@ -284,6 +292,9 @@ namespace DarkModeForms
 		/// <param name="pIsDarkMode">'true': apply Dark Mode, 'false': apply Clear Mode</param>
 		public void ApplyTheme(bool pIsDarkMode = true)
 		{
+			if (DarkModePolicy == DarkModePolicy.FollowSystemTheme && !forceProcessing)
+				return;
+
 			try
 			{
 				IsDarkMode = pIsDarkMode;
@@ -313,6 +324,10 @@ namespace DarkModeForms
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				forceProcessing = false;
 			}
 		}
 
@@ -388,7 +403,7 @@ namespace DarkModeForms
 			{
 				// Fixing a glitch that makes all instances of the ComboBox showing as having a Selected value, even when they dont
 				control.BeginInvoke(new Action(() => (control as ComboBox).SelectionLength = 0));
-				
+
 				// Fixes a glitch showing the Combo Backgroud white when the control is Disabled:
 				if (!control.Enabled && this.IsDarkMode)
 				{
@@ -555,7 +570,7 @@ namespace DarkModeForms
 				(control as ContextMenuStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
 				(control as ContextMenuStrip).Opening += Tsdd_Opening;
 			}
-			if (control is MdiClient) //<- empty area of MDI container window 
+			if (control is MdiClient) //<- empty area of MDI container window
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Surface);
 			}
@@ -573,11 +588,11 @@ namespace DarkModeForms
 			if (control is ListView)
 			{
 				var lView = control as ListView;
-				//Mode = IsDarkMode ? "DarkMode_ItemsView" : "ClearMode_ItemsView"; 
-				Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer"; 
+				//Mode = IsDarkMode ? "DarkMode_ItemsView" : "ClearMode_ItemsView";
+				Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";
 				SetWindowTheme(control.Handle, Mode, null);
 
-				
+
 				if (lView.View == View.Details)
 				{
 					lView.OwnerDraw = true;
@@ -627,7 +642,7 @@ namespace DarkModeForms
 					Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";
 					SetWindowTheme(control.Handle, Mode, null);
 				}
-				
+
 			}
 			if (control is TreeView)
 			{
@@ -996,7 +1011,7 @@ namespace DarkModeForms
 			int[] DarkModeOn = IsDarkMode ? new[] { 0x01 } : new[] { 0x00 }; //<- 1=True, 0=False
 			string Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";
 
-			SetWindowTheme(control.Handle, Mode, null); //DarkMode_Explorer, ClearMode_Explorer, DarkMode_CFD, DarkMode_ItemsView, 
+			SetWindowTheme(control.Handle, Mode, null); //DarkMode_Explorer, ClearMode_Explorer, DarkMode_CFD, DarkMode_ItemsView,
 
 			if (DwmSetWindowAttribute(control.Handle, (int)DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1, DarkModeOn, 4) != 0)
 				DwmSetWindowAttribute(control.Handle, (int)DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, DarkModeOn, 4);
