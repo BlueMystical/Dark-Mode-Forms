@@ -384,12 +384,20 @@ namespace DarkModeForms
 				{
 					if (control.Enabled == false && this.IsDarkMode)
 					{
-						var radio = (sender as Label);
-						Brush B = new SolidBrush(control.ForeColor);
+						var lbl = (sender as Label);
+						using (Graphics g = e.Graphics)
+						{
+							g.Clear(control.Parent.BackColor);
+							g.SmoothingMode = SmoothingMode.HighQuality;
 
-						e.Graphics.DrawString(radio.Text, radio.Font,
-						  B, new System.Drawing.PointF(1, 0));
+							using (Brush B = new SolidBrush(control.ForeColor))
+							{
+								g.DrawString(
+									lbl.Text, lbl.Font, B, new System.Drawing.PointF(1, 0));
+							}
+						}						
 					}
+					control.GetType().GetProperty("UseMnemonic")?.SetValue(control, true);
 				};
 			}
 			if (control is LinkLabel)
@@ -411,7 +419,7 @@ namespace DarkModeForms
 			if (control is Button)
 			{
 				var button = control as Button;
-				button.FlatStyle = FlatStyle.System;
+				button.FlatStyle = IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard;
 				button.FlatAppearance.CheckedBackColor = OScolors.Accent;
 				button.BackColor = OScolors.Control;
 				button.FlatAppearance.BorderColor = (OwnerForm.AcceptButton == button) ?
