@@ -221,11 +221,9 @@ namespace DarkModeForms
 		#region Static Local Members
 
 		/// <summary>
-		/// Prevents applying a theme multiple times to the same control.
-		/// Without this, it happens at least is some MDI forms.
-		/// Currently, only Key is being used, the Value is not, but the code can be modified if necessary.
+		/// Stores additional info related to the Controls
 		/// </summary>
-		private static readonly ConditionalWeakTable<Control, object> ControlsProcessed = new ConditionalWeakTable<Control, object>();
+		private static readonly ControlStatusStorage controlStatusStorage = new ControlStatusStorage();
 
 		#endregion
 
@@ -335,9 +333,29 @@ namespace DarkModeForms
 		/// <param name="control">Can be a Form or any Winforms Control.</param>
 		public void ThemeControl(Control control)
 		{
-			//prevent applying a theme multiple times to the same control
-			//without this, it happens at least is some MDI forms
-			//if (ExcludeFromProcessing(control)) return;
+			var info = controlStatusStorage.GetControlStatusInfo(control);
+			if (info != null)
+			{
+				//we already have some information about this Control
+				 
+				//if the user chose to skip the control, exit
+				if (info.IsExcluded) return;
+
+				//prevent applying a theme multiple times to the same control
+				//without this, it happens at least is some MDI forms
+				//if the Control already has the current theme, exit (otherwise we are going to re-theme it)
+				if (info.LastThemeAppliedIsDark == IsDarkMode) return;
+
+				//we remember it will soon have the current theme
+				info.LastThemeAppliedIsDark = IsDarkMode;
+			}
+			else
+			{
+				//this is the first time we see this Control
+
+				//we remember it will soon have the current theme
+				controlStatusStorage.RegisterProcessedControl(control, IsDarkMode);
+			}
 
 			BorderStyle BStyle = (IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D);
 			FlatStyle FStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
@@ -733,20 +751,15 @@ namespace DarkModeForms
 				// Recursively process its children
 				ThemeControl(childControl);
 			}
-
-
 		}
 
 		/// <summary>
 		/// Registers the Control as processed. Prevents applying theme to the Control.
 		/// Call it before applying the theme to your Form (or to any other Control containing (directly or indirectly) this Control)
 		/// </summary>
-		/// <returns>True if the Control has been already registered before, False if this is the first time</returns>
-		public static bool ExcludeFromProcessing(Control control)
+		public static void ExcludeFromProcessing(Control control)
 		{
-			if (ControlsProcessed.TryGetValue(control, out object _)) return true;
-			ControlsProcessed.Add(control, null);
-			return false;
+			controlStatusStorage.ExcludeFromProcessing(control);
 		}
 
 		/// <summary>Returns Windows Color Mode for Applications.
@@ -1501,5 +1514,56 @@ namespace DarkModeForms
 		}
 	}
 
+	/// <summary>
+	/// Stores additional info related to the Controls
+	/// </summary>
+	public class ControlStatusStorage
+	{
+		/// <summary>
+		/// Storage for the data. ConditionalWeakTable ensures there are no unnecessary references left, preventing garbage collection.
+		/// </summary>
+		private readonly ConditionalWeakTable<Control, ControlStatusInfo> _controlsProcessed = new ConditionalWeakTable<Control, ControlStatusInfo>();
 
+		/// <summary>
+		/// Registers the Control as processed. Prevents applying theme to the Control.
+		/// Call it before applying the theme to your Form (or to any other Control containing (directly or indirectly) this Control)
+		/// </summary>
+		public void ExcludeFromProcessing(Control control)
+		{
+			_controlsProcessed.Remove(control);
+			_controlsProcessed.Add(control, new ControlStatusInfo() { IsExcluded = true });
+		}
+
+		/// <summary>
+		/// Gets the additional info associated with a Control
+		/// </summary>
+		/// <returns>a ControlStatusInfo object if the control has been already processed or marked for exclusion, null otherwise</returns>
+		public ControlStatusInfo GetControlStatusInfo(Control control)
+		{
+			_controlsProcessed.TryGetValue(control, out ControlStatusInfo info);
+			return info;
+		}
+
+		public void RegisterProcessedControl(Control control, bool isDarkMode)
+		{
+			_controlsProcessed.Add(control,
+				new ControlStatusInfo() {IsExcluded = false, LastThemeAppliedIsDark = isDarkMode});
+		}
+	}
+
+	/// <summary>
+	/// Additional information related to the Controls
+	/// </summary>
+	public class ControlStatusInfo
+	{
+		/// <summary>
+		/// true if the user wants to skip theming the Control
+		/// </summary>
+		public bool IsExcluded { get; set; }
+
+		/// <summary>
+		/// whether the last theme applied was dark
+		/// </summary>
+		public bool LastThemeAppliedIsDark { get; set; }
+	}
 }
