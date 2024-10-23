@@ -376,7 +376,7 @@ namespace DarkModeForms
 			control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
 
 			/* Here we Finetune individual Controls  */
-			if (control is Label)
+			if (control is Label lbl)
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
 				control.GetType().GetProperty("BorderStyle")?.SetValue(control, BorderStyle.None);
@@ -384,20 +384,18 @@ namespace DarkModeForms
 				{
 					if (control.Enabled == false && this.IsDarkMode)
 					{
-						var lbl = (sender as Label);
-						using (Graphics g = e.Graphics)
-						{
-							g.Clear(control.Parent.BackColor);
-							g.SmoothingMode = SmoothingMode.HighQuality;
+						e.Graphics.Clear(control.Parent.BackColor);
+						e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
-							using (Brush B = new SolidBrush(control.ForeColor))
-							{
-								g.DrawString(
-									lbl.Text, lbl.Font, B, new System.Drawing.PointF(1, 0));
-							}
-						}						
+						using (Brush B = new SolidBrush(control.ForeColor))
+						{
+							//StringFormat sf = lbl.CreateStringFormat();
+							MethodInfo mi = lbl.GetType().GetMethod("CreateStringFormat", BindingFlags.NonPublic | BindingFlags.Instance);
+							StringFormat sf = mi.Invoke(lbl, new object[] {  }) as StringFormat;
+
+							e.Graphics.DrawString(lbl.Text, lbl.Font, B, new System.Drawing.PointF(1, 0), sf);
+						}
 					}
-					control.GetType().GetProperty("UseMnemonic")?.SetValue(control, true);
 				};
 			}
 			if (control is LinkLabel)
