@@ -279,17 +279,21 @@ namespace DarkModeForms
 
 		public bool isDarkMode()
 		{
-		   return IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
+			return IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
 		}
 
 		#endregion Constructors
 
 		#region Public Methods
 
+		private bool applyToAllDataGridRows = true;
+
 		/// <summary>Apply the Theme into the Window and all its controls.</summary>
 		/// <param name="pIsDarkMode">'true': apply Dark Mode, 'false': apply Clear Mode</param>
-		public void ApplyTheme(bool pIsDarkMode = true)
+		public void ApplyTheme(bool pIsDarkMode = true, bool pApplyToAllDataGridRows = true)
 		{
+			applyToAllDataGridRows = pApplyToAllDataGridRows;
+
 			if (DarkModePolicy == DarkModePolicy.FollowSystemTheme && !forceProcessing)
 				return;
 
@@ -337,7 +341,7 @@ namespace DarkModeForms
 			if (info != null)
 			{
 				//we already have some information about this Control
-				 
+
 				//if the user chose to skip the control, exit
 				if (info.IsExcluded) return;
 
@@ -727,6 +731,29 @@ namespace DarkModeForms
 
 				grid.DefaultCellStyle.BackColor = OScolors.Surface;
 				grid.DefaultCellStyle.ForeColor = OScolors.TextActive;
+
+				if (applyToAllDataGridRows)
+				{
+					for (int i = 0; i < grid.Rows.Count; i++)
+					{
+						for (int d = 0; d < grid.Rows[i].Cells.Count; d++)
+						{
+							grid.Rows[i].Cells[d].Style.BackColor = OScolors.Surface;
+							grid.Rows[i].Cells[d].Style.ForeColor = OScolors.TextActive;
+						}
+					}
+				}
+				else
+				{
+					for (int i = 0; i < grid.Rows.Count; i += 2)
+					{
+						for (int d = 0; d < grid.Rows[i].Cells.Count; d++)
+						{
+							grid.Rows[i].Cells[d].Style.BackColor = OScolors.Surface;
+							grid.Rows[i].Cells[d].Style.ForeColor = OScolors.TextActive;
+						}
+					}
+				}
 
 				grid.ColumnHeadersDefaultCellStyle.BackColor = OScolors.Surface;
 				grid.ColumnHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
