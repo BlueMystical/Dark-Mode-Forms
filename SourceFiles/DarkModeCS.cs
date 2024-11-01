@@ -407,6 +407,8 @@ namespace DarkModeForms
 			{
 				//SetRoundBorders(tb, 4, OScolors.SurfaceDark, 1);
 				control.GetType().GetProperty("BorderStyle")?.SetValue(control, BStyle);
+				control.ForeColor = OScolors.TextActive;
+				control.BackColor = OScolors.Surface;
 			}
 			if (control is NumericUpDown)
 			{
