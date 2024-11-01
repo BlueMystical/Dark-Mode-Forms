@@ -424,6 +424,8 @@ namespace DarkModeForms
 				button.BackColor = OScolors.Control;
 				button.FlatAppearance.BorderColor = (OwnerForm.AcceptButton == button) ?
 				  OScolors.Accent : OScolors.Control;
+				control.ForeColor = OScolors.TextActive;
+				control.BackColor = OScolors.Surface;
 			}
 			if (control is ComboBox comboBox)
 			{
