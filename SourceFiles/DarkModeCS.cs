@@ -225,6 +225,21 @@ namespace DarkModeForms
 		/// </summary>
 		private static readonly ControlStatusStorage controlStatusStorage = new ControlStatusStorage();
 
+		/// <summary>
+		/// stores the event handler reference in order to prevent its uncontrolled multiple addition
+		/// </summary>
+		private static ControlEventHandler ownerFormControlAdded;
+		
+		/// <summary>
+		/// stores the event handler reference in order to prevent its uncontrolled multiple addition
+		/// </summary>
+		private static EventHandler controlHandleCreated;
+
+		/// <summary>
+		/// stores the event handler reference in order to prevent its uncontrolled multiple addition
+		/// </summary>
+		private static ControlEventHandler controlControlAdded;
+
 		#endregion
 
 		#region Public Static Members
@@ -312,10 +327,14 @@ namespace DarkModeForms
 						{
 							ThemeControl(_control);
 						}
-						OwnerForm.ControlAdded += (object sender, ControlEventArgs e) =>
-						{
-							ThemeControl(e.Control);
-						};
+
+						if (ownerFormControlAdded == null)
+							ownerFormControlAdded = (object sender, ControlEventArgs e) =>
+							{
+								ThemeControl(e.Control);
+							};
+						OwnerForm.ControlAdded -= ownerFormControlAdded; //prevent uncontrolled multiple addition
+						OwnerForm.ControlAdded += ownerFormControlAdded;
 					}
 				}
 			}
@@ -360,14 +379,19 @@ namespace DarkModeForms
 			BorderStyle BStyle = (IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D);
 			FlatStyle FStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
 
-			control.HandleCreated += (object sender, EventArgs e) =>
+			if(controlHandleCreated==null) controlHandleCreated =  (object sender, EventArgs e) =>
 			{
-				ApplySystemDarkTheme(control, IsDarkMode);
+				ApplySystemDarkTheme((Control)sender, IsDarkMode);
 			};
-			control.ControlAdded += (object sender, ControlEventArgs e) =>
+			control.HandleCreated -= controlHandleCreated; //prevent uncontrolled multiple addition
+			control.HandleCreated += controlHandleCreated;
+
+			if(controlControlAdded==null) controlControlAdded=(object sender, ControlEventArgs e) =>
 			{
 				ThemeControl(e.Control);
 			};
+			control.ControlAdded -= controlControlAdded; //prevent uncontrolled multiple addition
+			control.ControlAdded += controlControlAdded;
 
 			string Mode = IsDarkMode ? "DarkMode_Explorer" : "ClearMode_Explorer";
 			SetWindowTheme(control.Handle, Mode, null); //<- Attempts to apply Dark Mode using Win32 API if available.
@@ -582,16 +606,19 @@ namespace DarkModeForms
 			}
 			if (control is ToolStripDropDown)
 			{
+				(control as ToolStripDropDown).Opening -= Tsdd_Opening; //just to make sure
 				(control as ToolStripDropDown).Opening += Tsdd_Opening;
 			}
 			if (control is ToolStripDropDownMenu)
 			{
+				(control as ToolStripDropDownMenu).Opening -= Tsdd_Opening; //just to make sure
 				(control as ToolStripDropDownMenu).Opening += Tsdd_Opening;
 			}
 			if (control is ContextMenuStrip)
 			{
 				(control as ContextMenuStrip).RenderMode = ToolStripRenderMode.Professional;
 				(control as ContextMenuStrip).Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
+				(control as ContextMenuStrip).Opening -= Tsdd_Opening; //just to make sure
 				(control as ContextMenuStrip).Opening += Tsdd_Opening;
 			}
 			if (control is MdiClient) //<- empty area of MDI container window
@@ -993,6 +1020,7 @@ namespace DarkModeForms
 
 			foreach (ToolStripMenuItem toolStripMenuItem in tsdd.Items.OfType<ToolStripMenuItem>())
 			{
+				toolStripMenuItem.DropDownOpening -= Tsmi_DropDownOpening; //just to make sure
 				toolStripMenuItem.DropDownOpening += Tsmi_DropDownOpening;
 			}
 		}
