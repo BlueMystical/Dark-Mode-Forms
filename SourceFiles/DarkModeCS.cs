@@ -251,7 +251,6 @@ namespace DarkModeForms
 
 		/// <summary>Windows Colors. Can be customized.</summary>
 		public OSThemeColors OScolors { get; set; }
-		public DarkModePolicy DarkModePolicy { get; set; } = DarkModePolicy.FollowSystemTheme;
 
 		#endregion Public Members
 
@@ -290,9 +289,6 @@ namespace DarkModeForms
 		/// <param name="pIsDarkMode">'true': apply Dark Mode, 'false': apply Clear Mode</param>
 		public void ApplyTheme(bool pIsDarkMode = true)
 		{
-			if (DarkModePolicy == DarkModePolicy.FollowSystemTheme && !forceProcessing)
-				return;
-
 			try
 			{
 				IsDarkMode = pIsDarkMode;
@@ -516,15 +512,15 @@ namespace DarkModeForms
 					}
 				};
 			}
-			if (control is FlatTabControl)
-			{
-				control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Background);
-				control.GetType().GetProperty("TabColor")?.SetValue(control, OScolors.Surface);
-				control.GetType().GetProperty("SelectTabColor")?.SetValue(control, OScolors.Control);
-				control.GetType().GetProperty("SelectedForeColor")?.SetValue(control, OScolors.TextActive);
-				control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextInactive);
-				control.GetType().GetProperty("LineColor")?.SetValue(control, OScolors.Background);
-			}
+			//if (control is FlatTabControl)
+			//{
+			//	control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Background);
+			//	control.GetType().GetProperty("TabColor")?.SetValue(control, OScolors.Surface);
+			//	control.GetType().GetProperty("SelectTabColor")?.SetValue(control, OScolors.Control);
+			//	control.GetType().GetProperty("SelectedForeColor")?.SetValue(control, OScolors.TextActive);
+			//	control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextInactive);
+			//	control.GetType().GetProperty("LineColor")?.SetValue(control, OScolors.Background);
+			//}
 			if (control is PictureBox)
 			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, control.Parent.BackColor);
