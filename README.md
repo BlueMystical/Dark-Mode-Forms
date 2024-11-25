@@ -119,13 +119,18 @@ if (Messenger.InputBox("Login", "Please Input your Credentials:", ref _Fields,
 ## Implementation
 
 - No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](SourceFiles/DarkModeCS.cs) Copy/Paste or [Download](https://github.com/BlueMystical/Dark-Mode-Forms/releases/latest) and import it into your project.
-- 1 Line to implement it:
 
 ```csharp
+private DarkModeCS dm = null;
+
 public Form1()
 {
-   InitializeComponent();
-   _ = new DarkModeCS(this); //<- Line of code here
+	InitializeComponent();
+	dm = new DarkModeCS(this)
+	{
+		//[Optional] Choose your preferred color mode here:
+		ColorMode = DarkModeCS.DisplayMode.SystemDefault
+	};
 }
 ```
 

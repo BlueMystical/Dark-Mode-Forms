@@ -8,22 +8,25 @@ using System.Windows.Forms;
 
 namespace DarkModeForms
 {
-	public partial class Form1 : DarkModeBaseForm
+	public partial class Form1 : Form
 	{
 		private bool _isDarkMode = false;
 		private bool mCloseAutorized = false;
 		private BindingList<ExampleDataSource> DS = null;
+		private DarkModeCS dm = null;
 
 		public Form1()
 		{
 			InitializeComponent();
-			base.dm = new DarkModeCS(this);
+			dm = new DarkModeCS(this)
+			{
+				// Choose your preferred mode here:
+				ColorMode = DarkModeCS.DisplayMode.SystemDefault
+			};
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			_isDarkMode = dm.IsDarkMode;
-
 			// Prepare a Datasource for the GridView control
 			DS = new BindingList<ExampleDataSource>
 			{
@@ -77,11 +80,6 @@ namespace DarkModeForms
 			comboBox2.ValueMember = "Sequence";
 			comboBox2.DisplayMember = "Name";
 			comboBox2.DataSource = DS;
-
-			//listBox1.Items.Clear();
-			//listBox1.ValueMember = "Sequence";
-			//listBox1.DisplayMember = "Name";
-			//listBox1.DataSource = DS;
 
 			listView2.Items.Clear();
 			listView2.Columns.Add("Name", 200);
@@ -277,18 +275,20 @@ namespace DarkModeForms
 		{
 			if (radioButtonSystem.Checked)
 			{
-				dm.DarkModePolicy = DarkModePolicy.FollowSystemTheme;
+				//dm.DarkModePolicy = DarkModePolicy.FollowSystemTheme;
+				dm.ColorMode = DarkModeCS.DisplayMode.ClearMode;
 				_isDarkMode = dm.isDarkMode();
-				dm.forceProcessing = true;
 			}
 			else if (radioButtonDark.Checked)
 			{
-				dm.DarkModePolicy = DarkModePolicy.ForceDarkTheme;
+				//dm.DarkModePolicy = DarkModePolicy.ForceDarkTheme;
+				dm.ColorMode = DarkModeCS.DisplayMode.DarkMode;
 				_isDarkMode = true;
 			}
 			else if (radioButtonLight.Checked)
 			{
-				dm.DarkModePolicy = DarkModePolicy.ForceLightTheme;
+				//dm.DarkModePolicy = DarkModePolicy.ForceLightTheme;
+				dm.ColorMode = DarkModeCS.DisplayMode.ClearMode;
 				_isDarkMode = false;
 			}
 

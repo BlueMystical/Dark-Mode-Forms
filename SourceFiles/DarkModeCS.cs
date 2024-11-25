@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace DarkModeForms
 {
@@ -218,7 +219,7 @@ namespace DarkModeForms
 
 		#endregion Win32 API Declarations
 
-		#region Static Local Members
+		#region Private Static Members
 
 		/// <summary>
 		/// Stores additional info related to the Controls
@@ -240,20 +241,29 @@ namespace DarkModeForms
 		/// </summary>
 		private static ControlEventHandler controlControlAdded;
 
-		#endregion
 
-		#region Public Static Members
-		/// <summary>
-		/// setting to false (ideally before any Form is created) disables DarkModeCS
-		/// </summary>
-		public static bool IsDarkModeCSEnabled { get; set; } = true;
+		private bool _IsDarkMode = false; //<- storage for the Read Only Proerty 'IsDarkMode'
 
 		#endregion
+
 
 		#region Public Members
 
-		/// <summary>'true' if Dark Mode Color is set in Windows's Settings.</summary>
-		public bool IsDarkMode { get; set; } = false;
+		public enum DisplayMode
+		{
+			/// <summary>Uses the Color Mode of the System, set by the User in Windows Settings.</summary>
+			SystemDefault,
+			/// <summary>Forces to use Clear Mode</summary>
+			ClearMode,
+			/// <summary>Forces to use Dark Mode</summary>
+			DarkMode
+		}
+
+		/// <summary>Gets or Sets the Display color mode applied to the Form and Controls.</summary>
+		public DisplayMode ColorMode { get; set; } = DisplayMode.SystemDefault;
+
+		///// <summary>[Read Only] 'true' if Dark Mode Color is applied to the Form.</summary>
+		public bool IsDarkMode { get { return _IsDarkMode; } }
 
 		/// <summary>Option to re-colorize all Icons in Toolbars and Menus.</summary>
 		public bool ColorizeIcons { get; set; } = true;
@@ -269,7 +279,6 @@ namespace DarkModeForms
 
 		#endregion Public Members
 
-		public bool forceProcessing = true;
 
 		#region Constructors
 
@@ -284,16 +293,23 @@ namespace DarkModeForms
 			OwnerForm = _Form;
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
-			IsDarkMode = isDarkMode();
 
-			OScolors = GetSystemColors(OwnerForm, IsDarkMode ? 0 : 1);
+			// This Fires after the normal 'Form_Load' event
+			_Form.Load += (object sender, EventArgs e) =>
+			{
+				_IsDarkMode = isDarkMode(); //<- Gets the current color mode from Windows
+				if (ColorMode != DisplayMode.SystemDefault)
+				{
+					_IsDarkMode = ColorMode == DisplayMode.DarkMode ? true : false;
+				}
 
-			ApplyTheme(IsDarkMode);
+				ApplyTheme(_IsDarkMode);
+			};			
 		}
 
 		public bool isDarkMode()
 		{
-		   return IsDarkModeCSEnabled && GetWindowsColorMode() <= 0 ? true : false;
+		   return GetWindowsColorMode() <= 0 ? true : false;
 		}
 
 		#endregion Constructors
@@ -306,7 +322,9 @@ namespace DarkModeForms
 		{
 			try
 			{
-				IsDarkMode = pIsDarkMode;
+				// IsDarkMode member changes only if the User manually changed it here:
+				_IsDarkMode = _IsDarkMode != pIsDarkMode ? pIsDarkMode : _IsDarkMode;
+
 				OScolors = GetSystemColors(OwnerForm, pIsDarkMode ? 0 : 1);
 
 				if (OScolors != null)
@@ -340,7 +358,7 @@ namespace DarkModeForms
 			}
 			finally
 			{
-				forceProcessing = false;
+
 			}
 		}
 
@@ -869,8 +887,6 @@ namespace DarkModeForms
 		{
 			OSThemeColors _ret = new OSThemeColors();
 
-			//bool IsDarkMode = IsDarkModeCSEnabled && (GetWindowsColorMode() <= 0); //<- O: DarkMode, 1: LightMode
-			//if (IsDarkMode)
 			if (ColorMode <= 0)
 			{
 				_ret.Background = Color.FromArgb(32, 32, 32);   //<- Negro Claro

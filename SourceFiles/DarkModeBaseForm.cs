@@ -21,24 +21,24 @@ namespace DarkModeForms
 						if (null != dm)
 						{
 							int colorMode = DarkModeCS.GetWindowsColorMode();
-							if (DarkModePolicy.FollowSystemTheme == dm.DarkModePolicy)
-							{
-								switch (colorMode)
-								{
-									case 0:
-										dm.IsDarkMode = true;
-										dm.forceProcessing = true;
-										dm.ApplyTheme(true);
-										dm.forceProcessing = false;
-										break;
-									case 1:
-										dm.IsDarkMode = false;
-										dm.forceProcessing = true;
-										dm.ApplyTheme(false);
-										dm.forceProcessing = false;
-										break;
-								}
-							}
+							//if (DarkModePolicy.FollowSystemTheme == dm.DarkModePolicy)
+							//{
+							//	switch (colorMode)
+							//	{
+							//		case 0:
+							//			dm.IsDarkMode = true;
+							//			dm.forceProcessing = true;
+							//			dm.ApplyTheme(true);
+							//			dm.forceProcessing = false;
+							//			break;
+							//		case 1:
+							//			dm.IsDarkMode = false;
+							//			dm.forceProcessing = true;
+							//			dm.ApplyTheme(false);
+							//			dm.forceProcessing = false;
+							//			break;
+							//	}
+							//}
 						}
 					}
 				}
