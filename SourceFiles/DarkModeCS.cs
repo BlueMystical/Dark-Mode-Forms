@@ -361,6 +361,16 @@ namespace DarkModeForms
 
 			}
 		}
+		public void ApplyTheme(DisplayMode pColorMode)
+		{
+			_IsDarkMode = isDarkMode(); //<- Gets the current color mode from Windows
+			if (ColorMode != DisplayMode.SystemDefault)
+			{
+				_IsDarkMode = ColorMode == DisplayMode.DarkMode ? true : false;
+			}
+
+			ApplyTheme(_IsDarkMode);
+		}
 
 		/// <summary>Recursively apply the Colors from 'OScolors' to the Control and all its childs.</summary>
 		/// <param name="control">Can be a Form or any Winforms Control.</param>
