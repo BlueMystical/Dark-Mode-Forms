@@ -178,6 +178,10 @@ namespace DarkModeForms
 		}
 
 		public const int EM_SETCUEBANNER = 5377;
+		public const int WM_SETTINGSCHANGE = 0x001A;
+		public const int WM_THEMECHANGED = 0x031A;
+		public const int GWLP_WNDPROC = -4;
+		
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
@@ -211,11 +215,21 @@ namespace DarkModeForms
 		[DllImport("user32")]
 		private static extern IntPtr ReleaseDC(IntPtr hwnd, IntPtr hdc);
 
-		public static IntPtr GetHeaderControl(ListView list)
+		private static IntPtr GetHeaderControl(ListView list)
 		{
 			const int LVM_GETHEADER = 0x1000 + 31;
 			return SendMessage(list.Handle, LVM_GETHEADER, IntPtr.Zero, "");
 		}
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		private delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		private static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
 
 		#endregion Win32 API Declarations
 
@@ -243,6 +257,11 @@ namespace DarkModeForms
 
 
 		private bool _IsDarkMode = false; //<- storage for the Read Only Proerty 'IsDarkMode'
+
+		private IntPtr originalWndProc;
+		private WndProc newWndProcDelegate;
+		private IntPtr formHandle;
+		private bool applyingTheme = false; // Flag to prevent recursion
 
 		#endregion
 
@@ -294,6 +313,14 @@ namespace DarkModeForms
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
 
+			if (originalWndProc == IntPtr.Zero)
+			{
+				_Form.HandleCreated += (sender, e) =>
+				{
+					newWndProcDelegate = new WndProc(CustomWndProc);
+					originalWndProc = SetWindowLongPtr(_Form.Handle, GWLP_WNDPROC, Marshal.GetFunctionPointerForDelegate(newWndProcDelegate));
+				};
+			}
 			// This Fires after the normal 'Form_Load' event
 			_Form.Load += (object sender, EventArgs e) =>
 			{
@@ -304,8 +331,30 @@ namespace DarkModeForms
 				}
 
 				ApplyTheme(_IsDarkMode);
-			};			
+			};
 		}
+
+		private IntPtr CustomWndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam)
+		{
+			// Handle the WM_THEMECHANGED message
+			Debug.WriteLine($"Message Code: {msg}");
+			if (msg == WM_SETTINGSCHANGE && !applyingTheme)
+			{
+				applyingTheme = true; // Set the flag to prevent recursion
+				_IsDarkMode = isDarkMode(); //<- Gets the current color mode from Windows
+				if (ColorMode != DisplayMode.SystemDefault)
+				{
+					_IsDarkMode = ColorMode == DisplayMode.DarkMode ? true : false;
+				}
+
+				ApplyTheme(_IsDarkMode);
+				applyingTheme = false; // Reset the flag
+			}
+
+			// Call the original WndProc
+			return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
+		}
+
 
 		public bool isDarkMode()
 		{
@@ -841,27 +890,34 @@ namespace DarkModeForms
 		/// <returns>a Color</returns>
 		public static Color GetWindowsAccentColor()
 		{
-			DWMCOLORIZATIONcolors colors = new DWMCOLORIZATIONcolors();
-			DwmGetColorizationParameters(ref colors);
-
-			//get the theme --> only if Windows 10 or newer
-			if (IsWindows10orGreater())
+			try
 			{
-				var color = colors.ColorizationColor;
+				DWMCOLORIZATIONcolors colors = new DWMCOLORIZATIONcolors();
+				DwmGetColorizationParameters(ref colors);
 
-				var colorValue = long.Parse(color.ToString(), System.Globalization.NumberStyles.HexNumber);
+				//get the theme --> only if Windows 10 or newer
+				if (IsWindows10orGreater())
+				{
+					var color = colors.ColorizationColor;
 
-				var transparency = (colorValue >> 24) & 0xFF;
-				var red = (colorValue >> 16) & 0xFF;
-				var green = (colorValue >> 8) & 0xFF;
-				var blue = (colorValue >> 0) & 0xFF;
+					var colorValue = long.Parse(color.ToString(), System.Globalization.NumberStyles.HexNumber);
 
-				return Color.FromArgb((int)transparency, (int)red, (int)green, (int)blue);
+					var transparency = (colorValue >> 24) & 0xFF;
+					var red = (colorValue >> 16) & 0xFF;
+					var green = (colorValue >> 8) & 0xFF;
+					var blue = (colorValue >> 0) & 0xFF;
+
+					return Color.FromArgb((int)transparency, (int)red, (int)green, (int)blue);
+				}
+				else
+				{
+					return Color.CadetBlue;
+				}
 			}
-			else
+			catch (Exception)
 			{
 				return Color.CadetBlue;
-			}
+			}			
 		}
 
 		/// <summary>Returns the Accent Color used by Windows.</summary>
