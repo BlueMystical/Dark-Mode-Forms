@@ -155,4 +155,5 @@ There are a few Winforms Controls that are, by design, extremely hard to theme:
 - MonthCalendar:  Un-themed.
 - ProgressBar:    Un-themed. You can use [FlatProgressBar](SourceFiles/FlatProgressBar.cs) instead.
 
-[Buy me a Coffe](https://buymeacoffee.com/blue.mystic)
+
+<a href="https://www.buymeacoffee.com/blue.mystic" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
