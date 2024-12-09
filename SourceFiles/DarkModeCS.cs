@@ -828,7 +828,6 @@ namespace DarkModeForms
 				grid.ColumnHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
 				grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = OScolors.Surface;
 				grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-				grid.ColumnHeadersHeight = 140;
 
 				grid.RowHeadersDefaultCellStyle.BackColor = OScolors.Surface;
 				grid.RowHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
