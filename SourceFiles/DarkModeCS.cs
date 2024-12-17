@@ -224,8 +224,29 @@ namespace DarkModeForms
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		private delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
-		[DllImport("user32.dll", SetLastError = true)]
-		private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+		// This helper static method is required because the 32-bit version of user32.dll does not contain this API
+		// (on any versions of Windows), so linking the method will fail at run-time. The bridge dispatches the request
+		// to the correct function (GetWindowLong in 32-bit mode and GetWindowLongPtr in 64-bit mode)
+		public static IntPtr SetWindowLongPtr(HandleRef hWnd, int nIndex, IntPtr dwNewLong)
+		{
+			if (IntPtr.Size == 8)
+				return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
+			else
+				return new IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
+		}
+
+		[DllImport("user32.dll", EntryPoint = "SetWindowLong")]
+		private static extern int SetWindowLong32(HandleRef hWnd, int nIndex, int dwNewLong);
+
+		[DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
+		private static extern IntPtr SetWindowLongPtr64(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
+		//		If that doesn't work, the following signature can be used alternatively.
+		[DllImport("user32.dll")]
+		static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
+
+		//[DllImport("user32.dll", SetLastError = true)]
+		//private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
 
 		[DllImport("user32.dll", SetLastError = true)]
 		private static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
@@ -317,8 +338,9 @@ namespace DarkModeForms
 			{
 				_Form.HandleCreated += (sender, e) =>
 				{
+					HandleRef handleRef = new HandleRef(_Form, _Form.Handle);
 					newWndProcDelegate = new WndProc(CustomWndProc);
-					originalWndProc = SetWindowLongPtr(_Form.Handle, GWLP_WNDPROC, Marshal.GetFunctionPointerForDelegate(newWndProcDelegate));
+					originalWndProc = SetWindowLongPtr(handleRef, GWLP_WNDPROC, Marshal.GetFunctionPointerForDelegate(newWndProcDelegate));
 				};
 			}
 			// This Fires after the normal 'Form_Load' event

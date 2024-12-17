@@ -13,6 +13,7 @@ namespace DarkModeForms
 		private bool _isDarkMode = false;
 		private bool mCloseAutorized = false;
 		private BindingList<ExampleDataSource> DS = null;
+		
 		private DarkModeCS dm = null;
 
 		public Form1()
