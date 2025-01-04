@@ -57,7 +57,7 @@ namespace DarkModeForms
 			string Message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK,
 			MessageBoxIcon icon = MessageBoxIcon.Information, bool pIsDarkMode = true)
 		{
-			Debug.WriteLine(icon.ToString());
+			//Debug.WriteLine(icon.ToString());
 
 			MsgIcon Icon = MsgIcon.None;
 

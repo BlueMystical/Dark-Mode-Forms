@@ -359,7 +359,7 @@ namespace DarkModeForms
 		private IntPtr CustomWndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam)
 		{
 			// Handle the WM_THEMECHANGED message
-			Debug.WriteLine($"Message Code: {msg}");
+			// Debug.WriteLine($"Message Code: {msg}"); // <-- should not be enabled in production as it slows everything down!
 			if (msg == WM_SETTINGSCHANGE && !applyingTheme)
 			{
 				applyingTheme = true; // Set the flag to prevent recursion
