@@ -868,7 +868,7 @@ namespace DarkModeForms
 			}
 
 
-			Debug.Print(string.Format("{0}: {1}", control.Name, control.GetType().Name));
+			//Debug.Print(string.Format("{0}: {1}", control.Name, control.GetType().Name));
 
 			if (control.ContextMenuStrip != null)
 				ThemeControl(control.ContextMenuStrip);
