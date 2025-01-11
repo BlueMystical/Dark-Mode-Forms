@@ -545,6 +545,10 @@ namespace DarkModeForms
 			if (control is ComboBox comboBox)
 			{
 				// Fixing a glitch that makes all instances of the ComboBox showing as having a Selected value, even when they dont
+				if (comboBox.DropDownStyle != ComboBoxStyle.DropDownList)
+				{
+					comboBox.SelectionStart = comboBox.Text.Length;
+				}
 				control.BeginInvoke(new Action(() => (control as ComboBox).SelectionLength = 0));
 
 				// Fixes a glitch showing the Combo Backgroud white when the control is Disabled:
