@@ -444,6 +444,9 @@ namespace DarkModeForms
 		}
 		public void ApplyTheme(DisplayMode pColorMode)
 		{
+			if (ColorMode == pColorMode) return;
+
+			ColorMode = pColorMode;
 			_IsDarkMode = isDarkMode(); //<- Gets the current color mode from Windows
 			if (ColorMode != DisplayMode.SystemDefault)
 			{
