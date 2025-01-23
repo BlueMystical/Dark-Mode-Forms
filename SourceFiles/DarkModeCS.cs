@@ -578,7 +578,7 @@ namespace DarkModeForms
 			{
 				var panel = control as Panel;
 				// Process the panel within the container
-				panel.BackColor = OScolors.Surface;
+				panel.BackColor = OScolors.Background;
 				panel.BorderStyle = BorderStyle.None;
 				if (!(panel.Parent is TabControl) || !(panel.Parent is TableLayoutPanel))
 				{
