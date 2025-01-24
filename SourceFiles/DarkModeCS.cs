@@ -558,7 +558,8 @@ namespace DarkModeForms
 				{
 					comboBox.SelectionStart = comboBox.Text.Length;
 				}
-				control.BeginInvoke(() => (control as ComboBox).SelectionLength = 0);
+				//control.BeginInvoke(() => (control as ComboBox).SelectionLength = 0);
+				control.BeginInvoke(new Action(() => (control as ComboBox).SelectionLength = 0));
 
 				// Fixes a glitch showing the Combo Backgroud white when the control is Disabled:
 				if (!control.Enabled && IsDarkMode)
@@ -1097,12 +1098,13 @@ namespace DarkModeForms
 
 				System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(new float[][]
 				{
-					[1,    0,  0,  0,  0], 
-					[0,    1,  0,  0,  0], 
-					[0,    0,  1,  0,  0], 
-					[0,    0,  0,  1,  0],  //<- not changing alpha
-					[tR,   tG, tB, 0,  1]
+					new float[] { 1,    0,  0,  0,  0 },
+					new float[] { 0,    1,  0,  0,  0 },
+					new float[] { 0,    0,  1,  0,  0 },
+					new float[] { 0,    0,  0,  1,  0 },  //<- not changing alpha
+					new float[] { tR,   tG, tB, 0,  1 }
 				});
+
 
 				System.Drawing.Imaging.ImageAttributes attributes = new System.Drawing.Imaging.ImageAttributes();
 				attributes.SetColorMatrix(colorMatrix);
