@@ -24,6 +24,8 @@ namespace DarkModeForms
 				// Choose your preferred mode here:
 				ColorMode = DarkModeCS.DisplayMode.SystemDefault
 			};
+
+			_isDarkMode = dm.isDarkMode();
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -179,7 +181,7 @@ namespace DarkModeForms
 			}
 			catch (Exception ex)
 			{
-				Messenger.MessageBox(ex);
+				Messenger.MessageBox(ex, _isDarkMode);
 			}
 		}
 
@@ -221,7 +223,7 @@ namespace DarkModeForms
 
 			// Dialog Show:
 			if (Messenger.InputBox("Custom InputBox", "Please Fill the Form:", ref _Fields,
-							MsgIcon.Edit, MessageBoxButtons.OKCancel) == DialogResult.OK)
+							MsgIcon.Edit, MessageBoxButtons.OKCancel, _isDarkMode) == DialogResult.OK)
 			{
 				Debug.WriteLine(string.Format("The New Password is: '{0}'", _Fields[1].Value));
 			}
@@ -254,11 +256,11 @@ namespace DarkModeForms
 
 			// Dialog Show:
 			if (Messenger.InputBox("Login", "Please Input your Credentials:", ref _Fields,
-									MsgIcon.Lock, MessageBoxButtons.OKCancel) == DialogResult.OK)
+									MsgIcon.Lock, MessageBoxButtons.OKCancel, _isDarkMode) == DialogResult.OK)
 			{
 
 				Messenger.MessageBox(string.Format("The User '{0}' is Logged!", _Fields[0].Value), "Login Correct!",
-									MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+									MessageBoxButtons.OK, MessageBoxIcon.Exclamation, _isDarkMode);
 			}
 		}
 
@@ -266,7 +268,7 @@ namespace DarkModeForms
 		private void button5_Click(object sender, EventArgs e)
 		{
 			if (Messenger.MessageBox("Hello World!", "You got a Message:",
-			  MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
+			  MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, _isDarkMode) == DialogResult.OK)
 			{
 				//Do Something here.
 			}
@@ -299,7 +301,7 @@ namespace DarkModeForms
 		private void mnuSalir_Click(object sender, EventArgs e)
 		{
 			//Esta es la forma correcta de Cerrar la Aplicacion, aparte de Apagar el PC
-			if (Messenger.MessageBox("Desea Cerrar este programa?", "Confirmar Salida", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+			if (Messenger.MessageBox("Desea Cerrar este programa?", "Confirmar Salida", MessageBoxButtons.YesNo, MessageBoxIcon.Question, _isDarkMode) == DialogResult.Yes)
 			{
 				this.mCloseAutorized = true;
 				this.Close();
