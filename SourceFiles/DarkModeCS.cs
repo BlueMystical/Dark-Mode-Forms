@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Xml.Linq;
 
+
 namespace DarkModeForms
 {
 	/// <summary>This tries to automatically apply Windows Dark Mode (if enabled) to a Form.
@@ -321,7 +322,6 @@ namespace DarkModeForms
 		public OSThemeColors OScolors { get; set; }
 
 		#endregion Public Members
-
 
 		#region Constructors
 
@@ -755,6 +755,8 @@ namespace DarkModeForms
 
 				if (lView.View == View.Details)
 				{
+					//lView.BackColor = OScolors.Surface;
+					lView.Items[0].UseItemStyleForSubItems = false;
 					lView.OwnerDraw = true;
 					lView.DrawColumnHeader += (sender, e) =>
 					{
@@ -762,6 +764,7 @@ namespace DarkModeForms
 						//e.DrawBackground();
 						//e.DrawText();
 
+						//Draws the Column's Text
 						using (SolidBrush backBrush = new SolidBrush(OScolors.ControlLight))
 						{
 							using (SolidBrush foreBrush = new SolidBrush(OScolors.TextActive))
@@ -792,7 +795,7 @@ namespace DarkModeForms
 
 						//using (SolidBrush backBrush = new SolidBrush(OScolors.ControlLight))
 						//{
-						//  e.Graphics.FillRectangle(backBrush, rc);
+						//	e.Graphics.FillRectangle(backBrush, rc);
 						//}
 
 						//ReleaseDC(headerControl, hdc);

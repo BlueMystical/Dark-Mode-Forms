@@ -16,7 +16,6 @@ namespace DarkModeForms
 	public static class Messenger
 	{
 		#region Events
-
 		/// <summary>Manejador de Eventos para los Click en Botones</summary>
 		private static Action<object, ValidateEventArgs> ValidateControlsHandler;
 
@@ -36,6 +35,8 @@ namespace DarkModeForms
 		#endregion Events
 
 		#region MessageBox
+
+		private static MessageBoxDefaultButton _defaultButton = MessageBoxDefaultButton.Button1;
 
 		public static DialogResult MessageBox(string Message)
 			=> MessageBox(Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -79,6 +80,14 @@ namespace DarkModeForms
 			return MessageBox(Message, title, Icon, buttons, pIsDarkMode);
 		}
 
+		public static DialogResult MessageBox(string Message, string title, MessageBoxButtons buttons,
+			MessageBoxIcon icon, MessageBoxDefaultButton DefaultButton, bool pIsDarkMode = true)
+		{
+			_defaultButton = DefaultButton;
+			return MessageBox(Message, title, buttons, icon, pIsDarkMode);
+		}
+
+
 		public static DialogResult MessageBox(string Message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK,
 											  MsgIcon icon = MsgIcon.None, bool pIsDarkMode = true)
 		{
@@ -106,7 +115,8 @@ namespace DarkModeForms
 				Height = 170
 			};
 
-			DarkModeCS DMode = new DarkModeCS(form) {ColorMode = pIsDarkMode ? DarkModeCS.DisplayMode.DarkMode : DarkModeCS.DisplayMode.ClearMode};
+			DarkModeCS DMode = new DarkModeCS(form)
+			{ ColorMode = pIsDarkMode ? DarkModeCS.DisplayMode.DarkMode : DarkModeCS.DisplayMode.ClearMode };
 			DMode.ApplyTheme(pIsDarkMode);
 
 			Base64Icons _Icons = new Base64Icons();
@@ -126,7 +136,11 @@ namespace DarkModeForms
 			form.Controls.Add(bottomPanel);
 
 			string CurrentLanguage = GetCurrentLanguage();
-			var ButtonTranslations = GetButtonTranslations(CurrentLanguage); //<- "OK|Cancel|Yes|No|Continue|Retry|Abort"
+			var ButtonTranslations = GetButtonTranslations(CurrentLanguage); //<- "OK|Cancel|Yes|No|Continue|Retry|Abort|Ignore|Try Again"
+
+
+			// Dialogs without Cancel should NOT have a Close (X) button in the Titlebar
+			// Exception is first case, MessageBoxButtons.OK, which does have one  ;-)
 
 			List<Button> CmdButtons = new List<Button>();
 			switch (buttons)
@@ -140,6 +154,14 @@ namespace DarkModeForms
 						Height = fontHeight + 10,
 					});
 					form.AcceptButton = CmdButtons[0];
+					// Copy standard MessageBox behavior by closing the dialog window
+					// and returning DialogResult.OK if the Escape key is pressed
+					form.KeyPreview = true;
+					form.KeyDown += (s, e) =>
+					{ if (e.KeyCode == Keys.Escape) { form.Close(); } };
+					// Handle the FormClosed event to return DialogResult.OK
+					form.FormClosed += (s, e) =>
+					{ form.DialogResult = DialogResult.OK; };
 					break;
 
 				case MessageBoxButtons.OKCancel:
@@ -150,7 +172,6 @@ namespace DarkModeForms
 						Text = ButtonTranslations["OK"],
 						Height = fontHeight + 10,
 					});
-					var xx = CmdButtons[CmdButtons.Count - 1].Height;
 					CmdButtons.Add(new Button
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
@@ -165,17 +186,24 @@ namespace DarkModeForms
 					CmdButtons.Add(new Button
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
+						DialogResult = DialogResult.Abort,
+						Text = ButtonTranslations["Abort"]
+					});
+					CmdButtons.Add(new Button
+					{
+						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Retry,
 						Text = ButtonTranslations["Retry"]
 					});
 					CmdButtons.Add(new Button
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.Abort,
-						Text = ButtonTranslations["Abort"]
+						DialogResult = DialogResult.Ignore,
+						Text = ButtonTranslations["Ignore"]
 					});
 					form.AcceptButton = CmdButtons[0];
-					form.CancelButton = CmdButtons[1];
+					//form.CancelButton = CmdButtons[1];  // To match standard MessageBox behavior
+					form.ControlBox = false;
 					break;
 
 				case MessageBoxButtons.YesNoCancel:
@@ -215,7 +243,8 @@ namespace DarkModeForms
 						Text = ButtonTranslations["No"]
 					});
 					form.AcceptButton = CmdButtons[0];
-					form.CancelButton = CmdButtons[1];
+					//form.CancelButton = CmdButtons[1];  // To match standard MessageBox behavior
+					form.ControlBox = false;
 					break;
 
 				case MessageBoxButtons.RetryCancel:
@@ -234,48 +263,61 @@ namespace DarkModeForms
 					form.AcceptButton = CmdButtons[0];
 					form.CancelButton = CmdButtons[1];
 					break;
-					/*
-					case MessageBoxButtons.CancelTryContinue:
-					  CmdButtons.Add(new Button()
-					  {
+
+				/*case MessageBoxButtons.CancelTryContinue:
+					CmdButtons.Add(new Button()
+					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Cancel,
 						Text = ButtonTranslations["Cancel"]
-					  });
-					  CmdButtons.Add(new Button()
-					  {
+					});
+					CmdButtons.Add(new Button()
+					{
+						Anchor = AnchorStyles.Top | AnchorStyles.Right,
+						DialogResult = DialogResult.TryAgain,
+						Text = ButtonTranslations["Try Again"]
+					});
+					CmdButtons.Add(new Button()
+					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Continue,
 						Text = ButtonTranslations["Continue"]
-					  });
-					  form.AcceptButton = CmdButtons[0];
-					  form.CancelButton = CmdButtons[1];
-					  break;
-					*/
+					});
+					form.AcceptButton = CmdButtons[2];  // Not sure about this one...
+					form.CancelButton = CmdButtons[0];  // But "Cancel" should be used here
+					break;*/
 			}
 
 			int Padding = 4;
 			int LastPos = form.ClientSize.Width;
 
-			systemFont = SystemFonts.MessageBoxFont;
-			
+			// Fall back to DefaultFont if MessageBoxFont is null
+			systemFont = SystemFonts.MessageBoxFont ?? SystemFonts.DefaultFont;
 
-			foreach (var _button in CmdButtons)
+			// Create the Graphics object once, not mutiple times in the for loop
+			using (Graphics g = form.CreateGraphics())
 			{
-				_button.FlatAppearance.BorderColor = (form.AcceptButton == _button) ? DMode.OScolors.Accent : DMode.OScolors.Control;
-				bottomPanel.Controls.Add(_button);
-
-				_button.Font = systemFont;
-
-				// Measure the width of the button text
-				using (Graphics g = form.CreateGraphics())
+				// Add the buttons in reverse order, to match the order in a standard MessageBox
+				for (int c = CmdButtons.Count - 1; c >= 0; c--)
 				{
+					Button _button = CmdButtons[c];
+					_button.FlatAppearance.BorderColor = (form.AcceptButton == _button) ? DMode.OScolors.Accent : DMode.OScolors.Control;
+
+					// Add the button to the Panel
+					bottomPanel.Controls.Add(_button);
+
+					// Set the button TabIndex order properly
+					_button.TabIndex = c;
+
+					_button.Font = systemFont;
+
+					// Measure the width of the button text
 					SizeF textSize = g.MeasureString(_button.Text, systemFont);
 					_button.Size = new Size((int)textSize.Width + 20, systemFont.Height + 10); // Adding some padding
-				}
 
-				_button.Location = new Point(LastPos - (_button.Width + Padding), (bottomPanel.Height - _button.Height) / 2);
-				LastPos = _button.Left;
+					_button.Location = new Point(LastPos - (_button.Width + Padding), (bottomPanel.Height - _button.Height) / 2);
+					LastPos = _button.Left;
+				}
 			}
 
 			#endregion Bottom Panel & Buttons
@@ -304,7 +346,7 @@ namespace DarkModeForms
 				AutoSize = true,
 				//BackColor = Color.Fuchsia,
 				ForeColor = DMode.OScolors.TextActive,
-				TextAlign = ContentAlignment.MiddleCenter,
+				TextAlign = ContentAlignment.MiddleLeft,  // Align left like standard Winforms MessageBox
 				Location = new Point(picBox.X + picBox.Width + 4, picBox.Y),
 				MaximumSize = new Size(form.ClientSize.Width - (picBox.X + picBox.Width) + 8, 0),
 				MinimumSize = new Size(form.ClientSize.Width - (picBox.X + picBox.Width) + 8, 64)
@@ -319,6 +361,14 @@ namespace DarkModeForms
 				lblPrompt.Height +
 				20
 			);
+
+			// Select (focus) the default button
+			int b = (int)_defaultButton;
+			if (b > 0)
+			{
+				b >>= 8;
+				if (b < CmdButtons.Count) CmdButtons[b].Select();
+			}
 
 			return form.ShowDialog();
 		}
@@ -503,24 +553,23 @@ namespace DarkModeForms
 					form.AcceptButton = CmdButtons[0];
 					form.CancelButton = CmdButtons[1];
 					break;
-					/*
-					case MessageBoxButtons.CancelTryContinue:
-					  CmdButtons.Add(new Button()
-					  {
+
+				/*case MessageBoxButtons.CancelTryContinue:
+					CmdButtons.Add(new Button()
+					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Cancel,
 						Text = ButtonTranslations["Cancel"]
-					  });
-					  CmdButtons.Add(new Button()
-					  {
+					});
+					CmdButtons.Add(new Button()
+					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Continue,
 						Text = ButtonTranslations["Continue"]
-					  });
-					  form.AcceptButton = CmdButtons[0];
-					  form.CancelButton = CmdButtons[1];
-					  break;
-					*/
+					});
+					form.AcceptButton = CmdButtons[0];
+					form.CancelButton = CmdButtons[1];
+					break;*/
 			}
 
 			int Padding = 4;
@@ -550,7 +599,7 @@ namespace DarkModeForms
 			#endregion Buttons
 
 			#region Prompt Text
-			
+
 			Label lblPrompt = new Label();
 			if (!string.IsNullOrWhiteSpace(promptText))
 			{
@@ -899,7 +948,7 @@ namespace DarkModeForms
 		{
 			string _ret = pDefault;
 			string CurrentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-			if (IsCurrentLanguageSupported(new List<string> { "en", "es", "fr", "de", "ru", "ko" }, CurrentLanguage))
+			if (IsCurrentLanguageSupported(new List<string> { "en", "es", "fr", "de", "ru", "ko", "pt" }, CurrentLanguage))
 			{
 				_ret = CurrentLanguage;
 			}
@@ -923,21 +972,22 @@ namespace DarkModeForms
 		}
 
 		/// <summary>Return the Translations for the desired language (if supported).</summary>
-		/// <param name="pLanguage">Supported Languages: [en, es, fr, de, ru, ko]</param>
-		/// <returns>Keys: OK, Cancel, Yes, No, Continue, Retry, Abort</returns>
+		/// <param name="pLanguage">Supported Languages: [en, es, fr, de, ru, ko, pt]</param>
+		/// <returns>Keys: OK, Cancel, Yes, No, Continue, Retry, Abort, Ignore, Try Again</returns>
 		private static Dictionary<string, string> GetButtonTranslations(string pLanguage)
 		{
 			Dictionary<string, string> _ret = null;
 
 			Dictionary<string, string> ButtonTranslations = new Dictionary<string, string> {
-				{ "en", "OK|Cancel|Yes|No|Continue|Retry|Abort|Ignore" },
-				{ "es", "Aceptar|Cancelar|Sí|No|Continuar|Reintentar|Abortar|Ignorar" },
-				{ "fr", "Accepter|Annuler|Oui|Non|Continuer|Réessayer|Abandonner|Ignorer" },
-				{ "de", "Akzeptieren|Abbrechen|Ja|Nein|Weiter|Wiederholen|Abbrechen|Ignorieren"},
-				{ "ru", "Принять|Отменить|Да|Нет|Продолжить|Повторить|Прервать|Игнорировать" },
-				{ "ko", "확인|취소|예|아니오|계속|다시 시도|중단|무시" },
-				{ "zh-Hans", "确定|取消|是|否|继续|重试|中止|忽略" },
-				{ "zh-Hant", "確定|取消|是|否|繼續|重試|中止|忽略" }
+				{ "en", "OK|Cancel|Yes|No|Continue|Retry|Abort|Ignore|Try Again" },
+				{ "es", "Aceptar|Cancelar|Sí|No|Continuar|Reintentar|Abortar|Ignorar|Intentar" },
+				{ "fr", "Accepter|Annuler|Oui|Non|Continuer|Réessayer|Abandonner|Ignorer|Essayer" },
+				{ "de", "Akzeptieren|Abbrechen|Ja|Nein|Weiter|Wiederholen|Abbrechen|Ignorieren|Versuchen" },
+				{ "ru", "Принять|Отменить|Да|Нет|Продолжить|Повторить|Прервать|Игнорировать|Пытаться" },
+				{ "ko", "확인|취소|예|아니오|계속|다시 시도|중단|무시|써 보다" },
+				{ "pt", "Aceitar|Cancelar|Sim|Não|Continuar|Tentar novamente|Abortar|Ignorar|Tentar" },
+				{ "zh-Hans", "确定|取消|是|否|继续|重试|中止|忽略|尝试" },
+				{ "zh-Hant", "確定|取消|是|否|繼續|重試|中止|忽略|嘗試" }
 				/* Add here you own language button translations */
 			  };
 
@@ -954,7 +1004,8 @@ namespace DarkModeForms
 					{ "Continue", Words[4] },
 					{ "Retry", Words[5] },
 					{ "Abort", Words[6] },
-					{ "Ignore", Words[7] }
+					{ "Ignore", Words[7] },
+					{ "Try Again", Words[8] }
 				};
 			}
 
@@ -1058,7 +1109,7 @@ namespace DarkModeForms
 			{
 				var newValue = value;
 
-				//1. We Raize the 'Validate' Event to the Client informing both the
+				//1. We Raise the 'Validate' Event to the Client informing both the
 				//   New and Old Values for Client Side Validation:
 				OnValidate(ref newValue); //<- Validate can Cancel the new Value
 
@@ -1108,7 +1159,7 @@ namespace DarkModeForms
 			var validateHandler = Validate;
 			if (validateHandler != null)
 			{
-				//1. We Raize the 'Validate' Event to the Client informing both the
+				//1. We Raise the 'Validate' Event to the Client informing both the
 				//   New and Old Values for Client Side Validation:
 				var args = new ValidateEventArgs(newValue) { OldValue = _value };
 				validateHandler(this, args);
