@@ -268,7 +268,7 @@ namespace DarkModeForms
 		private void button5_Click(object sender, EventArgs e)
 		{
 			if (Messenger.MessageBox("Hello World!", "You got a Message:",
-			  MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, _isDarkMode) == DialogResult.OK)
+			  MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2, _isDarkMode) == DialogResult.OK)
 			{
 				//Do Something here.
 			}

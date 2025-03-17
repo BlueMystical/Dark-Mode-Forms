@@ -80,13 +80,13 @@ namespace DarkModeForms
 			return MessageBox(Message, title, Icon, buttons, pIsDarkMode);
 		}
 
+
 		public static DialogResult MessageBox(string Message, string title, MessageBoxButtons buttons,
 			MessageBoxIcon icon, MessageBoxDefaultButton DefaultButton, bool pIsDarkMode = true)
 		{
 			_defaultButton = DefaultButton;
 			return MessageBox(Message, title, buttons, icon, pIsDarkMode);
 		}
-
 
 		public static DialogResult MessageBox(string Message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK,
 											  MsgIcon icon = MsgIcon.None, bool pIsDarkMode = true)
@@ -102,7 +102,8 @@ namespace DarkModeForms
 		/// <returns>It is a modal window, blocking other actions in the application until the user closes it.</returns>
 		public static DialogResult MessageBox(
 			string Message, string title, MsgIcon Icon,
-			MessageBoxButtons buttons = MessageBoxButtons.OK, bool pIsDarkMode = true)
+			MessageBoxButtons buttons = MessageBoxButtons.OK, bool pIsDarkMode = true,
+			MessageBoxDefaultButton defaultButton = MessageBoxDefaultButton.Button1)
 		{
 			Form form = new Form
 			{
@@ -112,7 +113,8 @@ namespace DarkModeForms
 				MinimizeBox = false,
 				Text = title,
 				Width = 340,
-				Height = 170
+				Height = 170,
+				KeyPreview = true //<- allows the form to receive key events before they are passed to the controls
 			};
 
 			DarkModeCS DMode = new DarkModeCS(form)
@@ -152,6 +154,7 @@ namespace DarkModeForms
 						DialogResult = DialogResult.OK,
 						Text = ButtonTranslations["OK"],
 						Height = fontHeight + 10,
+						FlatStyle = FlatStyle.System
 					});
 					form.AcceptButton = CmdButtons[0];
 					// Copy standard MessageBox behavior by closing the dialog window
@@ -171,12 +174,14 @@ namespace DarkModeForms
 						DialogResult = DialogResult.OK,
 						Text = ButtonTranslations["OK"],
 						Height = fontHeight + 10,
+						FlatStyle = FlatStyle.System
 					});
 					CmdButtons.Add(new Button
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Cancel,
-						Text = ButtonTranslations["Cancel"]
+						Text = ButtonTranslations["Cancel"],
+						FlatStyle = FlatStyle.System
 					});
 					form.AcceptButton = CmdButtons[0];
 					form.CancelButton = CmdButtons[1];
@@ -252,7 +257,8 @@ namespace DarkModeForms
 					{
 						Anchor = AnchorStyles.Top | AnchorStyles.Right,
 						DialogResult = DialogResult.Retry,
-						Text = ButtonTranslations["Retry"]
+						Text = ButtonTranslations["Retry"],
+						FlatStyle = FlatStyle.System
 					});
 					CmdButtons.Add(new Button
 					{
@@ -264,28 +270,28 @@ namespace DarkModeForms
 					form.CancelButton = CmdButtons[1];
 					break;
 
-				/*case MessageBoxButtons.CancelTryContinue:
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.Cancel,
-						Text = ButtonTranslations["Cancel"]
-					});
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.TryAgain,
-						Text = ButtonTranslations["Try Again"]
-					});
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.Continue,
-						Text = ButtonTranslations["Continue"]
-					});
-					form.AcceptButton = CmdButtons[2];  // Not sure about this one...
-					form.CancelButton = CmdButtons[0];  // But "Cancel" should be used here
-					break;*/
+					/*case MessageBoxButtons.CancelTryContinue:
+						CmdButtons.Add(new Button()
+						{
+							Anchor = AnchorStyles.Top | AnchorStyles.Right,
+							DialogResult = DialogResult.Cancel,
+							Text = ButtonTranslations["Cancel"]
+						});
+						CmdButtons.Add(new Button()
+						{
+							Anchor = AnchorStyles.Top | AnchorStyles.Right,
+							DialogResult = DialogResult.TryAgain,
+							Text = ButtonTranslations["Try Again"]
+						});
+						CmdButtons.Add(new Button()
+						{
+							Anchor = AnchorStyles.Top | AnchorStyles.Right,
+							DialogResult = DialogResult.Continue,
+							Text = ButtonTranslations["Continue"]
+						});
+						form.AcceptButton = CmdButtons[2];  // Not sure about this one...
+						form.CancelButton = CmdButtons[0];  // But "Cancel" should be used here
+						break;*/
 			}
 
 			int Padding = 4;
@@ -317,6 +323,19 @@ namespace DarkModeForms
 
 					_button.Location = new Point(LastPos - (_button.Width + Padding), (bottomPanel.Height - _button.Height) / 2);
 					LastPos = _button.Left;
+				}
+			}
+
+			// Select (focus) the default button
+			int b = (int)_defaultButton;
+			if (b > 0)
+			{
+				b >>= 8;
+				if (b < CmdButtons.Count)
+				{
+					CmdButtons[b].Select();
+					CmdButtons[b].FlatStyle = FlatStyle.Flat;
+					CmdButtons[b].FlatAppearance.BorderColor = DMode.OScolors.AccentLight;
 				}
 			}
 
@@ -362,13 +381,24 @@ namespace DarkModeForms
 				20
 			);
 
-			// Select (focus) the default button
-			int b = (int)_defaultButton;
-			if (b > 0)
+			#region Keyboard Shortcuts
+
+			string localMessage = Message;
+			string localTitle = title;
+
+			form.KeyDown += (object sender, KeyEventArgs e) =>
 			{
-				b >>= 8;
-				if (b < CmdButtons.Count) CmdButtons[b].Select();
-			}
+				//- Keyboard shortcut for CTRL + C: Copy the message and title to the clipboard
+				if (e.Control && e.KeyCode == Keys.C)
+				{
+					string clipboardText = $"Title: {localTitle}\r\nMessage: {localMessage}";
+					Clipboard.SetText(clipboardText);
+					e.Handled = true;
+				}
+			};
+
+			#endregion
+
 
 			return form.ShowDialog();
 		}
@@ -554,22 +584,22 @@ namespace DarkModeForms
 					form.CancelButton = CmdButtons[1];
 					break;
 
-				/*case MessageBoxButtons.CancelTryContinue:
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.Cancel,
-						Text = ButtonTranslations["Cancel"]
-					});
-					CmdButtons.Add(new Button()
-					{
-						Anchor = AnchorStyles.Top | AnchorStyles.Right,
-						DialogResult = DialogResult.Continue,
-						Text = ButtonTranslations["Continue"]
-					});
-					form.AcceptButton = CmdButtons[0];
-					form.CancelButton = CmdButtons[1];
-					break;*/
+					/*case MessageBoxButtons.CancelTryContinue:
+						CmdButtons.Add(new Button()
+						{
+							Anchor = AnchorStyles.Top | AnchorStyles.Right,
+							DialogResult = DialogResult.Cancel,
+							Text = ButtonTranslations["Cancel"]
+						});
+						CmdButtons.Add(new Button()
+						{
+							Anchor = AnchorStyles.Top | AnchorStyles.Right,
+							DialogResult = DialogResult.Continue,
+							Text = ButtonTranslations["Continue"]
+						});
+						form.AcceptButton = CmdButtons[0];
+						form.CancelButton = CmdButtons[1];
+						break;*/
 			}
 
 			int Padding = 4;
