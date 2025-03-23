@@ -1,3 +1,4 @@
+using BlueMystical.Forms.DarkModeNet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ namespace DarkModeForms
 		private BindingList<ExampleDataSource> DS = null;
 		
 		private DarkModeCS dm = null;
+
 
 		public Form1()
 		{

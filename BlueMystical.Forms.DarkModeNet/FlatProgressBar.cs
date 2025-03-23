@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DarkModeForms
+namespace BlueMystical.Forms.DarkModeNet
 {
 	public class FlatProgressBar : ProgressBar
 	{

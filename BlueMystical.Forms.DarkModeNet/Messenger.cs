@@ -7,10 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using static DarkModeForms.KeyValue;
+using static BlueMystical.Forms.DarkModeNet.KeyValue;
 using Timer = System.Windows.Forms.Timer;
 
-namespace DarkModeForms
+namespace BlueMystical.Forms.DarkModeNet
 {
 	/* Author: BlueMystic (bluemystic.play@gmail.com)  2024 */
 	public static class Messenger

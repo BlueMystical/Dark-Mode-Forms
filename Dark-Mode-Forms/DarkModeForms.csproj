@@ -9,6 +9,11 @@
     <AppConfig>App.config</AppConfig>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="SourceFiles\**" />
+    <EmbeddedResource Remove="SourceFiles\**" />
+    <None Remove="SourceFiles\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="YinYan.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -26,6 +31,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <ProjectReference Include="..\BlueMystical.Forms.DarkModeNet\BlueMystical.Forms.DarkModeNet.csproj" />
     <Compile Update="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
