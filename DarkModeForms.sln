@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkModeForms", "Dark-Mode-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueMystical.Forms.DarkModeNet", "BlueMystical.Forms.DarkModeNet\BlueMystical.Forms.DarkModeNet.csproj", "{0C318329-3424-4F53-888E-89F1FBE0724A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueMystical.Forms.DarkModeCore", "BlueMystical.Forms.DarkModeCore\BlueMystical.Forms.DarkModeCore.csproj", "{79A77C6A-1487-4580-A341-55B6E976991B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkModeCoreTestApp", "DarkModeCoreTestApp\DarkModeCoreTestApp.csproj", "{8A0F6952-4EAB-451C-DBE8-3412321F6F14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{0C318329-3424-4F53-888E-89F1FBE0724A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C318329-3424-4F53-888E-89F1FBE0724A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C318329-3424-4F53-888E-89F1FBE0724A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79A77C6A-1487-4580-A341-55B6E976991B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79A77C6A-1487-4580-A341-55B6E976991B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79A77C6A-1487-4580-A341-55B6E976991B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79A77C6A-1487-4580-A341-55B6E976991B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A0F6952-4EAB-451C-DBE8-3412321F6F14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A0F6952-4EAB-451C-DBE8-3412321F6F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A0F6952-4EAB-451C-DBE8-3412321F6F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A0F6952-4EAB-451C-DBE8-3412321F6F14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
