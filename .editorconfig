@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0055: Fix formatting
+dotnet_diagnostic.CA1416.severity = silent

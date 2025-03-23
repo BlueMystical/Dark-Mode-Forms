@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
-    <RootNamespace>BlueMystical.Forms.DarkModeNet</RootNamespace>
-    <AssemblyName>BlueMystical.Forms.DarkModeNet</AssemblyName>
+    <RootNamespace>BlueMystical.Forms.DarkModeCore</RootNamespace>
+    <AssemblyName>BlueMystical.Forms.DarkModeCore</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
