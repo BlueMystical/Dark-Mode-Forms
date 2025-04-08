@@ -26,6 +26,8 @@ namespace DarkModeForms
 			};
 
 			_isDarkMode = dm.isDarkMode();
+
+			DarkModeCS.ExcludeFromProcessing(button6);
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
