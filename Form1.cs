@@ -28,6 +28,7 @@ namespace DarkModeForms
 			_isDarkMode = dm.isDarkMode();
 
 			DarkModeCS.ExcludeFromProcessing(button6);
+			DarkModeCS.ExcludeFromProcessing(button8);
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -340,6 +341,15 @@ namespace DarkModeForms
 			return directoryNode;
 		}
 
+		private void button6_Click(object sender, EventArgs e)
+		{
+			tabControl1.TabPages.Add("ADSFASDF");
+		}
+
+		private void button8_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 
 	internal class ExampleDataSource
