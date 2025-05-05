@@ -631,23 +631,21 @@ namespace DarkModeForms
 							TabPage tabPage = tab.TabPages[i];
 							tabPage.BackColor = OScolors.Surface;
 							tabPage.BorderStyle = BorderStyle.FixedSingle;
-							tabPage.ControlAdded += (_s, _e) =>
-							{
-								ThemeControl(_e.Control);
-							};
 
-							var tBounds = e.Bounds;
-							//tBounds.Inflate(100, 100);
+							tabPage.ControlAdded -= tabPageAdded; //prevent uncontrolled multiple addition
+							tabPage.ControlAdded += tabPageAdded;
 
+							var tabRect = tab.GetTabRect(i);
+							
 							bool IsSelected = (tab.SelectedIndex == i);
 							if (IsSelected)
 							{
-								e.Graphics.FillRectangle(tabBack, tBounds);
-								TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, e.Bounds, OScolors.TextActive);
+								e.Graphics.FillRectangle(tabBack, tabRect);
+								TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, tabRect, OScolors.TextActive);
 							}
 							else
 							{
-								TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, tab.GetTabRect(i), OScolors.TextInactive);
+								TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, tabRect, OScolors.TextInactive);
 							}
 						}
 					}
@@ -899,6 +897,11 @@ namespace DarkModeForms
 				// Recursively process its children
 				ThemeControl(childControl);
 			}
+		}
+
+		private void tabPageAdded(object _s, ControlEventArgs _e)
+		{
+			ThemeControl(_e.Control);
 		}
 
 		/// <summary>
