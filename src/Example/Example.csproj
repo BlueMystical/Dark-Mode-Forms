@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<!-- .NET Framework 4.8 specific properties -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<AppConfig>App.config</AppConfig>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DarkModeForms\DarkModeForms.csproj" />
+	</ItemGroup>
+</Project>

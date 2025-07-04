@@ -11,7 +11,7 @@ Apply Dark Mode to all Controls in a Form [WinForms]
 
 ## Now with Dark Messenger
 
-Window's default MessageBox cant not be themed, so Added a [Messenger.cs](SourceFiles/Messenger.cs) class that allowes the user to popup Messages and InputBoxes:
+Window's default MessageBox cant not be themed, so Added a [Messenger.cs](src/DarkModeForms/DarkControls/Messenger.cs) class that allowes the user to popup Messages and InputBoxes:
 
 - ```Messenger.MessageBox``` is a Direct replacement for the old ```MessageBox.Show```, the new one applies Windows's Dark Mode automaticaly.
 - ```Messenger.InputBox``` is a replacement for VisualBasic's InputBox, implemented for C# and with extended functionalities:
@@ -118,7 +118,7 @@ if (Messenger.InputBox("Login", "Please Input your Credentials:", ref _Fields,
 
 ## Implementation
 
-- No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](SourceFiles/DarkModeCS.cs) Copy/Paste or [Download](https://github.com/BlueMystical/Dark-Mode-Forms/releases/latest) and import it into your project.
+- No Nuggets, No external DLLs, Just 1 File: [DarkModeCS.cs](src/DarkModeForms/DarkModeCS.cs) Copy/Paste or [Download](https://github.com/BlueMystical/Dark-Mode-Forms/releases/latest) and import it into your project.
 
 ```csharp
 private DarkModeCS dm = null;
@@ -149,11 +149,11 @@ public Form1()
 
 There are a few Winforms Controls that are, by design, extremely hard to theme:
 
-- TabControl: 90% themed, a white border around the selected tab still remains.  You could use [FlatTabControl](SourceFiles/FlatTabControl.cs) instead, check in the Example.
-- MessageBox:  Can't be themed. You can use [Messenger](SourceFiles/Messenger.cs) instead.
+- TabControl: 90% themed, a white border around the selected tab still remains.  You could use [FlatTabControl](src/DarkModeForms/DarkControls/FlatTabControl.cs) instead, check in the Example.
+- MessageBox:  Can't be themed. You can use [Messenger](src/DarkModeForms/DarkControls/Messenger.cs) instead.
 - DateTimePicker: Un-themed.
 - MonthCalendar:  Un-themed.
-- ProgressBar:    Un-themed. You can use [FlatProgressBar](SourceFiles/FlatProgressBar.cs) instead.
+- ProgressBar:    Un-themed. You can use [FlatProgressBar](src/DarkModeForms/DarkControls/FlatProgressBar.cs) instead.
 
 
 <a href="https://www.buymeacoffee.com/blue.mystic" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
