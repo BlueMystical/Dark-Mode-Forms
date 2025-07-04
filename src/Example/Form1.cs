@@ -5,8 +5,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
-namespace DarkModeForms
+using DarkModeForms;
+namespace Example
 {
 	public partial class Form1 : Form
 	{

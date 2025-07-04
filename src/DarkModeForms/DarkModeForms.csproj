@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+  <!--<ItemGroup>
+    <Compile Update="SourceFiles\FlatComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="SourceFiles\FlatProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="SourceFiles\FlatTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>-->
+
+</Project>

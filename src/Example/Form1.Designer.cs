@@ -1,6 +1,7 @@
+using DarkModeForms;
 using System.Windows.Forms;
 
-namespace DarkModeForms
+namespace Example
 {
 	partial class Form1
 	{
@@ -276,7 +277,7 @@ namespace DarkModeForms
       // toolStripButton1
       // 
       this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.toolStripButton1.Image = global::DarkModeForms.Properties.Resources.forward_16x16;
+      this.toolStripButton1.Image = global::Example.Properties.Resources.forward_16x16;
       this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolStripButton1.Name = "toolStripButton1";
       this.toolStripButton1.Size = new System.Drawing.Size(24, 24);
@@ -285,7 +286,7 @@ namespace DarkModeForms
       // toolStripButton3
       // 
       this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.toolStripButton3.Image = global::DarkModeForms.Properties.Resources.all_borders_16x16;
+      this.toolStripButton3.Image = global::Example.Properties.Resources.all_borders_16x16;
       this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolStripButton3.Name = "toolStripButton3";
       this.toolStripButton3.Size = new System.Drawing.Size(24, 24);
@@ -294,7 +295,7 @@ namespace DarkModeForms
       // toolStripButton2
       // 
       this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.toolStripButton2.Image = global::DarkModeForms.Properties.Resources.customization_16x16;
+      this.toolStripButton2.Image = global::Example.Properties.Resources.customization_16x16;
       this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolStripButton2.Name = "toolStripButton2";
       this.toolStripButton2.Size = new System.Drawing.Size(24, 24);
@@ -305,7 +306,7 @@ namespace DarkModeForms
       this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.asssToolStripMenuItem,
             this.jhgjhgToolStripMenuItem});
-      this.toolStripSplitButton1.Image = global::DarkModeForms.Properties.Resources.forward_16x16;
+      this.toolStripSplitButton1.Image = global::Example.Properties.Resources.forward_16x16;
       this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolStripSplitButton1.Name = "toolStripSplitButton1";
       this.toolStripSplitButton1.Size = new System.Drawing.Size(95, 24);
@@ -313,14 +314,14 @@ namespace DarkModeForms
       // 
       // asssToolStripMenuItem
       // 
-      this.asssToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.font_16x16;
+      this.asssToolStripMenuItem.Image = global::Example.Properties.Resources.font_16x16;
       this.asssToolStripMenuItem.Name = "asssToolStripMenuItem";
       this.asssToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
       this.asssToolStripMenuItem.Text = "asss";
       // 
       // jhgjhgToolStripMenuItem
       // 
-      this.jhgjhgToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.customization_16x16;
+      this.jhgjhgToolStripMenuItem.Image = global::Example.Properties.Resources.customization_16x16;
       this.jhgjhgToolStripMenuItem.Name = "jhgjhgToolStripMenuItem";
       this.jhgjhgToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
       this.jhgjhgToolStripMenuItem.Text = "jhgjhg";
@@ -330,7 +331,7 @@ namespace DarkModeForms
       this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
       this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.xxxToolStripMenuItem});
-      this.toolStripDropDownButton1.Image = global::DarkModeForms.Properties.Resources.font_16x16;
+      this.toolStripDropDownButton1.Image = global::Example.Properties.Resources.font_16x16;
       this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
       this.toolStripDropDownButton1.Size = new System.Drawing.Size(33, 24);
@@ -338,7 +339,7 @@ namespace DarkModeForms
       // 
       // xxxToolStripMenuItem
       // 
-      this.xxxToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.forward_16x16;
+      this.xxxToolStripMenuItem.Image = global::Example.Properties.Resources.forward_16x16;
       this.xxxToolStripMenuItem.Name = "xxxToolStripMenuItem";
       this.xxxToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
       this.xxxToolStripMenuItem.Text = "xxx";
@@ -367,7 +368,7 @@ namespace DarkModeForms
       // 
       // titsToolStripMenuItem
       // 
-      this.titsToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.font_16x16;
+      this.titsToolStripMenuItem.Image = global::Example.Properties.Resources.font_16x16;
       this.titsToolStripMenuItem.Name = "titsToolStripMenuItem";
       this.titsToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
       this.titsToolStripMenuItem.Text = "Sub Menu 1";
@@ -383,7 +384,7 @@ namespace DarkModeForms
             this.hjhfjfToolStripMenuItem,
             this.kjlkToolStripMenuItem,
             this.asssToolStripMenuItem1});
-      this.assToolStripMenuItem1.Image = global::DarkModeForms.Properties.Resources.customization_16x16;
+      this.assToolStripMenuItem1.Image = global::Example.Properties.Resources.customization_16x16;
       this.assToolStripMenuItem1.Name = "assToolStripMenuItem1";
       this.assToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
       this.assToolStripMenuItem1.Text = "Sub Menu 2";
@@ -399,14 +400,14 @@ namespace DarkModeForms
       // kjlkToolStripMenuItem
       // 
       this.kjlkToolStripMenuItem.Enabled = false;
-      this.kjlkToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.all_borders_16x16;
+      this.kjlkToolStripMenuItem.Image = global::Example.Properties.Resources.all_borders_16x16;
       this.kjlkToolStripMenuItem.Name = "kjlkToolStripMenuItem";
       this.kjlkToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
       this.kjlkToolStripMenuItem.Text = "kjlk";
       // 
       // asssToolStripMenuItem1
       // 
-      this.asssToolStripMenuItem1.Image = global::DarkModeForms.Properties.Resources.forward_16x16;
+      this.asssToolStripMenuItem1.Image = global::Example.Properties.Resources.forward_16x16;
       this.asssToolStripMenuItem1.Name = "asssToolStripMenuItem1";
       this.asssToolStripMenuItem1.Size = new System.Drawing.Size(102, 22);
       this.asssToolStripMenuItem1.Text = "asss";
@@ -656,7 +657,7 @@ namespace DarkModeForms
       this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.test2ToolStripMenuItem,
             this.test1ToolStripMenuItem});
-      this.toolStripDropDownButton2.Image = global::DarkModeForms.Properties.Resources.all_borders_16x16;
+      this.toolStripDropDownButton2.Image = global::Example.Properties.Resources.all_borders_16x16;
       this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
       this.toolStripDropDownButton2.Size = new System.Drawing.Size(33, 24);
@@ -664,14 +665,14 @@ namespace DarkModeForms
       // 
       // test2ToolStripMenuItem
       // 
-      this.test2ToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.font_16x16;
+      this.test2ToolStripMenuItem.Image = global::Example.Properties.Resources.font_16x16;
       this.test2ToolStripMenuItem.Name = "test2ToolStripMenuItem";
       this.test2ToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
       this.test2ToolStripMenuItem.Text = "Test 2";
       // 
       // test1ToolStripMenuItem
       // 
-      this.test1ToolStripMenuItem.Image = global::DarkModeForms.Properties.Resources.customization_16x16;
+      this.test1ToolStripMenuItem.Image = global::Example.Properties.Resources.customization_16x16;
       this.test1ToolStripMenuItem.Name = "test1ToolStripMenuItem";
       this.test1ToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
       this.test1ToolStripMenuItem.Text = "Test 1";
