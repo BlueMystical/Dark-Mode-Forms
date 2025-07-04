@@ -14,7 +14,7 @@ jobs:
 
     runs-on: windows-latest
     env:
-      Solution_Name: src/Dark-Mode-Forms.sln
+      Solution_Name: src/DarkModeForms.sln
       
     steps:
     - uses: actions/checkout@v4
