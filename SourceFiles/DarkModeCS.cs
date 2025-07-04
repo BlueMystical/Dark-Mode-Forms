@@ -400,7 +400,7 @@ namespace DarkModeForms
 				// IsDarkMode member changes only if the User manually changed it here:
 				_IsDarkMode = _IsDarkMode != pIsDarkMode ? pIsDarkMode : _IsDarkMode;
 
-				OScolors = GetSystemColors(OwnerForm, pIsDarkMode ? 0 : 1);
+				OScolors = GetSystemColors(pIsDarkMode ? 0 : 1);
 
 				if (OScolors != null)
 				{
@@ -992,9 +992,8 @@ namespace DarkModeForms
 		}
 
 		/// <summary>Returns Windows's System Colors for UI components following Google Material Design concepts.</summary>
-		/// <param name="Window">[OPTIONAL] Applies DarkMode (if set) to this Window Title and Background.</param>
 		/// <returns>List of Colors:  Background, OnBackground, Surface, OnSurface, Primary, OnPrimary, Secondary, OnSecondary</returns>
-		public static OSThemeColors GetSystemColors(Form Window = null, int ColorMode = 0) //<- O: DarkMode, 1: LightMode
+		public static OSThemeColors GetSystemColors(int ColorMode = 0) //<- O: DarkMode, 1: LightMode
 		{
 			OSThemeColors _ret = new OSThemeColors();
 
