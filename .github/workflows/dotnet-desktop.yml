@@ -25,6 +25,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore $env:Solution_Name
     - name: Build
-      run: dotnet build $env:Solution_Name --no-restore
+      run: dotnet build $env:Solution_Name --no-restore -p:GenerateResourceUsePreserializedResources=true
     #- name: Test
       #run: dotnet test --no-build --verbosity normal
