@@ -130,7 +130,6 @@ namespace DarkModeForms
 
 			DarkModeCS DMode = new DarkModeCS(form)
 			{ ColorMode = pIsDarkMode ? DarkModeCS.DisplayMode.DarkMode : DarkModeCS.DisplayMode.ClearMode };
-			DMode.ApplyTheme(pIsDarkMode);
 
 			Base64Icons _Icons = new Base64Icons();
 
@@ -453,7 +452,6 @@ namespace DarkModeForms
 			};
 
 			DarkModeCS DMode = new DarkModeCS(form) { ColorMode = pIsDarkMode ? DarkModeCS.DisplayMode.DarkMode : DarkModeCS.DisplayMode.ClearMode };
-			DMode.ApplyTheme(pIsDarkMode);
 
 			// Error Management & Icon Library:
 			ErrorProvider Err = new ErrorProvider();
