@@ -5,14 +5,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
-namespace DarkModeForms
+using DarkModeForms;
+namespace Example
 {
 	public partial class Form1 : Form
 	{
 		private bool mCloseAutorized = false;
 		private BindingList<ExampleDataSource> DS = null;
-		
+
 		private DarkModeCS dm = null;
 
 		public Form1()
@@ -120,7 +120,7 @@ namespace DarkModeForms
 				//	e.Cancel = true;
 				//	base.WindowState = FormWindowState.Minimized;
 				//}
-				}
+			}
 		}
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
@@ -278,7 +278,7 @@ namespace DarkModeForms
 			if (radioButtonSystem.Checked)
 			{
 				//dm.DarkModePolicy = DarkModePolicy.FollowSystemTheme;
-				dm.ColorMode = DarkModeCS.DisplayMode.ClearMode;
+				dm.ColorMode = DarkModeCS.DisplayMode.SystemDefault;
 			}
 			else if (radioButtonDark.Checked)
 			{
@@ -340,6 +340,50 @@ namespace DarkModeForms
 		private void button8_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void btnColorDialog_Click(object sender, EventArgs e)
+		{
+			colorDialog1.ShowDialog();
+		}
+
+		private void btnFolderBrowserDialog1_Click(object sender, EventArgs e)
+		{
+			folderBrowserDialog1.ShowDialog();
+		}
+
+		private void btnFontDialog_Click(object sender, EventArgs e)
+		{
+			fontDialog1.ShowDialog();
+		}
+
+		private void btnOpenFileDialog_Click(object sender, EventArgs e)
+		{
+			openFileDialog1.ShowDialog();
+		}
+
+		private void btnSaveFileDialog_Click(object sender, EventArgs e)
+		{
+			saveFileDialog1.ShowDialog();
+
+		}
+
+		private void btnErrorProvider_Click(object sender, EventArgs e)
+		{
+			dm.RoundedPanels = true;
+			flowLayoutPanel1.AutoScroll = true;
+			errorProvider1.SetError(flowLayoutPanel1, "Error flowLayoutPanel1 scrolbar missing when apply Dark/Clear with RoundedPanels= true");
+		}
+
+		private void linkIssueTableLayoutPanel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			//linkIssueTableLayoutPanel.Links.Add(0, linkIssueTableLayoutPanel.Text.Length, "https://github.com/BlueMystical/Dark-Mode-Forms/issues/112");
+		}
+
+		private void btnNewForm_Click(object sender, EventArgs e)
+		{
+			Form2 form2 = new Form2();
+			form2.Show();
 		}
 	}
 

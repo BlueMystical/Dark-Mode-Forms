@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace DarkModeForms
+namespace Example
 {
 	internal static class Program
 	{
