@@ -140,8 +140,9 @@ public Form1()
 
 ## Framework Compatibility
 
-- .NET 4.8+
-- .NET 6.0+
+- [.NET 4.8+](https://dotnet.microsoft.com/es-es/download/dotnet-framework/net48)
+- [.NET 6.0+](https://dotnet.microsoft.com/es-es/download/dotnet/6.0)
+- [.NET 8.0+](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - Some stuff may only work on Windows 11+
 - VS 2022+
 
