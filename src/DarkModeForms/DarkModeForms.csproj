@@ -1,6 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
 		<Nullable>enable</Nullable>
